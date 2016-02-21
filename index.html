@@ -212,7 +212,9 @@ theme.ready = function(counter) {
               <li>get in touch</li>
           </ul>
           <p>Many developers dislike the code that will follow, and for a reason that I still have difficulty to comprehend, they will prefer using React/JSX, Mithril or worse some templates. 
-          Since this is a matter of preferences, there is not much point in arguing about it. I just happen to prefer a raw JavaScript/HTML5/CSS3 style.</p>
+          Since this is a matter of preferences, there is not much point in arguing about it. I just happen to prefer a raw JavaScript/HTML5/CSS3 style. It is not just a style
+          that would enable the greatest number of developers to become full stack developers (with Node.js), but it is a style that also enables the greatest 
+          decoupling between the View and the Model. It is also a style that supports <a href="https://strongloop.com/strongblog/node-js-react-isomorphic-javascript-why-it-matters/">Isomorphic JavaScript</a> readily. So let's go ahead and start creating the component interfaces:</p> 
 
 <div class="code-window">
               <!-- div class="code-preview">
@@ -220,7 +222,27 @@ theme.ready = function(counter) {
               </div-->
 
 <pre class="line-numbers"><code class="language-javascript">
+var theme = {} ;
 
+theme.header = function( name, menu ) { } ;
+
+theme.banner = function( title, tagLine, buttonLink, buttonLabel ) { } ;
+
+theme.heading = function( title, tagLine) { } ;
+
+theme.services = function( serviceList ) { } ;
+
+theme.services = function( serviceList ) { } ;
+
+theme.description = function( text ) { } ;
+
+theme.caseStudies = function( title1, tagLine1, description1, title2, tagLine2, description2 ) { } ;
+
+theme.blog = function( posts, title, tagLine, description ) { } ;
+
+theme.footer = function( fillers ) { } ;
+
+theme.contact = function( title, description, learnMoreLink, socialLinks, address, phone, email ) { } ;
 </code></pre>
             </div>
           </section>
