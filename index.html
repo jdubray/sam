@@ -83,6 +83,8 @@
             <li>
               <a class="active" href="#">Advanced Topics</a>
               <ul>
+                <li><a href="#comp">Composition</a></li>
+                <li><a href="#sm">State Machines</a></li>
                 <li><a href="#apis">APIs</a></li>
                 <li><a href="#aa">Automatic Actions</a></li>
                 <li><a href="#conc">Concurrency</a></li>
@@ -235,8 +237,26 @@ theme.ready = function(counter) {
             <br>
             <h4 id="model">Model</h3>
             <p>
-                
+            The model contains all the application state and (logically) exposes a single method: present(data). The model is responsible for accepting or rejecting the effects of an action. 
+            The model where integrity rules get enforced. In other words, actions are generally triggered with some context specific data, they 
+            do not have access to the application state, for instance, when you implement a "change password" action, the action will check
+            if the password is valid in the context of the request, but the model might enforce additional integrity rules, such that you 
+            cannot use a password that matches any of your last three passwords.
             </p>
+            <p>The model is also solely responsible for the persistence of the application state.</p>
+<div class="code-window"><pre><code class="language-javascript">
+    
+    model.present = function(data) {
+        
+        if (data.address !== undefined) {
+            model.shippingAddress = data.address ;
+            model.billingAddress = model.billingAddress || data.address ;
+        }
+        
+    }
+    
+</code></pre></div>
+            
             <br>
             <h4 id="state">State</h3>
             <p>
@@ -252,8 +272,31 @@ theme.ready = function(counter) {
             <p>
                 
             </p>
-            
-
+            <br>
+            <h4 id="comp">Composition</h3>
+            <p>
+                
+            </p>
+            <br>
+            <h4 id="sm">State Machines</h3>
+            <p>
+                
+            </p>
+            <br>
+            <h4 id="sr">APIs</h3>
+            <p>
+                
+            </p>
+            <br>
+            <h4 id="aa">Automatic Actions</h3>
+            <p>
+                
+            </p>
+            <br>
+            <h4 id="conc">Concurrency</h3>
+            <p>
+                
+            </p>
           </section>
 
           <section>
@@ -373,6 +416,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
               <li><a href="page_changelog.html">Changelog</a></li>
               <li><a href="page_credits.html">Credits</a></li>
               <li><a href="http://xgenio.com/contact-xgenio/">Contact us</a></li>
+              <li><a href="http://shamsoft.net/thedocs/">Template by theDocs</a></li>
             </ul>
           </div>
         </div>
