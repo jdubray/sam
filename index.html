@@ -163,8 +163,19 @@ theme.ready = function(counter) {
             <p></p>
             <h3 id="bl">Business Logic</h3>
             <p>
-                
+            SAM's factoring of the business logic is based on <a href="http://research.microsoft.com/en-us/um/people/lamport/tla/tla.html">TLA+</a>:
+            <blockquote>TLA+ is based on the idea that the best way to describe things formally is with simple mathematics, and that a specification language should contain as little as possible beyond what is needed to write simple mathematics precisely. TLA+ is especially well suited for writing high-level specifications of concurrent and distributed systems.</blockquote>
+            If you are interested in learning about TLA+, I found <a href="http://www.loria.fr/~merz/talks/argentina2005/slides.pdf">Stephan Merz's course</a> the most approachable introduction to TLA+.
             </p>
+            <p>TLA+ is a formal specification which can be used describe, analyze and reason about systems, such as:</p>
+            <ul>
+                <li>sequential algorithms</li>
+                <li>interactive systems</li>
+                <li>reactive & distributed systems</li>
+                <li>real-time & hybrid systems</li>
+                <li>security-sensitive systems</li>
+            </ul>
+            <p>TLA+ includes concepts such as safety (something bad should never happen) and liveness (something good eventually happens).</p>
             <h4 id="actions">Actions</h3>
             <p>
                 
@@ -185,22 +196,14 @@ theme.ready = function(counter) {
             <p>
                 
             </p>
-            <div class="code-window">
-              <!-- div class="code-preview">
-
-              </div-->
-
-<pre class="line-numbers"><code class="language-javascript">
-
-</code></pre>
-            </div>
+            
 
           </section>
 
           <section>
           <h2 id="getstarted">How can I get started?</h2>
           <p>We suggest that you download an HTML5 template of your choice and start building an application with it. To make this tutorial more realistic, we are going to build a simple Web Site with Blog and a Contact form.</p>
-          <p>This <a href="http://html5up.net/zerofour">free template</a> seems like a great starting point. The list of components are easy to identify, from the index.html file:</p>
+          <p>That <a href="http://html5up.net/zerofour">free template</a> seems like a great starting point. The list of components are easy to identify, from the index.html file:</p>
           <ul>
               <li>header</li>
               <li>banner</li>
@@ -221,8 +224,7 @@ theme.ready = function(counter) {
 
               </div-->
 
-<pre class="line-numbers"><code class="language-javascript">
-var theme = {} ;
+<pre class="line-numbers"><code class="language-javascript">var theme = {} ;
 
 theme.header = function( name, menu ) { } ;
 
@@ -232,11 +234,10 @@ theme.heading = function( title, tagLine) { } ;
 
 theme.services = function( serviceList ) { } ;
 
-theme.services = function( serviceList ) { } ;
-
 theme.description = function( text ) { } ;
 
-theme.caseStudies = function( title1, tagLine1, description1, title2, tagLine2, description2 ) { } ;
+theme.caseStudies = function(   title1, tagLine1, description1, link1, button1, icon1, 
+                                title2, tagLine2, description2, link2, button2, icon2  ) {  } ;
 
 theme.blog = function( posts, title, tagLine, description ) { } ;
 
@@ -245,6 +246,56 @@ theme.footer = function( fillers ) { } ;
 theme.contact = function( title, description, learnMoreLink, socialLinks, address, phone, email ) { } ;
 </code></pre>
             </div>
+            <p>The implementation of each function is just a parameterization of the HTML template:</p>
+            <div class="code-window">
+                          <!-- div class="code-preview">
+            
+                          </div-->
+            
+<pre class="line-numbers"><code class="language-javascript">theme.caseStudies = function( title1, tagLine1, description1, link1, button1, icon1, 
+                              title2, tagLine2, description2, link2, button2, icon2  ) { 
+    icon1 = icon1 || 'arrow-circle-right' ;
+    icon2 = icon2 || 'info-circle' ;
+    return (
+    '&lt;div class="wrapper style2"&gt;\n\
+        &lt;div class="inner"&gt;\n\
+            &lt;!-- Feature 2 --&gt;\n\
+                &lt;section class="container box feature2"&gt;\n\
+                    &lt;div class="row"&gt;\n\
+                        &lt;div class="6u 12u(mobile)"&gt;\n\
+                            &lt;section&gt;\n\
+                                &lt;header class="major"&gt;\n\
+                                    &lt;h2&gt;'+title1+'&lt;/h2&gt;\n\
+                                    &lt;p&gt;'+tagLine1+'&lt;/p&gt;\n\
+                                &lt;/header&gt;\n\
+                                &lt;p&gt;'+description1+'&lt;/p&gt;\n\
+                                &lt;footer&gt;\n\
+                                    &lt;a href="'+link1+'" class="button medium icon fa-'+icon1+'"&gt;'+button1+'&lt;/a&gt;\n\
+                                &lt;/footer&gt;\n\
+                            &lt;/section&gt;\n\
+                        &lt;/div&gt;\n\
+                        &lt;div class="6u 12u(mobile)"&gt;\n\
+                            &lt;section&gt;
+                                &lt;header class="major"&gt;\n\
+                                    &lt;h2&gt;'+title2+'&lt;/h2&gt;\n\
+                                    &lt;p&gt;'+tagLine2+'&lt;/p&gt;\n\
+                                &lt;/header&gt;\n\
+                                &lt;p&gt;'+description2+'&lt;/p&gt;\n\
+                                &lt;footer&gt;\n\
+                                    &lt;a href="'+link2+'" class="button medium alt icon fa-'+icon2+'"&gt;'+button2+'&lt;/a&gt;\n\
+                                &lt;/footer&gt;\n\
+                            &lt;/section&gt;\n\
+                        &lt;/div&gt;\n\
+                    &lt;/div&gt;\n\
+                &lt;/section&gt;\n\
+            &lt;/div&gt;\n\
+    &lt;/div&gt;\n'
+    ) ;
+} ;
+
+</code></pre>
+                    </div>
+            
           </section>
         </article>
         <!-- END Main content -->
