@@ -79,6 +79,15 @@
                 <li><a href="#wiring">Wiring</a></li>
               </ul>
             </li>
+            
+            <li>
+              <a class="active" href="#">Advanced Topics</a>
+              <ul>
+                <li><a href="#apis">APIs</a></li>
+                <li><a href="#aa">Automatic Actions</a></li>
+                <li><a href="#conc">Concurrency</a></li>
+              </ul>
+            </li>
 
             <li>
               <a href="#">Code Samples</a>
@@ -136,7 +145,7 @@
 
           <section>
             <h2 id="sam">How does SAM works?</h2>
-            <p></p>SAM is a pattern that aims at replacing the MVC pattern. If you are already familiar with MVC, you should be able to make an easy transtion to SAM.</p>
+            <p></p>SAM is a pattern that aims at replacing the MVC pattern. If you are already familiar with MVC, you should be able to make an easy transition to SAM.</p>
             <p>There are two main differences between MVC and SAM. First, SAM is reactive, while MVC is generally implemented in an interactive way. Some attempts have been made at implementing in a reactive way, however, SAM is not just a reactive implementation of MVC. 
             Second, SAM introduces the concept of State as a mechanism to further decouple the View from the Model and treats the view merely as a "State Representation".</p>
             <p>    
@@ -175,23 +184,70 @@ theme.ready = function(counter) {
                 <li>real-time & hybrid systems</li>
                 <li>security-sensitive systems</li>
             </ul>
-            <p>TLA+ includes concepts such as safety (something bad should never happen) and liveness (something good eventually happens).</p>
+            <p>TLA+ offers a uniform language where transition system and properties represented as formulas, where Mathematics form the basis for description and analysis of reactive and distributed systems</p>
+            <p>TLA defines two levels of syntax: action formulas and temporal formulas.</p>
+               <ul><li>action formulas describe states and state transitions</li>
+               <li>temporal formulas describe state sequences</li></ul>
+            <p>TLA+ also includes concepts such as safety (something bad should never happen) and liveness (something good eventually happens).</p>
+            <br>
             <h4 id="actions">Actions</h3>
             <p>
-                
+                Actions are pure functions which accept a dataset and return a dataset. The purpose of a function is to compute the values 
+                we want the model to accept. There is nothing else to it.
+                <a href="http://redux.js.org/docs/basics/Actions.html">In Redux for instance</a>, "actions" are closer to intent or event. This is a fundamental difference between Redux and SAM 
+                because in Redux it creates an unnecessary and unwanted coupling between the model mutations and the logic that translates intents into model property values.
+<div class="code-window"><pre><code class="language-javascript">
+    
+    function action(data,present) {
+    
+        // compute the values we want the model to mutate to
+        var data_ = the_actual_function_implementing_the_action(data) ;
+        
+        // present these values to the model
+        present(data_) ;
+        
+        // since we are in a reactive loop, the action returns nothing
+    }
+    
+</code></pre></div>
+                Actions typically hold context specific logic. If we take the example of a "change of address" action, we might define 
+                implement some context specific rules, such as when there is no country specified in the input dataset, the default country 
+                is Australia, while the model is responsible for the integrity of a customer address. 
+                In the context of SAM, actions play another important role with respect to invoking 3rd party APIs. For instance, we can define an action which 
+                will invoke a 3rd party validation service, which given an address, returns the postal address (or an error). It is then 
+                the postal address which is presented to the model. 
+<div class="code-window"><pre><code class="language-javascript">
+    
+    function changeOfAddress(address,present) {
+        
+        address = address || {} ;
+        address.country = address.country || 'Australia' ; 
+        getPostalAddress( address, function(addr) {
+            // assuming the dataset returned by the 3rd party
+            // service can be directly presented to the model
+            present(addr) ;
+        }) ;
+        
+    }
+    
+</code></pre></div>
             </p>
+            <br>
             <h4 id="model">Model</h3>
             <p>
                 
             </p>
+            <br>
             <h4 id="state">State</h3>
             <p>
                 
             </p>
+            <br>
             <h4 id="sr">State Representation</h3>
             <p>
                 
             </p>
+            <br>
             <h4 id="sr">Wiring</h3>
             <p>
                 
