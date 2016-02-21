@@ -147,18 +147,18 @@
             SAM suggests using the same approach and decomposing the view as a series of pure JavaScript functions. </p>
             <pre>V = f( M )</pre>
             <p>This concept is extremely simple to implement. I generally implement the front-end components as part of theme singleton:</p>
-            <pre><code class="language-javascript">
-                var theme = {} ;
-                
-                theme.ready = function(counter) {
-                    return (
-                          ' <p>Counter:'+counter+'</p>
-                            <form onSubmit="JavaScript:return actions.start({});">
-                                <input type="submit" value="Start">
-                            </form>'
-                    ) ;
-                }
-            </code></pre>
+<pre><code class="language-javascript">
+var theme = {} ;
+
+theme.ready = function(counter) {
+    return (
+           "<p>Counter:"+counter+"</p>\n\
+            <form onSubmit=\"JavaScript:return actions.start({});\">\n\
+                <input type=\"submit\" value=\"Start\">\n\
+            </form>"
+    ) ;
+}
+</code></pre>
             <h3 id="bl">Business Logic</h3>
             <p>
                 
