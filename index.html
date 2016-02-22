@@ -51,7 +51,7 @@
               <li><a href="https://gitter.im/jdubray/sam" target="_blank">Support</a></li>
               <li class="hero"><a href="http://xgenio.com/contact-xgenio/">Contact us</a></li>
               <li><a href="http://twitter.com/metapgmr"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="http://www.ebpml.org/feed"><i class="fa fa-rss"></i></a></li>
+              <li><a href="http://www.ebpml.org/blog15/feed/"><i class="fa fa-rss"></i></a></li>
             </ul>
           </div>
           <!-- END Top navbar -->
@@ -380,8 +380,13 @@ view.counting = function(counter) {
             <br>
             <h4 id="sr">Wiring</h3>
             <p>
-                
+            The SAM pattern can be described as a Mathematical expression (formula):
+            <pre>V = S( vm(M.present(A(data))), nap(Model) )</pre>
+            Where S(), vm(), A() and nap() are pure functions with respect to the model.<br>
+            However, that expression is only a logical expression that describes the sequence in which the elements of the pattern are invoked. The expression itslef is not representative of the Reactive Flow or the different wiring options. 
             </p>
+            <p>SAM can be implemented in the browser (<a href="http://andrewhfarmer.com/react-ajax-best-practices">like React and Redux</a>), but one of the advantages of SAM is that the elements of the pattern can be distributed and composed in virtually any topology.</p>
+            
             <br>
             <h4 id="comp">Composition</h3>
             <p>
