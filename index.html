@@ -130,8 +130,9 @@
           
           <header>
             <h1>The SAM Pattern</h1>
-            <p>SAM is a new reactive/functional pattern that simplifies Front-End architectures by clearly separating the business logic from the view and, in particular, strictly decoupling back-end APIs from the Front-End.</p>
-            <p>SAM is unapologetically driven by simplicity and challenges the complexity of frameworks like Google's Angular or Facebook's React+JSX+Redux+GraphQL+Relay. One of SAM's key goals is to enable everyone to build beautiful HTML5/CSS3 Web Apps while retaining <a href="https://medium.com/@dan_abramov/youre-missing-the-point-of-react-a20e34a51e1a#.aoccyh29h">what makes React.js so unique</a>:</p>
+            <p>SAM is a new reactive/functional pattern that simplifies Front-End architectures by clearly separating the business logic from the view and, in particular, strictly decoupling back-end APIs from the Front-End.
+            SAM is technology independent, it can be used to build Web Apps or Native Apps. It's also protocol independent. It can be implemented over HTTP, WebSockets...</p>
+            <p>SAM is unapologetically driven by simplicity and challenges the complexity of frameworks like Google's Angular or Facebook's React+JSX+Redux+GraphQL+Relay. One of SAM's key goals is to enable everyone to build beautiful HTML5/CSS3/JavaScript Web Apps while retaining <a href="https://medium.com/@dan_abramov/youre-missing-the-point-of-react-a20e34a51e1a#.aoccyh29h">what makes React.js so unique</a>:</p>
             <ul><li>Composition</li><li>Unidirectional data flow</li><li>Freedom from DSLs</li><li>Explicit mutation</li><li>Static mental model </li></ul>
             <p>SAM is also challenging architecture patterns like <a href="http://samnewman.io/patterns/architectural/bff/">BFF</a> or the Vertical Slice Pattern which suggest creating view specific APIs, per platform, app, versions of an app...</p>
             <p>This new pattern was first introduced in an <a href="http://www.infoq.com/articles/no-more-mvc-frameworks">InfoQ article</a>, by <a href="www.ebpml.org/about">Jean-Jacques Dubray</a></p>
@@ -385,11 +386,125 @@ view.counting = function(counter) {
             The SAM pattern can be described as a Mathematical expression (formula):
             <pre>V = S( vm(M.present(A(data))), nap(Model) )</pre>
             Where S(), vm(), A() and nap() are pure functions with respect to the model.<br>
-            However, that expression is only a logical expression that describes the sequence in which the elements of the pattern are invoked. The expression itslef is not representative of the Reactive Flow or the different wiring options. 
+            However, that expression is only a logical expression that describes the sequence in which the elements of the pattern are invoked. The expression itself is not representative of the Reactive Flow or the different wiring options. 
             </p>
-            <p>SAM can be implemented in the browser (<a href="http://andrewhfarmer.com/react-ajax-best-practices">like React and Redux</a>), but one of SAM's advantages is that the elements of the pattern can be distributed and composed in virtually any topology.</p>
-            
-            <br>
+            <p>SAM can be implemented in the browser (<a href="http://andrewhfarmer.com/react-ajax-best-practices">like React and Redux</a>), but one of SAM's advantages is that the elements of the pattern can be distributed and composed in virtually any topology. 
+            So there is not a single way to wire the pattern.</p>
+            <p>You should also keep in mind that SAM is a reactive pattern so there is never a response that is expected: The view triggers an action, which presents is dataset to the model, which asks the state to create a state representation (i.e. View). The new state representation is just that, 
+            a new view of the current state of the model. It is not a response to the original view.</p>
+            <p>Let's start with running SAM exclusively in a single process (e.g. the browser, perhaps assuming the model will communicate with a persistent store).</p>
+            <p>The model can be defined as a singleton, the actions as pure functions of a dataset, the state (stateRepresentation() and nap()) as a pure function of the model. Here is an example of wiring achieved with functional wrappers.</p>
+<div class="code-window"><pre><code class="language-javascript">
+
+// Model is a singleton /////////////////////////////////////////////
+var model = {} ;
+
+model.present = function(data) {
+    // Logic that accepts or rejects the proposed values
+    // ...
+    
+    // -> Reactive Loop
+    state(model) ;
+    
+    // persist the new state
+    // this is generally guarded and optimized
+    model.persist() ;
+} ;
+
+model.persist = function() {
+
+} ;
+
+// Actions are pure functions /////////////////////////////////////////////  
+function action1(data) {
+    // Logic that prepares the data to be presented to the model
+    // ...
+    
+    // -> Reactive Loop
+    present(data) ;
+    
+    // to avoid a page reload
+    return false ;
+} 
+
+function action2(data) {
+    // Logic that prepares the data to be presented to the model
+    // ...
+    
+    // -> Reactive Loop
+    present(data) ;
+    
+    // to avoid a page reload
+    return false ;
+} 
+
+// State is a pure function /////////////////////////////////////////////
+function state(model) {
+
+    // the state behavior is hard wired
+    stateRepresentation(model) ;
+    nap(model) ;
+} 
+
+function nap(model) {
+
+    if (condition(model)) {
+        var data = f(model) ;
+        action2(data,model.present) ;
+    }
+}
+
+
+// View is a pure function /////////////////////////////////////////////
+function someView(model) {
+
+    // render the view
+    var output = '' ;
+    // ...
+    
+    // wire the possible actions in the view
+    output = output + 'onSubmit="JavaScript:return action1({data:data});'
+    
+    // ...
+    // -> Reactive Loop
+    display(output) ;
+}
+
+
+
+// Wiring /////////////////////////////////////////////
+// 
+// Actions are known to the stateRepresentation() and nap()
+//
+// Actions -> Model
+function present(data) {
+
+    model.present(data) ;
+
+} 
+
+// State -> View
+function stateRepresentation(model) {
+
+    someView(model) ;
+
+} 
+
+
+// View -> Display
+function display(view) {
+
+    var stateRepresentation = document.getElementById("view");
+    stateRepresentation.innerHTML = view;
+
+}
+
+
+</code></pre></div>   
+
+
+
+<br>
             <h4 id="comp">Composition</h3>
             <p>
                 
