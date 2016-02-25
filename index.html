@@ -192,6 +192,7 @@ theme.ready = function(counter) {
                SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive. This is probably the hardest thing to get in React and SAM, you have to try it for yourself.</p>
             <p></p>
             <h3 id="bl">Business Logic</h3>
+            <blockquote>"A good Front-End Architecture should enable you to pin your modularized functions to the UI components in the most decoupled way possible. That way the technology backing the components can be swapped out and all your business logic is not in a hostage situation (at the mercy of the next great late framework)"</blockquote>(Thomas J. Buhr)
             <p>
             SAM's factoring of the business logic is based on <a href="http://research.microsoft.com/en-us/um/people/lamport/tla/tla.html">TLA+</a>:
             <blockquote>TLA+ is based on the idea that the best way to describe things formally is with simple mathematics, and that a specification language should contain as little as possible beyond what is needed to write simple mathematics precisely. TLA+ is especially well suited for writing high-level specifications of concurrent and distributed systems.</blockquote>
@@ -394,8 +395,8 @@ view.counting = function(counter) {
             <p>SAM can be implemented in the browser (<a href="http://andrewhfarmer.com/react-ajax-best-practices">like React and Redux</a>), but one of SAM's advantages is that the elements of the pattern can be distributed and composed in virtually any topology. 
             So there is not a single way to wire the pattern.</p>
             <p>You should also keep in mind that SAM is a reactive pattern so there is never a response that is expected: The view triggers an action, which presents is dataset to the model, which asks the state to create a state representation (i.e. View). The new state representation is just that, 
-            a new view of the current state of the model. It is not a response to the original view.</p>
-            <p>Let's start with running SAM exclusively in a single process (e.g. the browser, perhaps assuming the model will communicate with a persistent store).</p>
+            a new view of the current state of the model. It is **not** a response to the original view.</p>
+            <p>Let's start with a sample where running SAM exclusively in a single process (e.g. the browser, perhaps assuming the model will communicate with a persistent store).</p>
             <p>The model can be defined as a singleton, the actions as pure functions of a dataset, the state (stateRepresentation() and nap()) as a pure function of the model. Here is an example of wiring achieved with functional wrappers.</p>
 <div class="code-window"><pre><code class="language-javascript">
 
@@ -504,9 +505,31 @@ function display(view) {
 
 
 </code></pre></div>   
+            <br><br>
+            <p>Of course, JQuery event handlers could also be used:</p>
+<div class="code-window"><pre><code class="language-markup">
 
+...
 
+&lt;input id="username" type="text" class="login-username" value="username"&gt;
+&lt;input id="password" type="password" class="login-password" value="password"&gt;
+&lt;button class="button button-green center-button" id="login"&gt;Login&lt;/button&gt;
 
+...
+
+&lt;script type="text/javascript"&gt;
+$('#login').click(function() {
+    var session = $.post( "http://authserver/v1/login", { username: $( "#username" ).val(), password:$( "#password" ).val() } ) ;
+        session.done(function( data ) {
+            var loginPanel = document.getElementById("login_panel") ;
+            loginPanel.innerHTML = state.render(model.present(data)) ;
+             ;
+        })
+}) ;
+&lt;/script&gt;
+</code></pre></div>   
+
+<br>
 <br>
             <h4 id="comp">Composition</h3>
             <p>
