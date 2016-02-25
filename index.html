@@ -106,11 +106,11 @@
             <li>
               <a href="#">Frameworks</a>
               <ul>
-                <li><a href="#">React</a></li>
-                <li><a href="#">Angular</a></li>
-                <li><a href="#">Cycle.js</a></li>
-                <li><a href="#">Mithril</a></li>
-                <li><a href="#">Elm</a></li>
+                <li><a href="#react">React</a></li>
+                <li><a href="#ng">Angular</a></li>
+                <li><a href="#cycle">Cycle.js</a></li>
+                <li><a href="#mithril">Mithril</a></li>
+                <li><a href="#elm">Elm</a></li>
               </ul>
             </li>
 
@@ -120,7 +120,8 @@
                 <li><a href="http://www.infoq.com/articles/no-more-mvc-frameworks">Why I no longer use MVC Frameworks?</a></li>
               </ul>
             </li>
-
+            <li><a href="#references">References</a></li>
+            <li><a href="#who">Who is using SAM?</a></li>
           </ul>
 
         </aside>
@@ -635,15 +636,74 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <section>
           <h2 id="samples">Code Samples</h2>
           <p>
-                <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample" id="rocket">Rocket Launcher sample (Browser only, HTML+JavaScript)</a>
-                <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample" id="rocket">Rocket Launcher sample (Browser only, HTML+JavaScript)</a>
-                <a href="https://bitbucket.org/snippets/jdubray/zr9r6/item-list" id="listsample">Rocket Launcher sample (Browser only, HTML+JavaScript)</a>
-                <a href="https://bitbucket.org/snippets/jdubray/jna7B/sam-sample-app-on-nodejs" id="nodesample">Simple Web site with Contact App (Node.js+HTML)</a>
+                <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample" id="rocket">Rocket Launcher sample (Browser only, HTML+JavaScript)</a><br>
+                <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample" id="rocket">Rocket Launcher sample (Browser only, HTML+JavaScript)</a><br>
+                <a href="https://bitbucket.org/snippets/jdubray/zr9r6/item-list" id="listsample">Rocket Launcher sample (Browser only, HTML+JavaScript)</a><br>
+                <a href="https://bitbucket.org/snippets/jdubray/jna7B/sam-sample-app-on-nodejs" id="nodesample">Simple Web site with Contact App (Node.js+HTML)</a><br>
           </p>
           </section>
           
           <section>
-          <h2 id="info">Where can I find more information?</h2>
+          <h2 id="frameworks">Frameworks</h2>
+          <br>
+          <h4 id="react">React.js</h3>
+          <p>
+              
+          </p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th><b>React + Redux</b></th>
+                <th><b>SAM</b></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td width="50%">Single State Tree</td>
+                <td width="50%">Single Model Tree</td>
+              </tr>
+              <tr>
+                <td>State is read-only</td>
+                <td>Model is presented with new proposed values</td>
+              </tr>
+              <tr>
+                <td>Reducers are pure fonctions<br>Reducers have access to full scope of state when processing actions</td>
+                <td>Actions are pure functions with respect to the model<br>Actions have no access to model to compute the values presented to the model</td>
+              </tr>
+              <tr>
+                <td>Store is updated with the output of the reducer fonction</td>  
+                <td>State Representation is created after the model has mutated<br>Next-Action Predicate evaluates whether an automatic action needs to be triggered</td>
+              </tr>
+              <tr>
+                <td>View is a function of the state</td>
+                <td>State representation is a function of the model</td>  
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <h4 id="ng">Angular</h3>
+          <p>
+              
+          </p>
+          <br>
+          <h4 id="cycle">Cycle.js</h3>
+          <p>
+              
+          </p>
+          <br>
+          <h4 id="mithril">Mithril</h3>
+          <p>
+              
+          </p>
+          <br>
+          <h4 id="elm">Elm</h3>
+          <p>
+              
+          </p>
+          </section>
+          
+          <section>
+          <h2 id="references">Where can I find more information?</h2>
           <p>
               Jean-Jacques Dubray, <em>InfoQ</em>, Feb. 2016 "<a href="www.infoq.com/articles/no-more-mvc-frameworks">Why I no longer use MVC Frameworks?</a>"<br>
               Alexander Schepanovski, March 2015 "<a href="http://hackflow.com/blog/2015/03/08/boiling-react-down-to-few-lines-in-jquery/">Boiling React Down to a Few Lines in jQuery</a>"
@@ -651,7 +711,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           </section>
           
           <section>
-          <h2 id="using">Who is using SAM?</h2>
+          <h2 id="who">Who is using SAM?</h2>
           <table class="table table-bordered table-striped table-info">
             <tbody>
               <tr>
