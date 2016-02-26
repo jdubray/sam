@@ -74,7 +74,7 @@
             <li>
               <a class="active" href="#">Topics</a>
               <ul>
-                <li><a href="#sam">Actions</a></li>
+                <li><a href="#actions">Actions</a></li>
                 <li><a href="#model">Model</a></li>
                 <li><a href="#state">State</a></li>
                 <li><a href="#sr">State Representation</a></li>
@@ -529,14 +529,69 @@ $('#login').click(function() {
         })
 }) ;
 &lt;/script&gt;
+
+... 
+
+// another option is to implement the state, model and actions on the server:
+
+&lt;script type="text/javascript"&gt;
+$('#login').click(function() {
+    var session = $.post( "http://authserver/v1/login", { username: $( "#username" ).val(), password:$( "#password" ).val() } ) ;
+        session.done(function( stateRepresentation ) {
+            var loginPanel = document.getElementById("login_panel") ;
+            loginPanel.innerHTML = stateRepresentation ;
+             ;
+        })
+}) ;
+&lt;/script&gt;
+
+</code></pre></div>   
+
+<br>
+<br>
+            <p>One can also use <a href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/events.md">RxJS</a> to wire events to actions.</p>
+<div class="code-window"><pre><code class="language-javascript">
+
+var result = document.getElementById('submit');
+
+var source = Rx.Observable.fromEvent(document, 'click');
+
+var subscription = source.subscribe(function (e) {
+  var data = { name: document.getElementById('name').value, ... } 
+  result.innerHTML = state.render(model.present(data));
+});
 </code></pre></div>   
 
 <br>
 <br>
             <h4 id="comp">Composition</h3>
             <p>
-                
+            The SAM pattern offers some generous composition mechanisms.    
             </p>
+            <p>First Actions, as pure functions, compose naturally to present a single dataset to the model:</p>
+            <pre>C(data) = A(B(data))</pre>
+            <p>This type of composition is a functional composition and the resulting action is considered to be a single action applied to the system from SAM's point of view.</p>
+            <p>Similarly, the State Representation (View) can be decomposed in a hierarchy of components:</p>
+<pre>
+V = f( M )
+f( M ) = f1( g1(M) + g2(M) ) + f2( h1(M) + h2(M) )
+</pre>
+            <br>
+            <p>The most interesting composition mechanisms are at the pattern level itself. For instance, SAM supports an instance level composition where one instances runs in the browser and one instance runs in the server.</p>
+            <a = href="assets/figures/fig9.jpg"><img class="img-shadow img-responsive center-block" src="assets/figures/fig9.jpg" alt=""/></a>
+            <br>
+<pre>
+// The composition has a single view
+V = Ss( Ms ) + Sc( Mc )
+
+// Instance c (browser) invokes an action on instance s (server)
+// this action is generally invoked in the nap() function of the client
+V = Ss( Ms.present( As(Mc) )
+</pre>            
+<br>
+<p>Though it is theoretically possible, it is highly recommended to refrain from invoking client actions from the server.
+The role of the server is rather to deliver the SAM client instance as part of its state representation.
+</p>
             <br>
             <h4 id="sm">State Machines</h3>
             <p>
@@ -671,6 +726,9 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <section>
           <h2 id="frameworks">Frameworks</h2>
           <br>
+          <p>André Statlz has written a great paper comparing the different <a href="http://staltz.com/unidirectional-user-interface-architectures.html">Unidirectional User Interface Architectures</a>. 
+          The pattern closes to SAM is <a href="https://blog.famous.org/introducing-the-famous-framework/">Famous</a>, but unfortunately, they mutate the model directly from the actions (events in Famous' terms) and they do not support a nap() function.</p>
+          <br>
           <h4 id="react">React.js</h3>
           <p>
               
@@ -678,7 +736,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <table class="table">
             <thead>
               <tr>
-                <th><b>React + Redux</b></th>
+                <th><b>React + Redux + Saga</b></th>
                 <th><b>SAM</b></th>
               </tr>
             </thead>
@@ -702,6 +760,10 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
               <tr>
                 <td>View is a function of the state</td>
                 <td>State representation is a function of the model</td>  
+              </tr>
+              <tr>
+                <td>Next action predicate (nap) is implemented as a Saga which couples many operations and generally relies on local state as shown in <a href="https://gist.github.com/yelouafi/0385402a453b1fdb5cb0">this implementation of the Rocket Launcher</a>.</td>
+                <td>The Next Action Predicate is a pure function of the model which computes the current (control) state of the system and derives the next-action.</td>  
               </tr>
             </tbody>
           </table>
