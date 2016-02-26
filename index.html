@@ -658,11 +658,35 @@ state.aborted = function(model) {
                 <li>Model: for CRUD APIs that persist/populate the model property values (commonly called the Data Access Layer)</li>
             </ul>
             Concurrency issues aside, an action can present its values when after processing an API call, for instance: 
+            </p>
 <div class="code-window"><pre><code class="language-javascript">
-
+function getRssFeed(data) {
+    
+    var options = {
+      url: 'http://www.ebpml.org/blog15/feed/',
+      headers: {
+        'accept': 'application/json'
+      }
+    };
+    
+    request(options, function (error, response, body) {
+       if (!error && response.statusCode == 200) {
+           parseString(body, function (err, result) {
+               console.log(JSON.stringify(result.rss.channel[0].item[0],null,4));
+               data.blog = result.rss.channel[0].item ;
+               // it is better to "present" it to the model
+               // as this is could easily become a system action 
+               // triggered automatically
+               present(data) ;
+           });
+       }
+     });
+}
 </code></pre></div>   
-            
             <br>
+            <p>Similarly, the model can perform all the persistence operations (which could result in rejecting some proposed values) before passing control of the Reactive Loop to the State object.
+            That is very different from React because you cannot touch the State without triggering a rendering of the view, which make very little sence, when you think of it. It only makes sense when you spread the model state into 
+            the various components, and even then it warps the articulation of APIs with the Front-End reactive Flow.
             </p>
             <br>
             <br>
@@ -786,7 +810,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <br>
           <p>André Statlz has written a great paper comparing the different <a href="http://staltz.com/unidirectional-user-interface-architectures.html">Unidirectional User Interface Architectures</a>. 
           The pattern closest to SAM is <a href="https://blog.famous.org/introducing-the-famous-framework/">Famous</a>, but unfortunately, they mutate the model directly from the actions (events in Famous' terms) and they do not support a nap() function.</p>
-          <p>This <a href="https://www.youtube.com/watch?v=Pm0uwncSCo4&feature=youtu.be&t=14366">talk from </a></p>
+          <p>This <a href="https://www.youtube.com/watch?v=Pm0uwncSCo4&feature=youtu.be&t=14366">talk from the React 2016 Conference</a> offers some great perspective on the different approaches (React,Cycle,Elm) starting with a simple formula...: <pre>V = f( M )</pre></p>
           <br>
           <h4 id="react">React.js</h3>
           <p>
@@ -795,7 +819,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <table class="table">
             <thead>
               <tr>
-                <th><b>React + Redux + Saga</b></th>
+                <th><b>React + Redux + Thunks + Sagas</b></th>
                 <th><b>SAM</b></th>
               </tr>
             </thead>
