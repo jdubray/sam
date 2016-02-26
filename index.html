@@ -650,9 +650,19 @@ state.aborted = function(model) {
             These functions can be used to validate that an action is enabled or not. They can also more naturally break down the hierarchy in from which the view is rendered.</p>
             
             <br>
-            <h4 id="sr">APIs</h3>
+            <h4 id="apis">APIs</h3>
             <p>
-                
+            SAM was originally designed to solve the strong coupling that MVC creates between the Front-End structure and the Back-End APIs. APIs can be composed at a couple levels in SAM:
+            <ul>
+                <li>Actions: for APIs with no side-effect whatsoever on the model</li>
+                <li>Model: for CRUD APIs that persist/populate the model property values (commonly called the Data Access Layer)</li>
+            </ul>
+            Concurrency issues aside, an action can present its values when after processing an API call, for instance: 
+<div class="code-window"><pre><code class="language-javascript">
+
+</code></pre></div>   
+            
+            <br>
             </p>
             <br>
             <br>
@@ -764,7 +774,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <section>
           <h2 id="samples">Code Samples</h2>
           <p>
-                <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample" id="rocket">Rocket Launcher sample (Browser only, HTML+JavaScript)</a><br>
+                <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample" id="rocket">Rocket Launcher sample (Browser only, HTML+JavaScript)</a> You can run that sample <a href="https://bb.githack.com/!api/2.0/snippets/jdubray/9dgKp/a1dd9b8b9f241600ad108ef741845241c31c9fce/files/rocket.html">here</a> (courtesy of <a href="https://twitter.com/jose_pedro_dias"> Jose Pedro Dias</a>)<br>
                 <a href="https://github.com/gunar/sam-redux" id="rocketreact">React+Redux Rocket Launcher sample (React+Redux following the SAM pattern)</a><br>
                 <a href="https://bitbucket.org/snippets/jdubray/zr9r6/item-list" id="listsample">Rocket Launcher sample (Browser only, HTML+JavaScript)</a><br>
                 <a href="https://bitbucket.org/snippets/jdubray/jna7B/sam-sample-app-on-nodejs" id="nodesample">Simple Web site with Contact App (Node.js+HTML)</a><br>
@@ -775,7 +785,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <h2 id="frameworks">Frameworks</h2>
           <br>
           <p>André Statlz has written a great paper comparing the different <a href="http://staltz.com/unidirectional-user-interface-architectures.html">Unidirectional User Interface Architectures</a>. 
-          The pattern closes to SAM is <a href="https://blog.famous.org/introducing-the-famous-framework/">Famous</a>, but unfortunately, they mutate the model directly from the actions (events in Famous' terms) and they do not support a nap() function.</p>
+          The pattern closest to SAM is <a href="https://blog.famous.org/introducing-the-famous-framework/">Famous</a>, but unfortunately, they mutate the model directly from the actions (events in Famous' terms) and they do not support a nap() function.</p>
           <p>This <a href="https://www.youtube.com/watch?v=Pm0uwncSCo4&feature=youtu.be&t=14366">talk from </a></p>
           <br>
           <h4 id="react">React.js</h3>
