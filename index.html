@@ -88,7 +88,6 @@
                 <li><a href="#comp">Composition</a></li>
                 <li><a href="#sm">State Machines</a></li>
                 <li><a href="#apis">APIs</a></li>
-                <li><a href="#aa">Automatic Actions</a></li>
                 <li><a href="#conc">Concurrency</a></li>
               </ul>
             </li>
@@ -160,6 +159,8 @@
 
           <section>
             <h2 id="sam">How does SAM works?</h2>
+            <blockquote>"I believe that the best way to get better programs<br> 
+            is to teach programmers how to think better - Dr. Leslie Lamport</blockquote>
             <p></p>SAM is a pattern that aims at replacing the MVC pattern. If you are already familiar with MVC, you should be able to make an easy transition to SAM.</p>
             <p>There are two main differences between MVC and SAM. First, SAM is reactive, while MVC is generally implemented in an interactive way. Some attempts have been made at implementing in a reactive way, however, SAM is not just a reactive implementation of MVC. 
             Second, SAM introduces the concept of State as a mechanism to further decouple the View from the Model and treats the view merely as a "State Representation".</p>
@@ -190,6 +191,9 @@ theme.ready = function(counter) {
 </code></pre></div>
             <p>SAM forces front-end developers to think in terms of model, and no longer in terms of APIs: given the model property values, how does the View look like? How the values got there is irrelevant. This is the paradigm shift that React introduced.
                SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive. This is probably the hardest thing to get in React and SAM, you have to try it for yourself.</p>
+               <p>There is a fair amoung of questions asking "why not use templates"? The reason is relatively simple, Templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another interpreter. 
+               On the contrary, code generators are infinitely flexible with hardly any drawbacks. I would personally choose functions over templates any day. Some people have mentioned the risks of cross-site-scripting when using raw JavaScript. 
+               That is a very real risk and developers must always think about escaping their parameter values, but I strongly believe templates must go. Stateless React.js components are a perfectly good way to implement these functions, if you absolutely need a framework.</p>
             <p></p>
             <h3 id="bl">Business Logic</h3>
             <blockquote>"A good Front-End Architecture should enable you to pin your modularized functions to the UI components in the most decoupled way possible. That way the technology backing the components can be swapped out and all your business logic is not in a hostage situation (at the mercy of the next great late framework)"</blockquote>(Thomas J. Buhr)
@@ -223,7 +227,7 @@ theme.ready = function(counter) {
     function action(data,present) {
     
         // compute the values we want the model to mutate to
-        var data_ = the_actual_function_implementing_the_action(data) ;
+        var data_ = the_actual_pure_function_implementing_the_action(data) ;
         
         // present these values to the model
         present(data_) ;
@@ -593,20 +597,64 @@ V = Ss( Ms.present( As(Mc) )
 The role of the server is rather to deliver the SAM client instance as part of its state representation.
 </p>
             <br>
-            <h4 id="sm">State Machines</h3>
+            <h4 id="sm">State Machines and Automatic Actions</h3>
+            <blockquote>Computation is a major topic of computer science,<br>
+                        and almost every object that computes is naturally viewed as a state machine.<br>
+                        Yet computer scientists are so focused on the languages used to<br>
+                        describe computation that they are largely unaware that those languages<br>
+                        are all describing state machines - <a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/state-machine.pdf">Dr. Leslie Lamport</a></blockquote>
             <p>
-                
+            SAM is particularly well aligned with the traditional semantics of State Machines except for one simple, yet fundamental difference. 
+            Traditional State Machine semantics imply that the actions somehow connect two states, so State Machines are described as a series of tuples such as:
+<pre>initialState = S<sub>0</sub>
+(S<sub>0</sub>,A<sub>01</sub>,S<sub>1</sub>), (S<sub>1</sub>,A<sub>12</sub>,S<sub>2</sub>)...
+</pre>
+<br>
+            This is somewhat of an approximation, it is not the action that decides the resulting state, it is the model, which, once the action has been applied (its value have been accepted, or not)
+            that decides the resulting state. 
+<pre>initialState = S<sub>0</sub> = S0( M0 ) 
+(S<sub>0</sub>, A<sub>00</sub>, A<sub>01</sub>), (S<sub>1</sub>, A<sub>10</sub>, A<sub>11</sub>, A<sub>12</sub>)...
+S<sub>0</sub> = S0( M )
+S<sub>1</sub> = S1( M )
+...
+</pre>
+            This change of perspective (not semantics) is minute, yet fundamental. SAM would not work (as well) if the traditional semantics of State Machine would be structuring the code. 
+            The SAM semantics are inclusive of this traditional structure, and therefore strictly compatible, but SAM by no means require that one uses a graph of State and Actions.
             </p>
+            <p>I believe that is why some people have expressed that SAM "feels natural".</p>
+            <p>The <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample">Rocket Launcher</a> example shows how to implement the Sx() functions:</p>
+
+<div class="code-window"><pre><code class="language-javascript">
+// Derive the current state of the system
+state.ready = function(model) {
+    return ((model.counter === COUNTER_MAX) && !model.started && !model.launched && !model.aborted) ;
+}
+
+state.counting = function(model) {
+    var status = ((model.counter <= COUNTER_MAX) && (model.counter >= 0) && model.started && !model.launched && !model.aborted) ;
+    return status ;
+}
+
+state.launched = function(model) {
+    return ((model.counter == 0) && model.started && model.launched && !model.aborted) ;
+}
+
+state.aborted = function(model) {
+    return (
+        (  model.counter <= COUNTER_MAX) && (model.counter >= 0) 
+        && model.started && !model.launched && model.aborted ) ;
+}
+</code></pre></div>   
+            <br>
+            <p>I cannot emphasize enough that it is not necessary to adopt a State Machine structure to use SAM and more often than not if-then-else will be adequate. However, sometimes it may become easier to use a strict State Machine structure.
+            These functions can be used to validate that an action is enabled or not. They can also more naturally break down the hierarchy in from which the view is rendered.</p>
+            
             <br>
             <h4 id="sr">APIs</h3>
             <p>
                 
             </p>
             <br>
-            <h4 id="aa">Automatic Actions</h3>
-            <p>
-                
-            </p>
             <br>
             <h4 id="conc">Concurrency</h3>
             <p>
@@ -728,6 +776,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <br>
           <p>André Statlz has written a great paper comparing the different <a href="http://staltz.com/unidirectional-user-interface-architectures.html">Unidirectional User Interface Architectures</a>. 
           The pattern closes to SAM is <a href="https://blog.famous.org/introducing-the-famous-framework/">Famous</a>, but unfortunately, they mutate the model directly from the actions (events in Famous' terms) and they do not support a nap() function.</p>
+          <p>This <a href="https://www.youtube.com/watch?v=Pm0uwncSCo4&feature=youtu.be&t=14366">talk from </a></p>
           <br>
           <h4 id="react">React.js</h3>
           <p>
