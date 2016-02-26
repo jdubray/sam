@@ -232,7 +232,7 @@ theme.ready = function(counter) {
     }
     
 </code></pre></div>
-                Actions typically hold context specific logic. If we take the example of a "change of address" action, we might define 
+                Actions are responsible for implementing context specific logic. If we take the example of a "change of address" action, we might define 
                 implement some context specific rules, such as when there is no country specified in the input dataset, the default country 
                 is Australia, while the model is responsible for the integrity of a customer address. 
                 In the context of SAM, actions play another important role with respect to invoking 3rd party APIs. For instance, we can define an action which 
@@ -253,6 +253,8 @@ theme.ready = function(counter) {
     }
     
 </code></pre></div>
+            </p>
+            <p>Action logic can typically be reused across models, you can even think 3rd parties will start offering SAM actions following a SaaS model. A "change of address" action, which returns a postal address given user data is highly reusable, across the enterprise. 
             </p>
             <br>
             <h4 id="model">Model</h3>
