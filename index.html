@@ -157,7 +157,7 @@
           <section>
             <h2 id="sam">How does SAM works?</h2>
             <p>SAM is a pattern that aims at replacing the MVC pattern. If you are already familiar with MVC, you should be able to make an easy transition to SAM.</p>
-            <p>There are two main differences between MVC and SAM. First, SAM is reactive, while MVC is generally implemented in an interactive way. Some attempts have been made at implementing in a reactive way, however, SAM is not just a reactive implementation of MVC. 
+            <p>There are two main differences between MVC and SAM. First, SAM is reactive, while MVC is generally implemented in an interactive way. Some attempts have been made at implementing it in a reactive way, however, SAM is not just a reactive implementation of MVC. 
             Second, SAM introduces the concept of State as a mechanism to further decouple the View from the Model and treats the view merely as a "State Representation".</p>
             <br><br>
             <figure>
@@ -195,7 +195,7 @@ theme.ready = function(counter) {
             <p>
             SAM's factoring of the business logic is based on <a href="http://research.microsoft.com/en-us/um/people/lamport/tla/tla.html">TLA+</a>:
             <blockquote>TLA+ is based on the idea that the best way to describe things formally is with simple mathematics, and that a specification language should contain as little as possible beyond what is needed to write simple mathematics precisely. TLA+ is especially well suited for writing high-level specifications of concurrent and distributed systems.</blockquote>
-            If you are interested in learning about TLA+, I found <a href="http://www.loria.fr/~merz/talks/argentina2005/slides.pdf">Stephan Merz's course</a> the most approachable introduction to TLA+.
+            If you are interested in learning about TLA+, I found <a href="http://www.loria.fr/~merz/talks/argentina2005/slides.pdf">Stephan Merz's course</a> the most approachable introduction to TLA+ - Dr. Leslie Lamport
             </p>
             <p>TLA+ is a formal specification which can be used describe, analyze and reason about systems, such as:</p>
             <ul>
@@ -253,7 +253,7 @@ theme.ready = function(counter) {
     
 </code></pre></div>
             </p>
-            <p>Action logic can typically be reused across models, you can even think 3rd parties will start offering SAM actions following a SaaS model. A "change of address" action, which returns a postal address given user data is highly reusable, across the enterprise. 
+            <p>Action logic can typically be reused across models, you can even think some companies will start offering SAM actions following a SaaS model. A "change of address" action, which returns a postal address given user data is highly reusable, across the enterprise. 
             </p>
             <br>
             <h4 id="model">Model</h3>
@@ -286,11 +286,11 @@ theme.ready = function(counter) {
             <h4 id="state">State</h3>
             <p>
             This concept is unique to SAM. Its purpose is to futher decouple the Model from the View (State Representation). The State has two roles: 
-            <ul><li>Decide how to translate the model property into a State Representation</li>
-            <li>Invoke the next-action predicate</li>
+            <ul><li>Decide how to translate the model property values into a State Representation</li>
+            <li>Process the next-action predicate</li>
             </ul>
-            The State may compute actually an actual "control state" in order to decide how to render the view, but SAM does not require the State implementation to match the semantics of a state machine. 
-            In the Rocket Launcher example, we've have implemented the full semantics of a state machine where each control state is computed with pure functions of the model such as:
+            The State may compute the current "control state" of the system to decide how to render the view, but SAM does not require the State implementation to implement the semantics of a state machine. 
+            In the Rocket Launcher example, we've have implemented the full semantics of a state machine where each control state is computed with pure functions such as:
 <div class="code-window"><pre><code class="language-javascript">
 // Assuming the following model structure
 var model = {
