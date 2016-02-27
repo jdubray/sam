@@ -186,7 +186,7 @@ theme.ready = function(counter) {
 </code></pre></div>
             <p>SAM forces front-end developers to think in terms of model, and no longer in terms of APIs: given the model property values, how does the View look like? How the values got there is irrelevant. This is the paradigm shift that React introduced.
                SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive. This is probably the hardest thing to get in React and SAM, you have to try it for yourself.</p>
-               <p>There is a fair amount of questions asking "why not use templates"? The reason is relatively simple, Templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another interpreter. 
+               <p>There is a fair amount of questions asking "why not use templates"? The reason is relatively simple, Templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another interpreter). 
                On the contrary, code generators are infinitely flexible with hardly any drawbacks. I would personally choose functions over templates any day. Some people have mentioned the risks of cross-site-scripting when using raw JavaScript. 
                That is a very real risk and developers must always think about escaping their parameter values, but I strongly believe templates must go. Stateless React.js components are a perfectly good way to implement these functions, if you absolutely need a framework.</p>
             <p></p>
@@ -231,9 +231,9 @@ theme.ready = function(counter) {
     }
     
 </code></pre></div>
-                Actions are responsible for implementing context specific logic. If we take the example of a "change of address" action, we might define 
+                Actions are responsible for implementing context specific logic. If we take the example of a "change of address" action, we might  
                 implement some context specific rules, such as when there is no country specified in the input dataset, the default country 
-                is Australia, while the model is responsible for the integrity of a customer address. 
+                is Australia, while the model is responsible for the integrity of a customer address which requires a country value. 
                 In the context of SAM, actions play another important role with respect to invoking 3rd party APIs. For instance, we can define an action which 
                 will invoke a 3rd party validation service, which given an address, returns the postal address (or an error). It is then 
                 the postal address which is presented to the model. 
@@ -342,7 +342,7 @@ state.representation = function(model, display) {
     
 </code></pre></div>            
             </p>
-            <p>Depending on the number of control states of your application and the size of your model, these functions can become rather tedious to write. Again, there is no requirement to adopt such an approach, it may help in some cases and be a burden in another where if-then-else on some key properties of the model are good enough.</p>
+            <p>Depending on the number of control states of your application and the size of your model, these functions can become rather tedious to write. Again, there is no requirement to adopt such an approach, it may help in some cases and be a burden in another where a series of if-then-else on some key properties of the model is good enough.</p>
             <p>One the state representation is rendered, the State is responsible for invoking the next-action predicate (nap), which is a pure function of the model. The purpose of the nap() function is to determine if, given the current control state of the model, there are some automatic actions that need to be invoked. For instance in the <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample">Rocket Launcher</a> example, 
             while we are in the counting state the "decrement()" action is invoked by the next-action predicate and when the counter reaches zero, it invokes the "launch()" action.
             </p>
@@ -842,7 +842,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
               </tr>
               <tr>
                 <td>Store is updated with the output of the reducer fonction<br>
-                Sagas can be used to iomplement something that looks like the next-action predicate</td>  
+                </td>  
                 <td>State Representation is created after the model has mutated<br>Next-Action Predicate evaluates whether an automatic action needs to be triggered</td>
               </tr>
               <tr>
