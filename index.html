@@ -168,7 +168,7 @@
                 
             
             <h3 id="vf">The View as a Function of the Model</h3>
-            <p>The best starting point to understand SAM is to understand the functional relationship between the view and the model. If you are familiar with React.js you probably noticed that one of the main goals of React's component model is to help you create the components's <code>render</code> function. 
+            <p>The best starting point to understand SAM is to understand the functional relationship between the view and the model. If you are familiar with React.js you probably noticed that one of the main goals of React's component model is to help you create the components' <code>render</code> function. 
             SAM suggests using the same approach and decomposing the view as a series of pure JavaScript functions. </p>
             <pre>V = f( M )</pre>
             <p>This concept is extremely simple to implement. I generally implement the front-end components as part of theme singleton:</p>
@@ -186,12 +186,12 @@ theme.ready = function(counter) {
 </code></pre></div>
             <p>SAM forces front-end developers to think in terms of model, and no longer in terms of APIs: given the model property values, how does the View look like? How the values got there is irrelevant. This is the paradigm shift that React introduced.
                SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive. This is probably the hardest thing to get in React and SAM, you have to try it for yourself.</p>
-               <p>There is a fair amoung of questions asking "why not use templates"? The reason is relatively simple, Templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another interpreter. 
+               <p>There is a fair amount of questions asking "why not use templates"? The reason is relatively simple, Templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another interpreter. 
                On the contrary, code generators are infinitely flexible with hardly any drawbacks. I would personally choose functions over templates any day. Some people have mentioned the risks of cross-site-scripting when using raw JavaScript. 
                That is a very real risk and developers must always think about escaping their parameter values, but I strongly believe templates must go. Stateless React.js components are a perfectly good way to implement these functions, if you absolutely need a framework.</p>
             <p></p>
             <h3 id="bl">Business Logic</h3>
-            <blockquote>"A good Front-End Architecture should enable you to pin your modularized functions to the UI components in the most decoupled way possible. That way the technology backing the components can be swapped out and all your business logic is not in a hostage situation (at the mercy of the next great late framework)"</blockquote>(Thomas J. Buhr)
+            <blockquote>A good Front-End Architecture should enable you to pin your modularized functions to the UI components in the most decoupled way possible. That way the technology backing the components can be swapped out and all your business logic is not in a hostage situation (at the mercy of the next great late framework) - Thomas J. Buhr </blockquote>
             <p>
             SAM's factoring of the business logic is based on <a href="http://research.microsoft.com/en-us/um/people/lamport/tla/tla.html">TLA+</a>:
             <blockquote>TLA+ is based on the idea that the best way to describe things formally is with simple mathematics, and that a specification language should contain as little as possible beyond what is needed to write simple mathematics precisely. TLA+ is especially well suited for writing high-level specifications of concurrent and distributed systems.</blockquote>
@@ -861,7 +861,8 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <li>Anemic actions are the default in Redux, you need to add the "thunk" library to be able to use functions as actions</li>
           <li>Sagas are stateful by definition and their imperative styles makes it difficult to reason about what is the next action that will occur.</li>
           </ul><br>
-         
+          <p>That being said, the deal breaker for me is the fact that Reducers cannot run on the server because of React's architecture. The store needs to be updated with the output of the root reducer, i.e. the entire state, which would create a high bandwidth, chatty interaction with the client.</p>
+          <br>
           <h4 id="ng">Angular</h3>
           <p>
               
