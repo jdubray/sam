@@ -811,7 +811,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <br>
           <p>André Statlz has written a great paper comparing the different <a href="http://staltz.com/unidirectional-user-interface-architectures.html">Unidirectional User Interface Architectures</a>. 
           The pattern closest to SAM is <a href="https://blog.famous.org/introducing-the-famous-framework/">Famous</a>, but unfortunately, they mutate the model directly from the actions (events in Famous' terms) and they do not support a nap() function.</p>
-          <p>This <a href="https://www.youtube.com/watch?v=Pm0uwncSCo4&feature=youtu.be&t=14366">talk from the React 2016 Conference</a> offers some great perspective on the different approaches (React,Cycle,Elm) starting with a simple formula...: <pre>V = f( M )</pre></p>
+          <p>This <a href="https://www.youtube.com/watch?v=Pm0uwncSCo4&feature=youtu.be&t=14366">talk from Andrew Clark at the React 2016 Conference</a> offers some great perspective on the different approaches (React,Cycle,Elm) starting with a simple formula...: <pre>V = f( M )</pre></p>
           <br>
           <h4 id="react">React.js</h3>
           <p>
@@ -852,6 +852,13 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
             </tbody>
           </table>
           <br>
+          <p>The main issues I see with this framework (as a set of libraries) are:</p>
+          <ul><li>Redux combines the logic that computes the values with which you would update the model with the logic that decides whether the model accepts these values or not. </li>
+          <li>As a corollary it couples the interface of the reducers to the model. One of the key roles of actions is to adapt the View-Model interface in ways that makes the model insensitive to the view semantics. The Reducers' interfaces are directly shapped by the view, which is an anti-pattern.</li>
+          <li>Anemic actions are the default in Redux, you need to add the "thunk" library to be able to use functions as actions</li>
+          <li>Sagas are stateful by definition and their imperative styles makes it difficult to reason about what is the next action that will occur.</li>
+          </ul><br>
+         
           <h4 id="ng">Angular</h3>
           <p>
               
