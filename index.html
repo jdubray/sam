@@ -841,7 +841,8 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
                 <td>Actions are pure functions with respect to the model<br>Actions have no access to model to compute the values presented to the model</td>
               </tr>
               <tr>
-                <td>Store is updated with the output of the reducer fonction</td>  
+                <td>Store is updated with the output of the reducer fonction<br>
+                Sagas can be used to iomplement something that looks like the next-action predicate</td>  
                 <td>State Representation is created after the model has mutated<br>Next-Action Predicate evaluates whether an automatic action needs to be triggered</td>
               </tr>
               <tr>
@@ -859,9 +860,10 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <ul><li>Redux combines the logic that computes the values with which you would update the model with the logic that decides whether the model accepts these values or not. </li>
           <li>As a corollary it couples the interface of the reducers to the model. One of the key roles of actions is to adapt the View-Model interface in ways that makes the model insensitive to the view semantics. The Reducers' interfaces are directly shapped by the view, which is an anti-pattern.</li>
           <li>Anemic actions are the default in Redux, you need to add the "thunk" library to be able to use functions as actions</li>
-          <li>Sagas are stateful by definition and their imperative styles makes it difficult to reason about what is the next action that will occur.</li>
+          <li>Sagas are stateful by definition and their imperative style makes it difficult to reason about what is the next action that will occur.</li>
           </ul><br>
-          <p>That being said, the deal breaker for me is the fact that Reducers cannot run on the server because of React's architecture. The store needs to be updated with the output of the root reducer, i.e. the entire state, which would create a high bandwidth, chatty interaction with the client.</p>
+          <p>That being said, the deal breaker, for me, is the fact that Reducers cannot run on the server because of React's architecture. 
+          The store would need to be updated with the output of the root reducer, i.e. the entire state, which would create a high bandwidth, chatty interaction with the client.</p>
           <br>
           <h4 id="ng">Angular</h3>
           <p>
