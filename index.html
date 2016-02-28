@@ -345,8 +345,8 @@ state.representation = function(model, display) {
 </code></pre></div>            
             </p>
             <p>Depending on the number of control states of your application and the size of your model, these functions can become rather tedious to write. Again, there is no requirement to adopt such an approach, it may help in some cases and be a burden in another where a series of if-then-else on some key properties of the model is good enough.</p>
-            <p>One the state representation is rendered, the State is responsible for invoking the next-action predicate (nap), which is a pure function of the model. The purpose of the nap() function is to determine if, given the current control state of the model, there are some automatic actions that need to be invoked. For instance in the <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample">Rocket Launcher</a> example, 
-            while we are in the counting state the "decrement()" action is invoked by the next-action predicate and when the counter reaches zero, it invokes the "launch()" action.
+            <p>Once the state representation is rendered, the State is responsible for invoking the next-action predicate (nap), which is a pure function of the model. The purpose of the nap() function is to determine if, given the current control state of the model, there are some automatic actions that need to be invoked. For instance in the <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample">Rocket Launcher</a> example, 
+            the "decrement()" action is invoked by the next-action predicate while the system is in the counting state. When the counter reaches zero, it invokes the "launch()" action.
             </p>
 
 <div class="code-window"><pre><code class="language-javascript">
@@ -385,7 +385,7 @@ view.counting = function(counter) {
 </code></pre></div>   
             <br>
             Stateless React.js components would work great. The same type of function could we writen in Objective-C for the viewDidLoad method.<br><br> 
-            Alex Schepanovski explains how to render achieve <a href="http://hackflow.com/blog/2015/03/08/boiling-react-down-to-few-lines-in-jquery/">React.js functionality with just a few lines of JQuery</a>. 
+            Alex Schepanovski explains how to achieve <a href="http://hackflow.com/blog/2015/03/08/boiling-react-down-to-few-lines-in-jquery/">React.js functionality with just a few lines of JQuery</a>. 
             </p>
             <br>
             <h4 id="wiring">Wiring</h3>
@@ -593,8 +593,8 @@ V = Ss( Ms.present( As(Mc) )
 <p>Though it is theoretically possible, it is highly recommended to refrain from invoking client actions from the server.
 The role of the server is rather to deliver the SAM client instance as part of its state representation.
 </p>
-<p>SAM also offers an interesting alternative composition mechanism which enable to synchronize a client side and server side model, by which you present the same dataset to both the ciient side and server side model.</p>
-<figure><a = href="assets/figures/fig11.jpg"><img class="img-shadow img-responsive center-block" src="assets/figures/fig11.jpg" alt="" width="370"/></a></figure>
+<!-- p>SAM also offers an interesting alternative composition mechanism which enable to synchronize a client side and server side model, by which you present the same dataset to both the client side and server side model.</p>
+<figure><a = href="assets/figures/fig11.jpg"><img class="img-shadow img-responsive center-block" src="assets/figures/fig11.jpg" alt="" width="370"/></a></figure -->
             <br>
             <h4 id="sm">State Machines and Automatic Actions</h3>
             <blockquote>Computation is a major topic of computer science,<br>
@@ -609,8 +609,8 @@ The role of the server is rather to deliver the SAM client instance as part of i
 (S<sub>0</sub>,A<sub>01</sub>,S<sub>1</sub>), (S<sub>1</sub>,A<sub>12</sub>,S<sub>2</sub>)...
 </pre>
 <br>
-            This is somewhat of an approximation, it is not the action that decides the resulting state, it is the model, which, once the action has been applied (its value have been accepted, or not)
-            that decides the resulting state. 
+            This definition is somewhat of an approximation, it is not the action that decides the resulting state, it is the model, which, once the action has been applied (its value have been accepted, or not)
+            that decides the resulting state: 
 <pre>initialState = S<sub>0</sub> = S0( M0 ) 
 (S<sub>0</sub>, A<sub>00</sub>, A<sub>01</sub>), (S<sub>1</sub>, A<sub>10</sub>, A<sub>11</sub>, A<sub>12</sub>)...
 S<sub>0</sub> = S0( M )
@@ -671,13 +671,15 @@ function getRssFeed(data) {
     
     request(options, function (error, response, body) {
        if (!error && response.statusCode == 200) {
-           parseString(body, function (err, result) {
-               console.log(JSON.stringify(result.rss.channel[0].item[0],null,4));
-               data.blog = result.rss.channel[0].item ;
-               // it is better to "present" it to the model
-               // as this is could easily become a system action 
-               // triggered automatically
-               present(data) ;
+            
+            // parse the RSS feed into a json object
+            parseString(body, function (err, result) {
+            
+                // prepare proposed dataset
+                data.blog = result.rss.channel[0].item ;
+               
+                // present data to the model
+                present(data) ;
            });
        }
      });
@@ -685,7 +687,7 @@ function getRssFeed(data) {
 </code></pre></div>   
             <br>
             <p>Similarly, the model can perform all the persistence operations (which could result in rejecting some proposed values) before passing control of the Reactive Loop to the State object.
-            That is very different from React because you cannot touch the State without triggering a rendering of the view, which make very little sence, when you think of it. It only makes sense when you spread the model state into 
+            That is very different from React because you cannot touch the State without triggering a rendering of the view, which makes very little sense, when you think of it. It only makes sense when you spread the model state into 
             the various components, and even then it warps the articulation of APIs with the Front-End reactive Flow.
             </p>
             <br>
