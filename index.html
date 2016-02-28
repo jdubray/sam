@@ -88,6 +88,7 @@
                 <li><a href="#comp">Composition</a></li>
                 <li><a href="#sm">State Machines</a></li>
                 <li><a href="#apis">APIs</a></li>
+                <li><a href="#headless">Headless SAM</a></li>
                 <li><a href="#conc">Concurrency</a></li>
               </ul>
             </li>
@@ -133,7 +134,7 @@
           <header>
             <h1>The SAM Pattern</h1>
             <p>SAM is a new reactive/functional pattern that simplifies Front-End architectures by clearly separating the business logic from the view and, in particular, strictly decoupling back-end APIs from the Front-End.
-            SAM is technology independent, it can be used to build Web Apps or Native Apps. It's also protocol independent and can be implemented over HTTP, WebSockets...</p>
+            SAM is technology independent and as such can be used to build Web Apps or Native Apps. It is also protocol independent and can be implemented over HTTP, WebSockets...</p>
             <p>SAM is unapologetically driven by simplicity and challenges the complexity of frameworks like Google's Angular or Facebook's React+JSX+Flux/Redux+Saga+Thunk+GraphQL+Relay. One of SAM's key goals is to enable everyone to build beautiful and engaging HTML5/CSS3/JavaScript Web Apps while retaining <a href="https://medium.com/@dan_abramov/youre-missing-the-point-of-react-a20e34a51e1a#.aoccyh29h">what makes React.js so unique</a>:</p>
             <ul><li>Composition</li><li>Unidirectional data flow</li><li>Freedom from DSLs</li><li>Explicit mutation</li><li>Static mental model </li></ul>
             <p>SAM is also challenging architecture patterns like <a href="http://samnewman.io/patterns/architectural/bff/">BFF</a> or the Vertical Slice Pattern which suggest creating view specific APIs, per platform, app, versions of an app...</p>
@@ -187,15 +188,15 @@ theme.ready = function(counter) {
             <p>SAM forces front-end developers to think in terms of model, and no longer in terms of APIs: given the model property values, how does the View look like? How the values got there is irrelevant. This is the paradigm shift that React introduced.
                SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive. This is probably the hardest thing to get in React and SAM, you have to try it for yourself.</p>
                <p>There is a fair amount of questions asking "why not use templates"? The reason is relatively simple, Templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another interpreter). 
-               On the contrary, code generators are infinitely flexible with hardly any drawbacks. I would personally choose functions over templates any day. Some people have mentioned the risks of cross-site-scripting when using raw JavaScript. 
-               That is a very real risk and developers must always think about escaping their parameter values, but I strongly believe templates must go. Stateless React.js components are a perfectly good way to implement these functions, if you absolutely need a framework.</p>
+               On the other hand, code generators are infinitely flexible with hardly any drawbacks. I would personally choose functions over templates any day. Some people have mentioned the risks of cross-site-scripting when using raw JavaScript. 
+               That is a very real risk and developers must always think about escaping their parameter values. Stateless React.js components are a perfectly good way to implement these functions, if you absolutely need a framework.</p>
             <p></p>
             <h3 id="bl">Business Logic</h3>
             <blockquote>A good Front-End Architecture should enable you to pin your modularized functions to the UI components in the most decoupled way possible. That way the technology backing the components can be swapped out and all your business logic is not in a hostage situation (at the mercy of the next great late framework) - Thomas J. Buhr </blockquote>
             <p>
             SAM's factoring of the business logic is based on <a href="http://research.microsoft.com/en-us/um/people/lamport/tla/tla.html">TLA+</a>:
-            <blockquote>TLA+ is based on the idea that the best way to describe things formally is with simple mathematics, and that a specification language should contain as little as possible beyond what is needed to write simple mathematics precisely. TLA+ is especially well suited for writing high-level specifications of concurrent and distributed systems.</blockquote>
-            If you are interested in learning about TLA+, I found <a href="http://www.loria.fr/~merz/talks/argentina2005/slides.pdf">Stephan Merz's course</a> the most approachable introduction to TLA+ - Dr. Leslie Lamport
+            <blockquote>TLA+ is based on the idea that the best way to describe things formally is with simple mathematics, and that a specification language should contain as little as possible beyond what is needed to write simple mathematics precisely. TLA+ is especially well suited for writing high-level specifications of concurrent and distributed systems. - Dr. Leslie Lamport</blockquote>
+            If you are interested in learning about TLA+, I found <a href="http://www.loria.fr/~merz/talks/argentina2005/slides.pdf">Stephan Merz's course</a> the most approachable introduction to TLA+.
             </p>
             <p>TLA+ is a formal specification which can be used describe, analyze and reason about systems, such as:</p>
             <ul>
@@ -210,6 +211,7 @@ theme.ready = function(counter) {
                <ul><li>action formulas describe states and state transitions</li>
                <li>temporal formulas describe state sequences</li></ul>
             <p>TLA+ also includes concepts such as safety (something bad should never happen) and liveness (something good eventually happens).</p>
+            <p>In SAM, the business logic is decomposed in three elements: Actions, the Model and the State.</p>
             <br>
             <h4 id="actions">Actions</h3>
             <p>
@@ -614,7 +616,8 @@ The role of the server is rather to deliver the SAM client instance as part of i
 S<sub>0</sub> = S0( M )
 S<sub>1</sub> = S1( M )
 ...
-</pre>
+</pre><br>
+            The tuplets (S<sub>i</sub>,A<sub>ik</sub>,S<sub>k</sub>) are merely an observation of the behavior of the state machine, rather than a physical representation of its runtime.<br> 
             This change of perspective (not semantics) is minute, yet fundamental. SAM would not work (as well) if the traditional semantics of State Machine would be structuring the code. 
             The SAM semantics are inclusive of this traditional structure, and therefore strictly compatible, but SAM by no means require that one uses a graph of State and Actions.
             </p>
@@ -686,6 +689,74 @@ function getRssFeed(data) {
             the various components, and even then it warps the articulation of APIs with the Front-End reactive Flow.
             </p>
             <br>
+            <br>
+            <h4 id="headless">Headless SAM</h3>
+            <p>
+            SAM can also be used without a View, whereby it listens on incoming Action requests and returns a response which can be the model of a fraction of the model. As such SAM offers a new API implementation pattern which is particularly well suited for implementating Stateful APIs. 
+            </p>
+            <br>
+            <figure>
+              <a = href="assets/figures/fig12.jpg"><img class="img-shadow img-responsive center-block" src="assets/figures/fig12.jpg" alt=""/></a>
+            </figure>
+            <br><br>
+            <p>A node.js implementation of Headless SAM would look like this:</p>
+<div class="code-window"><pre><code class="language-javascript">
+
+var express = require('express');
+var app = express();
+
+//// Model ////////////////////////////
+
+var S0 = { ... } ;
+
+var present = (
+
+    function (initialState) {
+        var model = initialState ;
+        return (function( data, res) {
+        
+            // mutate the model
+            ...
+        
+            state(model) ;
+        }) ;
+    }
+    
+)(S0);
+
+
+//// Actions ////////////////////////////
+
+actions.addAPI('submit') ;
+app.post(actions.apis.submit.path, function(req,res) {
+    
+    // extract intent from request body
+    var intent = new Intent('submit',req.body) ;
+    
+    // Compute model property values
+    data_ = actions.impl.submit(intent) ;
+    
+    // present data to the model
+    presentToModel(data_, res) ; 
+    
+}) ;
+
+//// State ////////////////////////////
+
+function state(model) {
+    
+    // prepare and return API response
+    var response = model.response() ;
+    res.send(response) ;
+    
+    // execute next action predicate
+    nap(model) ;
+
+}
+
+</code></pre></div> 
+            <br>
+            The pattern can easily be adapted to mount a user session in the model or rehydrate/dehydrate the context of the request before/after the model mutates.
             <br>
             <h4 id="conc">Concurrency</h3>
             <p>
@@ -798,9 +869,10 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
                 <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample" id="rocket">Rocket Launcher sample (Browser only, HTML+JavaScript)</a> You can run that sample <a href="https://bb.githack.com/!api/2.0/snippets/jdubray/9dgKp/a1dd9b8b9f241600ad108ef741845241c31c9fce/files/rocket.html">here</a> (courtesy of <a href="https://twitter.com/jose_pedro_dias"> Jose Pedro Dias</a>)<br>
                 <a href="http://codepen.io/foxdonut/pen/XXPwRe">Rocket Launcher with Cycle.js</a> (<a href="http://www.linkedin.com/in/fredericdaoud">Fred Daoud</a>)<br>
                 <a href="https://github.com/JosePedroDias/sam_rocket_w_snabbdom">Rocket Launcher sample with Snabbdom</a> (<a href="https://twitter.com/jose_pedro_dias"> Jose Pedro Dias</a>). You can run the sample <a href="https://josepedrodias.github.io/sam_rocket_w_snabbdom/index.html">here</a>.<br>
-                <a href="https://jsfiddle.net/80xzt848/">Rocket Launcher sample with Knockout.js</a> (<a href="http://blog.troyingram.us/">Troy Ingram</a>)<br>
+                <a href="https://jsfiddle.net/80xzt848/1/">Rocket Launcher sample with Knockout.js</a> (<a href="http://blog.troyingram.us/">Troy Ingram</a>)<br>
                 <a href="https://github.com/gunar/sam-redux" id="rocketreact">React+Redux Rocket Launcher sample (following the SAM pattern)</a> (<a href="https://twitter.com/gunar">Gunar Gessner)</a><br>
                 <a href="https://bitbucket.org/snippets/jdubray/zr9r6/item-list" id="listsample">List Manager (Browser only, HTML+JavaScript)</a><br>
+                <a herf="http://codepen.io/msolovyov/pen/qbvYpv?editors=1010">List Manager (Browser only, Vue.js)</a> (<a href="">Michael Solovyov</a>)<br>
                 <a href="https://bitbucket.org/snippets/jdubray/jna7B/sam-sample-app-on-nodejs" id="nodesample">Simple Web site with Contact App (Node.js+HTML)</a><br>
           </p>
           <p>This is what Jonathan Siu, Startup Consultant, had to say about SAM:</p><br>
@@ -819,8 +891,8 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
           <h4 id="react">React.js</h3>
           <br>
           <p>
-            The SAM pattern covers several libraries of the React.js nebula: React.js itself, but also Flux/Redux, including separate libraries such as <a href="https://github.com/gaearon/redux-thunk">Redux-Thunk</a> and <a href="https://github.com/yelouafi/redux-saga">Redux-Saga</a>. 
-            This framework (of libraries) has been built rather opportunistically, one problem at a time, without a coherent architecture. Further its architecture focuses heavily on the client, without much consideration for the server. 
+            The SAM pattern spans several libraries of the React.js nebula: React.js itself, but also Flux/Redux, including separate libraries such as <a href="https://github.com/gaearon/redux-thunk">Redux-Thunk</a> and <a href="https://github.com/yelouafi/redux-saga">Redux-Saga</a>. 
+            This framework (of libraries) has been built rather opportunistically, solving one problem at a time, without a coherent architecture. Further its architecture focuses heavily on the client, without much consideration for the server. 
           </p>
           <table class="table">
             <thead>
@@ -840,10 +912,11 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
               </tr>
               <tr>
                 <td>Reducers are pure fonctions<br>Reducers have access to full scope of state when processing actions</td>
-                <td>Actions are pure functions with respect to the model<br>Actions have no access to model to compute the values presented to the model</td>
+                <td>Actions are pure functions with respect to the model<br>Actions have no access to the model to compute the values presented to the model</td>
               </tr>
               <tr>
                 <td>Store is updated with the output of the reducer fonction<br>
+                Listeners are notified of the update
                 </td>  
                 <td>State Representation is created after the model has mutated<br>Next-Action Predicate evaluates whether an automatic action needs to be triggered</td>
               </tr>
