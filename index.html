@@ -319,11 +319,12 @@ View     Action       Model         State  (SAM)
             <br>
             <h4 id="state">State</h4>
             <p>
-            This concept is unique to SAM. Its purpose is to futher decouple the Model from the View (State Representation). The State has two roles: 
+            This concept is unique to SAM. Its purpose is to futher decouple the Model from the View (i.e. the State Representation). The State has two roles: 
             <ul><li>Decide how to translate the model property values into a State Representation</li>
             <li>Process the next-action predicate</li>
             </ul>
-            The State may compute the current "control state" of the system to decide how to render the view, but SAM does not require the State implementation to implement the semantics of a state machine. 
+            Unintuitively, the State does not hold any “state”, it is a pure function which computes the view and the next-action predicate, both from the model property values.
+            The State may compute the current "control state" of the system to assist the computation, but <b>SAM does not require the State implementation to be based the semantics of a state machine</b>. 
             In the Rocket Launcher example, we've have implemented the full semantics of a state machine where each control state is computed with pure functions such as:
 <div class="code-window"><pre><code class="language-javascript">
 // Assuming the following model structure
