@@ -684,7 +684,7 @@ The role of the server is rather to deliver the SAM client instance as part of i
 (S<sub>0</sub>,A<sub>01</sub>,S<sub>1</sub>), (S<sub>1</sub>,A<sub>12</sub>,S<sub>2</sub>)...
 </pre>
 <br>
-            This definition is somewhat of an approximation, it is not the action that decides the resulting state, it is the model, which, once the action has been applied (its value have been accepted, or not)
+            This definition is somewhat of an approximation: it is not the action that decides the resulting state, it is the model, which, once the action has been applied (its value have been accepted, or not)
             that decides the resulting state: 
 <pre>initialState = S<sub>0</sub> = S0( M0 ) 
 (S<sub>0</sub>, A<sub>00</sub>, A<sub>01</sub>), (S<sub>1</sub>, A<sub>10</sub>, A<sub>11</sub>, A<sub>12</sub>)...
@@ -992,7 +992,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
                 <td>Actions are pure functions with respect to the model<br>Actions have no access to the model to compute the values presented to the model</td>
               </tr>
               <tr>
-                <td>Store is updated with the output of the reducer fonction<br>
+                <td>Store is updated with the output of the reducer function<br>
                 Listeners are notified of the update
                 </td>  
                 <td>State Representation is created after the model has mutated<br>Next-Action Predicate evaluates whether an automatic action needs to be triggered</td>
