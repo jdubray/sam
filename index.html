@@ -222,8 +222,8 @@ theme.ready = function(counter) {
         s1 −→ s2 −→ s3 −→  ...
 </pre>
             <p>
-                        The step &lt;si, αi, si+1&gt; represents a transition from
-                        state si to state si+1 that is performed by action αi</p>
+                        The step &lt;s<sub>i</sub>, α<sub>i</sub>, s<sub>i+1</sub>&gt; represents a transition from
+                        state s<sub>i</sub> to state s<sub>i+1</sub> that is performed by action α<sub>i</sub></p>
                         </blockquote>
             <br>
             <p>Please refer to Section 2 of <a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/state-machine.pdf">this paper</a> from Dr. Lamport for a discussion on State-Action behavior.</p>
@@ -241,7 +241,7 @@ X-------->|          |  |  |       |  |  Request
 View     Action       Model         State  (SAM)
 </pre>
             <br>            
-            <p>In essense the Praxos protocol roles are exactly the roles of the SAM components: Actions propose values to the Model which Accepts them which informs the State (the Learner), which creates the State Representation (View).</p>
+            <p>In essence the Praxos protocol roles are exactly the roles of the SAM components: Actions propose values to the Model which Accepts them which informs the State (the Learner), which creates the State Representation (View).</p>
             <p>I personally like SAM because it surfaces the concept of "State-Action" behavior, which is at the core of SAM, and leads naturally to creating the "State Representation" (i.e. the View).</p>
             <p>So, for all intent and purposes, please be warned that the SAM Model is the assignment of values to all possible variables of the application state, while SAM's State is sometimes referred to as the "control state" (such started/stopped a two control states of a car).</p>
             <br>
@@ -707,7 +707,7 @@ S<sub>0</sub> = S0( M )
 S<sub>1</sub> = S1( M )
 ...
 </pre><br>
-            The tuplets (S<sub>i</sub>,A<sub>ik</sub>,S<sub>k</sub>) are merely an observation of the behavior of the state machine, rather than a physical representation of its runtime.<br> 
+            The tuples (S<sub>i</sub>,A<sub>ik</sub>,S<sub>k</sub>) are merely an observation of the behavior of the state machine, rather than a physical representation of its runtime.<br> 
             This change of perspective (not semantics) is minute, yet fundamental. SAM would not work (as well) if the traditional semantics of State Machine would be structuring the code. 
             The SAM semantics are inclusive of this traditional structure, and therefore strictly compatible, but SAM by no means require that one uses a graph of State and Actions.
             </p>
