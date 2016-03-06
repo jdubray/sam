@@ -78,6 +78,7 @@
                 <li><a href="#model">Model</a></li>
                 <li><a href="#state">State</a></li>
                 <li><a href="#sr">State Representation</a></li>
+                <li><a href="#vm">View Model</a></li>
                 <li><a href="#wiring">Wiring</a></li>
                 <li><a href="#timetravel">Time Travel</a></li>
               </ul>
@@ -419,6 +420,19 @@ view.counting = function(counter) {
             <br>
             Stateless React.js components would work great. The same type of function could we writen in Objective-C for the viewDidLoad method.<br><br> 
             Alex Schepanovski explains how to achieve <a href="http://hackflow.com/blog/2015/03/08/boiling-react-down-to-few-lines-in-jquery/">React.js functionality with just a few lines of JQuery</a>. 
+            </p>
+            <br>
+            <h4 id="vm">View-Model</h4>
+            <p>
+            When the View is expressed as a pure function of the Model (as opposed to a template or a query), the Model does not have to conform artificially to the interface of the view. 
+            With SAM, the View is generally decomposed into components, each of them expressed as pure functions exposing a component specific/centric interface.<br><br>
+                                                            
+            For instance, when a view displays a value v and a graphical indicator as to whether this value is great, good or bad, there is no reason to have the indicator’s value in your model: the component's function should simply compute the value of the indicator from the value v provided by the model.<br><br>
+                                                            
+            Now, it’s not a great idea to directly embed these computations in the the view, but it is not difficult to use a view-model function, such as:
+                                                            
+            <pre>V = f( vm(M) )</pre>
+                                                            
             </p>
             <br>
             <h4 id="wiring">Wiring</h4>
