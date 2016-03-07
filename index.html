@@ -91,6 +91,7 @@
                 <li><a href="#sm">State Machines</a></li>
                 <li><a href="#apis">APIs</a></li>
                 <li><a href="#headless">Headless SAM</a></li>
+                <li><a href="#iso">Isomorphic JavaScript</a></li>
                 <li><a href="#conc">Concurrency</a></li>
               </ul>
             </li>
@@ -141,7 +142,8 @@
             <ul><li>Composition</li><li>Unidirectional data flow</li><li>Freedom from DSLs</li><li>Explicit mutation</li><li>Static mental model </li></ul>
             <p>SAM is also challenging architecture patterns like <a href="http://samnewman.io/patterns/architectural/bff/">BFF</a> or the Vertical Slice Pattern which suggest creating view specific APIs, per platform, app, versions of an app...</p>
             <p>This new pattern was first introduced in an <a href="http://www.infoq.com/articles/no-more-mvc-frameworks">InfoQ article</a>, by <a href="www.ebpml.org/about">Jean-Jacques Dubray</a></p>
-            
+            <br>
+            <a href="https://gitter.im/jdubray/sam?utm_source=share-link&utm_medium=link&utm_campaign=share-link"><button type="button" class="btn btn-sm btn-teal">Join the discussion on Gitter...</button></a>
             <br>
             <ol class="toc">
               <li> 
@@ -850,6 +852,88 @@ function state(model) {
             <br>
             The pattern can easily be adapted to mount a user session in the model or rehydrate/dehydrate the context of the request before/after the model mutates.
             <br>
+            <br>
+            <h4 id="iso">Isomorphic JavaScript</h4>
+            <p>
+            Typical SAM's implementations make it easy to move JavaScript code between the client or the server (a.k.a <a href="http://isomorphic.net/">Isomorphic JavaScript</a>). 
+            <br><br>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Client</th>
+                    <th>Server</th>
+                    <th>Implementation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td width="20%">View</td>
+                        <td width="20%">Actions, Model, State</td>
+                        <td width="60%">JQuery handlers call Actions<br>Server returns HTML</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>View,Actions</td>
+                        <td>Model, State</td>
+                        <td>JQuery handlers implement actions which call present()<br>Server returns HTML</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>View,Model,State</td>
+                        <td>Actions</td>
+                        <td>JQuery handlers invoke Actions, response is presented to the Model on the client<br>Server returns JSON</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>View,State</td>
+                        <td>Actions,Model</td>
+                        <td>JQuery handlers invoke Actions, response is presented to the State on the client<br>Server returns JSON</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>View,Actions,State</td>
+                        <td>Model</td>
+                        <td>JQuery handlers implement Actions which call present(), response is presented to the State on the client<br>Server returns JSON</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <p>For instance, in the <a href="https://github.com/jdubray/sam-samples/tree/master/crud-blog">Blog sample</a> we have implemented the Actions on the client and the Model and the State on the server. 
+            In that case, we have to implement two "APIs" on the server:<br>
+            <ul><li>init()</li><li>present(data)</li></ul></p>
+            <br>
+            Option #1 should be preferred when authorization (RBAC) is a concern. Option #5 is the one that pushes as much processing on the client as possible.  
+            </p>
+<div class="code-window"><pre><code class="language-javascript">
+    
+function present(data) {
+    // client side
+    //model.present(data) ;
+
+    // server side
+    $.post( "http://localhost:5425/app/v1/present", data) 
+    .done(function( representation ) {
+        $( "#representation" ).html( representation );
+    }       
+    );
+}
+
+function init() {
+    // client side
+    //view.display(view.init(model)) ;
+
+    // server side
+    $.get( "http://locahost:5425/app/v1/init", function( data ) {
+        $( "#representation" ).html( data );
+    }       
+    );
+}            
+
+</code></pre></div>             
+            <br>
+            <br>
             <h4 id="conc">Concurrency</h4>
             <p>
                 
@@ -966,6 +1050,7 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
                 <a href="https://bitbucket.org/snippets/jdubray/zr9r6/item-list" id="listsample">List Manager (Browser only, HTML+JavaScript)</a><br>
                 <a herf="http://codepen.io/msolovyov/pen/qbvYpv?editors=1010">List Manager (Browser only, Vue.js)</a> (<a href="">Michael Solovyov</a>)<br>
                 <a href="https://bitbucket.org/snippets/jdubray/jna7B/sam-sample-app-on-nodejs" id="nodesample">Simple Web site with Contact App (Node.js+HTML)</a><br>
+                <a herf="https://github.com/jdubray/sam-samples/tree/master/crud-blog">Blog (BootStrap, Isomorphic JavaScript - Node.js)</a><br>
           </p>
           <p>This is what Jonathan Siu, Startup Consultant, had to say about SAM:</p><br>
           <figure>
