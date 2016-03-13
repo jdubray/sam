@@ -87,6 +87,7 @@
             <li>
               <a href="#">Advanced Topics</a>
               <ul>
+                <li><a href="#container">Micro Container</a></li>
                 <li><a href="#comp">Composition</a></li>
                 <li><a href="#sm">State Machines</a></li>
                 <li><a href="#apis">APIs</a></li>
@@ -654,8 +655,18 @@ state.nrOfSeats = 750;
             <br>
             <h4 id="timetravel">Time Travel</h4>
             <p>
-                We are actively building a "Time Travel" like functionality for SAM that will work both on the client and server.
+                Gunar Gessner has implemented <a href="https://github.com/sam-js/timetravel">a "Time Travel" dev tool</a> that enables you to take snapshots of the model after 
+                every action is processed and then restore the state of the system with a given snapshot. 
             </p>
+            <br>
+            <br>
+            <h4 id="container">Micro Container</h4>
+            <p>
+            The <a href="https://github.com/jdubray/sam-safe">SAFE project</a> (State-Action-Fabric-Element) is a micro-container for SAM implementations running on node.js. 
+            At a minimum SAFE enables you to wire the elements of the pattern. It also comes with Session Management, Logging and Error Handling. The 
+            current version enables global validation and enforcement of actions. We are also planning to add a server side Time Travel capability.
+            </p>
+            <br>
             <br>
             <h4 id="comp">Composition</h4>
             <p>
