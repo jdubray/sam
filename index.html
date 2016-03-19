@@ -425,6 +425,40 @@ view.counting = function(counter) {
             Stateless React.js components would work great. The same type of function could we writen in Objective-C for the viewDidLoad method.<br><br> 
             Alex Schepanovski explains how to achieve <a href="http://hackflow.com/blog/2015/03/08/boiling-react-down-to-few-lines-in-jquery/">React.js functionality with just a few lines of JQuery</a>. 
             </p>
+            <p>
+            On of the key problems that frameworks try to tackle is the wiring between the HTML events and event handlers. As you can
+            see in the code above, the "abort" action has been hard coded in the counting state representation. This is not a great 
+            coupling and in general it should be avoided. SAM provides an elegant solution to decouple the view components from your application via the State function. 
+            </p>
+            <p>
+            You can design your view components to accept a list of "intents" which map the application's action to the component's handlers. We have implemented that approch in <a href="https://github.com/jdubray/sam-samples/blob/master/todomvc-app/js/app.js">the TODOSAM sample</a>. All the theme's components accept an intent map:
+<div class="code-window"><pre><code class="language-javascript">
+theme.list = (todos, displayActive, displayCompleted, intents) => {
+
+    ... 
+
+    const label = '<label ondblclick="JavaScript:return actions.'+intents['edit']+'({\'id\':\''+todo.id+'\'});">'+todo.name+'</label>\n' ;
+
+    ... 
+
+}
+
+// mapping view intents -> actions
+actions.intents = {
+  edit: 'edit',
+  save: 'save',
+  done: 'done',
+  displayAll: 'displayAll',
+  displayActive: 'displayActive',
+  displayCompleted: 'displayCompleted',
+  toggleAll: 'toggleAll',
+  delete: 'delete'
+
+}
+</code></pre></div> 
+            <br>
+            The concept could also be extended to map the event format to be directly consumable by the action, but this coupling is less important than the coupling of the actions with the view. 
+            </p>
             <br>
             <h4 id="vm">View-Model</h4>
             <p>
