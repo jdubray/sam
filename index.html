@@ -988,22 +988,33 @@ function init() {
           <section>
           <h2 id="getstarted">How can I get started?</h2>
           <p>We suggest that you download an HTML5 template of your choice and start building an application with it. To make this tutorial more realistic, we are going to build a simple Web Site with Blog and a Contact form.</p>
-          <p>That <a href="http://html5up.net/zerofour">free template</a> seems like a great starting point. The list of components are easy to identify, from the index.html file:</p>
+          <p>The <a href="http://startbootstrap.com/template-overviews/sb-admin/">SB Admin template</a> seems like a great starting point. The list of components are easy to identify, from the index.html file:</p>
           <ul>
-              <li>header</li>
-              <li>banner</li>
-              <li>heading</li>
-              <li>services</li>
-              <li>case studies</li>
-              <li>blog (recent posts, and spotlight)</li>
-              <li>filler links</li>
-              <li>get in touch</li>
+              <li>----- Structure ------</li>
+              <li>Navigation Bar</li>
+              <li>DropDown</li>
+              <li>Search</li>
+              <li>Menu</li>
+              <li>Footer</li>
+              <li>----- Structure ------</li>
+              <li>Stats Summary</li>
+              <li>Graphs</li>
+              <li>Tables</li>
+              <li>...</li>
           </ul>
-          <p>Many developers dislike the code that will follow, and for a reason that I still have difficulty to comprehend, they will prefer using React/JSX, Mithril or worse some templates. 
-          Since this is a matter of preferences, there is not much point in arguing about it. I just happen to prefer a raw JavaScript/HTML5/CSS3 style. It is not just a style
-          that would enable the greatest number of developers to become full stack developers (with Node.js), but it is a style that also enables the greatest 
-          decoupling between the View and the Model. It is also a style that supports <a href="https://strongloop.com/strongblog/node-js-react-isomorphic-javascript-why-it-matters/">Isomorphic JavaScript</a> readily. 
-          And perhaps, most practically, it allows anyone to take the work of a Web designer and turn it into a beautiful Web app in a matter of minutes. So let's go ahead and start creating the component interfaces without any apologies:</p> 
+          <br>
+          <figure>
+            <a = href="http://startbootstrap.com/template-overviews/sb-admin/"><img class="img-shadow img-responsive center-block" src="http://sbootstrap.startbootstrapc.netdna-cdn.com/assets/img/templates/sb-admin.jpg" alt=""/></a>
+          </figure>
+          <br>
+          <p>Many developers dislike the code that will follow (let's call it vanilla.js).
+          Since this is a matter of preferences, there is not much point in arguing about it. I just happen to prefer a raw JavaScript/HTML5/CSS3 style because: 
+          <ul><li>it enables the greatest number of developers to become full stack developers (with Node.js)</li>
+          <li>it enables the greatest decoupling between the View and the Model</li><li>Vanilla.js makes it really easy to develop <a href="https://strongloop.com/strongblog/node-js-react-isomorphic-javascript-why-it-matters/">Isomorphic JavaScript</a>
+          </li>
+          <li>And perhaps, most practically, it allows anyone to take the work of a Web designer and turn it into a beautiful Web app in a matter of minutes</li> 
+          </ul>
+          <br>The experienced developers will easily translate this code to meet their neesds. So let's go ahead and start creating the component interfaces without any further apologies:</p> 
 
 <div class="code-window">
               <!-- div class="code-preview">
@@ -1012,24 +1023,30 @@ function init() {
 
 <pre class="line-numbers"><code class="language-javascript">var theme = {} ;
 
-theme.header = function( name, menu ) { } ;
+theme.head = function(title, includes, addons ) { } ;
 
-theme.banner = function( title, tagLine, buttonLink, buttonLabel ) { } ;
+theme.navBar = function(dropDowns,sideBar) { } ;
 
-theme.heading = function( title, tagLine) { } ;
+theme.adminDropDown = function(urls) { } ;
 
-theme.services = function( serviceList ) { } ;
+theme.search = function(search) { } ;
 
-theme.description = function( text ) { } ;
+theme.menuItem = function(label,symbol, url, submenu, level) { } ;
 
-theme.caseStudies = function(   title1, tagLine1, description1, link1, button1, icon1, 
-                                title2, tagLine2, description2, link2, button2, icon2  ) {  } ;
+theme.sideBar =  function(menu,color) { } ;
 
-theme.blog = function( posts, title, tagLine, description ) { } ;
+theme.well = function(size,h,title,body,br) { } ;
 
-theme.footer = function( fillers ) { } ;
+theme.footer = function( includes ) { } ;
 
-theme.contact = function( title, description, learnMoreLink, socialLinks, address, phone, email ) { } ;
+theme.statSummary = function(fa,label,number,link,linkLabel,color) { } ;
+
+theme.advancedTable = function(size,id,color,heading,headers,columns,data,href,domain) { } ;
+
+theme.ediTable = function(id,headers,data,editable, style, maxSize) { } ;
+
+... 
+
 </code></pre>
             </div>
             <p>The implementation of each function is just a parameterization of the HTML template:</p>
@@ -1038,45 +1055,31 @@ theme.contact = function( title, description, learnMoreLink, socialLinks, addres
             
                           </div-->
             
-<pre class="line-numbers"><code class="language-javascript">theme.caseStudies = function( title1, tagLine1, description1, link1, button1, icon1, 
-                              title2, tagLine2, description2, link2, button2, icon2  ) { 
-    icon1 = icon1 || 'arrow-circle-right' ;
-    icon2 = icon2 || 'info-circle' ;
-    return (
-    '&lt;div class="wrapper style2"&gt;\n\
-        &lt;div class="inner"&gt;\n\
-            &lt;!-- Feature 2 --&gt;\n\
-                &lt;section class="container box feature2"&gt;\n\
-                    &lt;div class="row"&gt;\n\
-                        &lt;div class="6u 12u(mobile)"&gt;\n\
-                            &lt;section&gt;\n\
-                                &lt;header class="major"&gt;\n\
-                                    &lt;h2&gt;'+title1+'&lt;/h2&gt;\n\
-                                    &lt;p&gt;'+tagLine1+'&lt;/p&gt;\n\
-                                &lt;/header&gt;\n\
-                                &lt;p&gt;'+description1+'&lt;/p&gt;\n\
-                                &lt;footer&gt;\n\
-                                    &lt;a href="'+link1+'" class="button medium icon fa-'+icon1+'"&gt;'+button1+'&lt;/a&gt;\n\
-                                &lt;/footer&gt;\n\
-                            &lt;/section&gt;\n\
-                        &lt;/div&gt;\n\
-                        &lt;div class="6u 12u(mobile)"&gt;\n\
-                            &lt;section&gt;
-                                &lt;header class="major"&gt;\n\
-                                    &lt;h2&gt;'+title2+'&lt;/h2&gt;\n\
-                                    &lt;p&gt;'+tagLine2+'&lt;/p&gt;\n\
-                                &lt;/header&gt;\n\
-                                &lt;p&gt;'+description2+'&lt;/p&gt;\n\
-                                &lt;footer&gt;\n\
-                                    &lt;a href="'+link2+'" class="button medium alt icon fa-'+icon2+'"&gt;'+button2+'&lt;/a&gt;\n\
-                                &lt;/footer&gt;\n\
-                            &lt;/section&gt;\n\
-                        &lt;/div&gt;\n\
-                    &lt;/div&gt;\n\
-                &lt;/section&gt;\n\
-            &lt;/div&gt;\n\
-    &lt;/div&gt;\n'
-    ) ;
+<pre class="line-numbers"><code class="language-javascript">
+theme.statSummary = function(fa,label,number,link,linkLabel,color) {
+        return (
+          '&lt;div class="col-lg-3 col-md-6">\n\
+              &lt;div class="panel panel-'+color+'">\n\
+                  &lt;div class="panel-heading">\n\
+                      &lt;div class="row">\n\
+                          &lt;div class="col-xs-3">\n\
+                              &lt;i class="fa fa-'+fa+' fa-5x">&lt;/i>\n\
+                          &lt;/div>\n\
+                          &lt;div class="col-xs-9 text-right">\n\
+                              &lt;div class="huge">'+number+'&lt;/div>\n\
+                              &lt;div>'+label+'&lt;/div>\n\
+                          &lt;/div>\n\
+                      &lt;/div>\n\
+                  &lt;/div>\n\
+                  &lt;a href="'+link+'">\n\
+                  &lt;div class="panel-footer">\n\
+                      &lt;span class="pull-left">'+linkLabel+'&lt;/span>\n\
+                      &lt;span class="pull-right"><i class="fa fa-arrow-circle-right">&lt;/i>&lt;/span>\n\
+                      &lt;div class="clearfix">&lt;/div>\n\
+                  &lt;/div>\n\
+                  &lt;/a>\n\
+              &lt;/div>\n\
+          &lt;/div>') ;
 } ;
 
 </code></pre>
