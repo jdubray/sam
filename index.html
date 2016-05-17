@@ -175,11 +175,11 @@
                 
             
             <h3 id="vf">The View as a Function of the Model</h4>
-            <p>The best starting point to understand SAM is to understand the functional relationship between the view and the model. If you are familiar with React.js you probably noticed that one of the main goals of React's component model is to help you create the components' <code>render</code> function. 
-            SAM suggests using the same approach and decomposing the view as a series of pure JavaScript functions. </p>
+            <p>When learning SAM, the best starting point is to understand the functional relationship between the view and the model. If you are familiar with React.js you probably noticed that one of the main goals of React's component model is to help you create the components' <code>render</code> function. 
+            SAM suggests using the same approach and decomposing the view as a series of pure functions. </p>
             <pre>V = f( M )</pre>
             <p>This concept is extremely simple to implement. I generally implement the front-end components as part of theme singleton:</p>
-<div class="code-window"><pre><code class="language-markup">
+<div class="code-window"><pre><code class="language-javascript">
 var theme = {} ;
 
 theme.ready = function(counter) {
@@ -191,9 +191,9 @@ theme.ready = function(counter) {
     ) ;
 } 
 </code></pre></div>
-            <p>SAM forces front-end developers to think in terms of model, and no longer in terms of APIs: given the model property values, how does the View look like? How the values got there is irrelevant. This is the paradigm shift that React introduced.
-               SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive. This is probably the hardest thing to get in React and SAM, you have to try it for yourself.</p>
-               <p>There is a fair amount of questions asking "why not use templates"? The reason is relatively simple, Templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another interpreter). 
+            <p>With SAM, front-end developers can focus building the view directly from the model, unencumbered from the underpinning APIs: in other words, how does the View look like given any combination of the Model property values? How the values got there is irrelevant. This is the paradigm shift that React introduced in Front-End architectures.
+               SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive. That functional relationship is probably the hardest thing to get in React and therefore SAM, you have to try it for yourself.</p>
+               <p>There is a fair amount of questions asking "why not use templates"? The reason is relatively simple, Templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another template interpreter). 
                On the other hand, code generators are infinitely flexible with hardly any drawbacks. I would personally choose functions over templates any day. Some people have mentioned the risks of cross-site-scripting when using raw JavaScript. 
                That is a very real risk and developers must always think about escaping their parameter values. Stateless React.js components are a perfectly good way to implement these functions, if you absolutely need a framework.</p>
             <p></p>
