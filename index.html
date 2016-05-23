@@ -182,14 +182,14 @@
 <div class="code-window"><pre><code class="language-javascript">
 var theme = {} ;
 
-theme.ready = function(counter) {
-    return (
-           "&lt;p&gt;Counter:"+counter+"&lt;/p&gt;\n\
-            &lt;form onSubmit=\"JavaScript:return actions.start({});\"&gt;\n\
-                &lt;input type=\"submit\" value=\"Start\"&gt;\n\
-            &lt;/form&gt;"
-    ) ;
-} 
+// ES6 
+
+theme.ready = (counter) => `
+            &lt;p&gt;Counter: ${counter} &lt;/p&gt; 
+            &lt;form onSubmit="return actions.start({});"&gt; 
+                &lt;input type="submit" value="Start"&gt;
+            &lt;/form&gt;`
+
 </code></pre></div>
             <p>With SAM, front-end developers can focus building the view directly from the model, unencumbered from the underpinning APIs: in other words, how does the View look like given any combination of the Model property values? How the values got there is irrelevant. This is the paradigm shift that React introduced in Front-End architectures.
                SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive. That functional relationship is probably the hardest thing to get in React and therefore SAM, you have to try it for yourself.</p>
