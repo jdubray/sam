@@ -183,22 +183,30 @@
 var theme = {} ;
 
 // React
-
-theme.counter = (c,a) => &lt;Counter count={c} action={a}/&gt; 
-        
+theme.ready = (counter,intents) => &lt;Counter count={counter} action={intents['start']}/&gt;
                             
-var Counter = ({count,action}) =&gt;  (
+var Counter = ({counter,action}) =&gt;  (
+    &lt;p&gt;Counter: {counter} &lt;/p&gt;
     &lt;button onClick={action}&gt;
-      Click me! Number of clicks: {count}
+      Start! 
     &lt;/button&gt;
   )
 
-// Vanilla.js ES6 
+// Snabbdom
+theme.ready = (counter, intents) => h('div', [
+                'Counter: ',
+                counter,
+                h('br'),
+                h('button', {on:{click:function() { intents['start'](); }}}, 'Start')
+            ]);  
+
+// Vanilla.js - ES6 
 theme.ready = (counter, intents) => `
             &lt;p&gt;Counter: ${counter} &lt;/p&gt; 
             &lt;form onSubmit="return ${intents['start']}({});"&gt; 
                 &lt;input type="submit" value="Start"&gt;
             &lt;/form&gt;`
+
 
 </code></pre></div>
             <p>With SAM, front-end developers can focus building the view directly from the model, unencumbered from the underpinning APIs: in other words, how does the View look like given any combination of the Model property values? How the values got there is irrelevant. This is the paradigm shift that React introduced in Front-End architectures.
