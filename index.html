@@ -182,11 +182,21 @@
 <div class="code-window"><pre><code class="language-javascript">
 var theme = {} ;
 
-// ES6 
+// React
 
-theme.ready = (counter) => `
+theme.counter = (c,a) => &lt;Counter count={c} action={a}/&gt; 
+        
+                            
+var Counter = ({count,action}) =&gt;  (
+    &lt;button onClick={action}&gt;
+      Click me! Number of clicks: {count}
+    &lt;/button&gt;
+  )
+
+// Vanilla.js ES6 
+theme.ready = (counter, intents) => `
             &lt;p&gt;Counter: ${counter} &lt;/p&gt; 
-            &lt;form onSubmit="return actions.start({});"&gt; 
+            &lt;form onSubmit="return ${intents['start']}({});"&gt; 
                 &lt;input type="submit" value="Start"&gt;
             &lt;/form&gt;`
 
