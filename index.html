@@ -770,12 +770,11 @@ The role of the server is rather to deliver the SAM client instance as part of i
 (S<sub>0</sub>,A<sub>01</sub>,S<sub>1</sub>), (S<sub>1</sub>,A<sub>12</sub>,S<sub>2</sub>)...
 </pre>
 <br>
-            This definition is somewhat of an approximation: it is not the action that decides the resulting state, it is the model, which, once the action has been applied (its value have been accepted, or not)
-            that decides the resulting state: 
-<pre>initialState = S<sub>0</sub> = S0( M0 ) 
+            This definition is somewhat of an approximation: it is not the action that decides the resulting state, it is the model, which, once the action has been applied (its value have been accepted, or not) that decides the resulting state (A<sub>ik</sub> are the allowed actions in a given state S<sub>i</sub>) : 
+<pre>initialState = S<sub>0</sub> = S( M0 ) 
 (S<sub>0</sub>, A<sub>00</sub>, A<sub>01</sub>), (S<sub>1</sub>, A<sub>10</sub>, A<sub>11</sub>, A<sub>12</sub>)...
-S<sub>0</sub> = S0( M )
-S<sub>1</sub> = S1( M )
+S<sub>0</sub> = S( M0 )
+S<sub>1</sub> = S( M1 )
 ...
 </pre><br>
             The tuples (S<sub>i</sub>,A<sub>ik</sub>,S<sub>k</sub>) are merely an observation of the behavior of the state machine, rather than a physical representation of its runtime.<br> 
