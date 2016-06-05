@@ -269,11 +269,9 @@ View     Action       Model         State  (SAM)
             <p>So, for all intent and purposes, please be warned that SAM's Model is the assignment of values to all possible variables of the application state, while SAM's State, which is sometimes associated to the "control state" (such as "started" and "stopped" are two control states of a car), refers to a function that computes the current (control) state of the system. In general, the "State" of a system controls which actions are allowed at any given point in time.</p>
             <br>
             <br>
-            <p>Here is a sample CRUD application built with SAM. You can add, delete or update records (The sample is <a href="https://fish-trader.hyperdev.space/">hosted on hyperdev</a>)
+            <p>Here is <a href="https://github.com/jdubray/sam-samples/tree/master/crud-blog">a sample CRUD application</a> built with SAM. You can add, delete or update records (The sample is <a href="https://fish-trader.hyperdev.space/">hosted on hyperdev</a>)
             </p>
-            <br>
-            <br> 
-            <div class="code-window"><iframe src="https://fish-trader.hyperdev.space/" width="100%" height="1180" style="border:none"></iframe></div>
+            <div class="code-window"><iframe src="https://fish-trader.hyperdev.space/" width="100%" height="1190" style="border:none"></iframe></div>
             <br>
             <br>
             <h4 id="actions">Actions</h4>
@@ -433,18 +431,27 @@ state.nextAction = function (model) {
             <br>
             <h4 id="sr">State Representation</h4>
             <p>
-            The State Representation function(s) are technology agnostic. SAM only requires that these functions be pure functions of the model (i.e. stateless from the model's perspective).    
+            The State Representation function(s) are technology agnostic. SAM only requires that these functions be pure functions of the model (i.e. stateless from the model's perspective). Here is an example <a href="https://github.com/trueadm/inferno">using Inferno</a>:   
 
 <div class="code-window"><pre><code class="language-javascript">
-// State representation of the counting state
-view.counting = function(counter) {
+  // State representation of the counting state
+  
+  ...
 
-    return (
-            '&lt;p&gt;Count down:'+counter+'&lt;/p&gt;\n\
-             &lt;form onSubmit="JavaScript:return actions.abort({});"&gt;\n\
-                &lt;input type="submit" value="Abort"&gt;\n\
-            &lt;/form&gt;'
-        ) ;
+  theme.counter = function(counter) {
+    
+    return {
+      tag: 'div',
+      children: [
+        {
+          tag: 'p',
+          children: `counter: ${counter}`
+        }
+      ]
+    }
+  }
+
+  InfernoDOM.render(theme.counter(10), document.body);
 
 }
 </code></pre></div>   
