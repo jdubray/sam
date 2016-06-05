@@ -471,7 +471,7 @@ theme.list = (todos, displayActive, displayCompleted, intents) => {
 
     ... 
 
-    const label = '&lt;label ondblclick="JavaScript:return actions.'+intents['edit']+'({\'id\':\''+todo.id+'\'});"&gt;'+todo.name+'&lt;/label&gt;\n' ;
+    const label = `&lt;label ondblclick="return actions.${intents['edit']}({'id':'${todo.id}'});"&gt;${todo.name}&lt;/label&gt;` ;
 
     ... 
 
