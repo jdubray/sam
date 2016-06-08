@@ -139,7 +139,7 @@
           <header>
             <h1>The SAM Pattern</h1>
             <p>SAM is a new reactive/functional pattern that simplifies Front-End architectures by clearly separating the business logic from the view and, in particular, strictly decoupling back-end APIs from the Front-End.
-            SAM is technology independent and as such can be used to build Web Apps or Native Apps. It is also protocol independent and can be implemented over HTTP, WebSockets...</p>
+            SAM is technology independent and as such can be used to build Web Apps or Native Apps, using your favorite framework. It is also protocol independent and can be implemented over HTTP, WebSockets...</p>
             <p>SAM is unapologetically driven by simplicity and challenges the complexity of frameworks like Google's Angular or Facebook's React+JSX+Flux/Redux+Saga+Thunk+GraphQL+Relay. One of SAM's key goals is to enable everyone to build beautiful and engaging HTML5/CSS3/JavaScript Web Apps while retaining <a href="https://medium.com/@dan_abramov/youre-missing-the-point-of-react-a20e34a51e1a#.aoccyh29h">what makes React.js so unique</a>:</p>
             <ul><li>Composition</li><li>Unidirectional data flow</li><li>Freedom from DSLs</li><li>Explicit mutation</li><li>Static mental model </li></ul>
             <p>SAM is also challenging architecture patterns like <a href="http://samnewman.io/patterns/architectural/bff/">BFF</a> or the Vertical Slice Pattern which suggest creating view specific APIs, per platform, app, versions of an app...</p>
@@ -163,9 +163,14 @@
 
           <section>
             <h2 id="sam">How does SAM work?</h2>
-            <p>SAM is a pattern that aims at replacing the MVC pattern. If you are already familiar with MVC, you should be able to make an easy transition to SAM.</p>
-            <p>There are two main differences between MVC and SAM. First, SAM is reactive, while MVC is generally implemented in an interactive way. Some attempts have been made at implementing it in a reactive way, however, SAM is not just a reactive implementation of MVC. 
-            Second, SAM introduces the concept of State as a mechanism to further decouple the View from the Model and treats the view merely as a "State Representation".</p>
+            <p>SAM is extremely simple, yet it is built on one of the most robust foundation of computer science (TLA+).<br>
+            SAM recommends to factor the business logic underlying a graphical user interface along three elements: actions, model and state: 
+            <ul>L<li>Actions propose values to the model</li><li>The Model solely decides to accept these values</li><li>Once accepted, the state makes sure that everyone who needs to learn about the new resulting application state is notified, in particular the view which is considered as the “state representation”</li></ul><br> 
+            Every user or server event is processed as a “step” which involves a propose/accept/learn flow.  
+            <p>The pattern is best implemented with the model as a single state tree and the view as a pure function of the model</p>  
+            <p>The pattern forms a reactive loop, events trigger actions which represent data to the model, which renders the state. Logically, after every step a new "state representation" is created (as a pure function of the model).</p>
+            <p>The SAM pattern is capable decoupling the view from the busingess logic entirely. As we show in many samples below the view is defined by stateless components which have no knowledge of the model or even the actions.</p>
+            <p>When learning SAM, we recommend that you make a clear distinction between the programming model (State, Actions, Model), the wiring (how the elements of the pattern communicate) and the Architecture (where the elements of the pattern are physically running). SAM supports different wiring approaches and allows you to write code that can easily be migrated from the client to the server or vice versa (isomorphic javascript). 
             <br><br>
             <figure>
               <a = href="assets/figures/fig6.jpg"><img class="img-shadow img-responsive center-block" src="assets/figures/fig6.jpg" alt="the SAM pattern"/></a>
