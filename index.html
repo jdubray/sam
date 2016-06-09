@@ -138,7 +138,7 @@
           
           <header>
             <h1>The SAM Pattern</h1>
-            <p>SAM is a new reactive/functional pattern that simplifies Front-End architectures by clearly separating the business logic from the view and, in particular, strictly decoupling back-end APIs from the Front-End.
+            <p>SAM is a new reactive/functional pattern that simplifies Front-End architectures by clearly separating the business logic from the view and strictly decoupling back-end APIs from the Front-End.
             SAM is technology independent and as such can be used to build Web Apps or Native Apps, using your favorite framework. It is also protocol independent and can be implemented over HTTP, WebSockets...</p>
             <p>SAM is unapologetically driven by simplicity and challenges the complexity of frameworks like Google's Angular or Facebook's React+JSX+Flux/Redux+Saga+Thunk+GraphQL+Relay. One of SAM's key goals is to enable everyone to build beautiful and engaging HTML5/CSS3/JavaScript Web Apps while retaining <a href="https://medium.com/@dan_abramov/youre-missing-the-point-of-react-a20e34a51e1a#.aoccyh29h">what makes React.js so unique</a>:</p>
             <ul><li>Composition</li><li>Unidirectional data flow</li><li>Freedom from DSLs</li><li>Explicit mutation</li><li>Static mental model </li></ul>
@@ -275,11 +275,13 @@ View     Action       Model         State  (SAM)
             <p>So, for all intent and purposes, please be warned that SAM's Model is the assignment of values to all possible variables of the application state, while SAM's State, which is sometimes associated to the "control state" (such as "started" and "stopped" are two control states of a car), refers to a function that computes the current (control) state of the system. In general, the "State" of a system controls which actions are allowed at any given point in time.</p>
             <br>
             <br>
+            <!--
             <p>Here is <a href="https://github.com/jdubray/sam-samples/tree/master/crud-blog">a sample CRUD application</a> built with SAM. You can add, delete or update records (The sample is <a href="https://fish-trader.hyperdev.space/">hosted on hyperdev</a>)
             </p>
             <div class="code-window"><iframe src="https://fish-trader.hyperdev.space/" width="100%" height="1190" style="border:none"></iframe></div>
             <br>
             <br>
+            -->
             <h4 id="actions">Actions</h4>
             <p>
                 Actions are pure functions which accept a dataset and return a dataset. The purpose of a function is to compute the values 
