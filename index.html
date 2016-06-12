@@ -198,6 +198,22 @@ var Counter = ({counter,action}) =&gt;  (
     &lt;/button&gt;
   )
 
+// Angular2 (with Directive)
+
+view.ready = function(model) {
+    return (
+            `&lt;p&gt;Counter:${model.counter}&lt;/p&gt;
+            &lt;form onSubmit="return actions.start({});"&gt;
+                [Directive]&lt;br&gt;
+                &lt;input type="text" placeHolder="AutoGrow Directive" autoGrow/&gt;&lt;br&gt;
+                [/Directive]&lt;br&gt;
+                &lt;br&gt;    
+                &lt;input type="submit" value="Start"&gt;
+            &lt;/form&gt;`
+        ) ;
+
+}
+
 // Snabbdom
 theme.ready = (counter, intents) => h('div', [
                 'Counter: ',
