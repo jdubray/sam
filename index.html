@@ -165,13 +165,13 @@
             <h2 id="sam">How does SAM work?</h2>
             <p>SAM is extremely simple, yet it is built on one of the most robust foundation of computer science (TLA+).<br>
             SAM recommends to factor the business logic underlying a graphical user interface along three elements: actions, model and state: 
-            <ul><li>Actions propose values to the model</li><li>The Model solely decides to accept these values</li><li>Once accepted, the state makes sure that everyone who needs to learn about the new resulting application state is notified, in particular the view which is considered as the “state representation”</li></ul><br> 
+            <ul><li>Actions propose values to the model</li><li>The Model solely decides to accept these values</li><li>Once accepted, the State makes sure that everyone who needs to learn about the new resulting application state is notified, in particular the view which is considered as the “state representation”</li></ul><br> 
             Every user or server event is processed as a “step” which involves a propose/accept/learn flow.<br>That's it! That's all there is to SAM.
             </p>  
-            <p>The pattern is best implemented with the model as a single state tree and the view as a pure function of the model</p>  
-            <p>The pattern forms a reactive loop, events trigger actions which represent data to the model, which renders the state. Logically, after every step a new "state representation" is created (as a pure function of the model).</p>
-            <p>The SAM pattern is capable decoupling the view from the busingess logic entirely. As we show in many samples below the view is defined by stateless components which have no knowledge of the model or even the actions.</p>
-            <p>When learning SAM, we recommend that you make a clear distinction between the programming model (State, Actions, Model), the wiring (how the elements of the pattern communicate) and the Architecture (where the elements of the pattern are physically running). SAM supports different wiring approaches and allows you to write code that can easily be migrated from the client to the server or vice versa (isomorphic javascript). 
+            <p>The pattern is best implemented with the model as a single state tree, a unidirectional data flow and the view as a pure function of the model.</p>  
+            <p>The pattern forms a reactive loop, events trigger actions which present data to the model, which renders the state. Logically, after every step a new "state representation" is created (as a pure function of the model).</p>
+            <p>The SAM pattern is capable of decoupling the view from the busingess logic entirely. As we show in many samples below, the view is implemented as a series of stateless components which have no knowledge of the model or even the actions.</p>
+            <p>When learning SAM, we recommend that you make a clear distinction between the programming model (State, Actions, Model), the wiring (how the elements of the pattern communicate) and the Architecture (where the elements of the pattern are physically running). SAM supports different wiring approaches and allows you to write code that can easily be migrated from the client to the server or vice versa (<a href="#iso">isomorphic javascript</a>). 
             <br><br>
             <figure>
               <a = href="assets/figures/fig6.jpg"><img class="img-shadow img-responsive center-block" src="assets/figures/fig6.jpg" alt="the SAM pattern"/></a>
@@ -233,9 +233,9 @@ theme.ready = (counter, intents) => `
 </code></pre></div>
             <p>With SAM, front-end developers can focus building the view directly from the model, unencumbered from the underpinning APIs: in other words, how does the View look like given any combination of the Model property values? How the values got there is irrelevant. This is the paradigm shift that React introduced in Front-End architectures.
                SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive. That functional relationship is probably the hardest thing to get in React and therefore SAM, you have to try it for yourself.</p>
-               <p>There is a fair amount of questions asking "why not use templates"? The reason is relatively simple, Templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another template interpreter). 
-               On the other hand, code generators are infinitely flexible with hardly any drawbacks. I would personally choose functions over templates any day. Some people have mentioned the risks of cross-site-scripting when using raw JavaScript. 
-               That is a very real risk and developers must always think about escaping their parameter values. Stateless React.js components are a perfectly good way to implement these functions, if you absolutely need a framework.</p>
+               <p>There is a fair amount of questions asking "why not use templates"? The reason is relatively simple: templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another template interpreter). 
+               On the other hand, code generators are infinitely flexible with hardly any drawbacks. I would personally choose functions over templates any day.</p> 
+               <p>SAM allows you to choose the framework of your choice, but when using a Vanilla.js implementation, you need to make sure you mitigate the risks of cross-site-scripting.</p>
             <p></p>
             <h3 id="bl">Business Logic</h4>
             <p>Not only SAM supports a component-based structure for the View, but SAM enables a complete decoupling of the application logic from the View components. If you are not convinced you can look at the TODO sample below and the View components in the "theme.js" file.</p>
