@@ -147,16 +147,16 @@
             <pre>var model = { counter: 0}</pre><br>
 
             Most software engineers would consider that mutating the application state mutation can be implemented as:
-            <pre>model.counter = model.counter + 1 ;</pre>
+<pre>model.counter = model.counter + 1 ;</pre>
             <br>
             SAM challenges that belief and suggests a factoring based on the Paxos protocol and TLA+
-            <pre>var proposed_value = model.counter + 1 ;
+<pre>var proposed_value = model.counter + 1 ;
 
-            model.accept({counter: proposed_value}, 
-                function(model) {
-                  return `<p> Counter: ${model.counter}</p>` ;
-                }
-            ) ;</pre><br>
+model.accept({counter: proposed_value}, 
+    function(model) {
+      return `<p> Counter: ${model.counter}</p>` ;
+    }
+) ;</pre><br>
 
             <p>SAM is unapologetically driven by simplicity and challenges the complexity of frameworks like Google's Angular or Facebook's React+JSX+Flux/Redux+Saga+Thunk+GraphQL+Relay. One of SAM's key goals is to enable everyone to build beautiful and engaging HTML5/CSS3/JavaScript Web Apps while retaining <a href="https://medium.com/@dan_abramov/youre-missing-the-point-of-react-a20e34a51e1a#.aoccyh29h">what makes React.js so unique</a>:</p>
             <ul><li>Composition</li><li>Unidirectional data flow</li><li>Freedom from DSLs</li><li>Explicit mutation</li><li>Static mental model </li></ul>
