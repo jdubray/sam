@@ -138,27 +138,35 @@
           
           <header>
             <h1>The SAM Pattern</h1>
-            <p>SAM is a new reactive/functional pattern that simplifies Front-End architectures by clearly separating the business logic from the view and strictly decoupling back-end APIs from the Front-End.
+            <p>SAM (State-Action-Model) is a new reactive/functional pattern that simplifies Front-End architectures by clearly separating the business logic from the view and strictly decoupling back-end APIs from the Front-End.
             SAM is based on two founding principles:<br>
-            1) A functional relationship between the view and the model<br>
-            2) Application State Mutation should be a first class citizen of the programming model.<br> 
-
-            When we consider the simplest model possible: 
+            &#x00009;1) The relationship between the view and the model must be functional<br>
+            &#x00009;2) State Mutation must be a first class citizen of the programming model
+            <br> 
+            <br>
+            Let's consider the simplest model possible: 
             <pre>var model = {counter: 0}</pre><br>
-            Most software engineers would consider that mutating the application state mutation can be implemented as:
+            Most software engineers would implement the application state mutation as:
 <pre>model.counter = model.counter + 1 ;</pre>
             <br>
-            SAM challenges that belief and suggests a factoring based on the Paxos protocol and TLA+:
+            Modern frameworks (Angular2, Reactjs, MobX, Cycle.js...) are designed to "react" to model changes, often without any consideration for the unit-of-work underlying the application state mutation. 
+            <br><br>
+            SAM challenges that model and suggests a factoring based on the Paxos protocol and TLA+:
 <pre>
-// actions propose values to the model
+// actions compute and propose the values 
+// the model should mutate to
 var proposed_value = model.counter + 1 ;
 
 // the model accepts or rejects these values
 model.accept({counter: proposed_value}) 
-    // render the view as a pure function of the model
+
+    // the reactive loop ends by rendering 
+    // the view as a pure function of the model
     .then( 
       function(model) {
-        return '&lt;p&gt; Counter: ${model.counter}&lt;/p&gt;' ;
+        view.display(
+          '&lt;p&gt; Counter: ${model.counter}&lt;/p&gt;'
+        ) ;
       }) ;
 </pre><br>
 
