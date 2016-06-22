@@ -144,7 +144,7 @@
             2) Application State Mutation should be a first class citizen of the programming model. 
 
             When we consider the simplest model possible: 
-            <pre>var model = { counter: 0}</pre><br>
+            <pre>var model = {counter: 0}</pre><br>
 
             Most software engineers would consider that mutating the application state mutation can be implemented as:
 <pre>model.counter = model.counter + 1 ;</pre>
@@ -154,7 +154,7 @@
 
 model.accept({counter: proposed_value}, 
     function(model) {
-      return `&lt;p&gt; Counter: ${model.counter}&lt;/p&gt;` ;
+      return '&lt;p&gt; Counter: ${model.counter}&lt;/p&gt;' ;
     }
 ) ;</pre><br>
 
