@@ -139,24 +139,28 @@
           <header>
             <h1>The SAM Pattern</h1>
             <p>SAM is a new reactive/functional pattern that simplifies Front-End architectures by clearly separating the business logic from the view and strictly decoupling back-end APIs from the Front-End.
-            SAM is based on two founding principles:
-            1) A functional relationship between the view and the model
-            2) Application State Mutation should be a first class citizen of the programming model. 
+            SAM is based on two founding principles:<br>
+            1) A functional relationship between the view and the model<br>
+            2) Application State Mutation should be a first class citizen of the programming model.<br> 
 
             When we consider the simplest model possible: 
             <pre>var model = {counter: 0}</pre><br>
-
             Most software engineers would consider that mutating the application state mutation can be implemented as:
 <pre>model.counter = model.counter + 1 ;</pre>
             <br>
-            SAM challenges that belief and suggests a factoring based on the Paxos protocol and TLA+
-<pre>var proposed_value = model.counter + 1 ;
+            SAM challenges that belief and suggests a factoring based on the Paxos protocol and TLA+:
+<pre>
+// actions propose values to the model
+var proposed_value = model.counter + 1 ;
 
-model.accept({counter: proposed_value}, 
-    function(model) {
-      return '&lt;p&gt; Counter: ${model.counter}&lt;/p&gt;' ;
-    }
-) ;</pre><br>
+// the model accepts or rejects these values
+model.accept({counter: proposed_value}) 
+    // render the view as a pure function of the model
+    .then( 
+      function(model) {
+        return '&lt;p&gt; Counter: ${model.counter}&lt;/p&gt;' ;
+      }) ;
+</pre><br>
 
             <p>SAM is unapologetically driven by simplicity and challenges the complexity of frameworks like Google's Angular or Facebook's React+JSX+Flux/Redux+Saga+Thunk+GraphQL+Relay. One of SAM's key goals is to enable everyone to build beautiful and engaging HTML5/CSS3/JavaScript Web Apps while retaining <a href="https://medium.com/@dan_abramov/youre-missing-the-point-of-react-a20e34a51e1a#.aoccyh29h">what makes React.js so unique</a>:</p>
             <ul><li>Composition</li><li>Unidirectional data flow</li><li>Freedom from DSLs</li><li>Explicit mutation</li><li>Static mental model </li></ul>
