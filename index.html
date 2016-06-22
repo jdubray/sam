@@ -155,7 +155,7 @@
 <pre>
 // actions compute and propose the values 
 // the model should mutate to
-var proposed_value = model.counter + 1 ;
+let proposed_value = model.counter + 1 ;
 
 // the model accepts or rejects these values
 model.accept({counter: proposed_value}) 
@@ -163,11 +163,13 @@ model.accept({counter: proposed_value})
     // the reactive loop ends by rendering 
     // the view as a pure function of the model
     .then( 
-      function(model) {
-        view.display(
-          '&lt;p&gt; Counter: ${model.counter}&lt;/p&gt;'
-        ) ;
-      }) ;
+        (model) => {
+
+            let stateRepresentation = '&lt;p&gt; Counter: ${model.counter}&lt;/p&gt;' ;
+            
+            view.display( stateRepresentation ) ;
+    
+        }) ;
 </pre><br>
 
             <p>SAM is unapologetically driven by simplicity and challenges the complexity of frameworks like Google's Angular or Facebook's React+JSX+Flux/Redux+Saga+Thunk+GraphQL+Relay. One of SAM's key goals is to enable everyone to build beautiful and engaging HTML5/CSS3/JavaScript Web Apps while retaining <a href="https://medium.com/@dan_abramov/youre-missing-the-point-of-react-a20e34a51e1a#.aoccyh29h">what makes React.js so unique</a>:</p>
