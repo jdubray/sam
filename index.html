@@ -138,13 +138,14 @@
           
           <header>
             <h1>The SAM Pattern</h1>
-            <p>SAM (State-Action-Model) is a new reactive/functional pattern that simplifies Front-End architectures by clearly separating the business logic from the view and strictly decoupling back-end APIs from the Front-End.
+            <p>SAM (State-Action-Model) is a new reactive/functional pattern that simplifies Front-End architectures by strictly decoupling the business logic from the view.
             SAM is based on two founding principles:<br>
-            &#x00009;1) The relationship between the view and the model must be functional<br>
-            &#x00009;2) State Mutation must be a first class citizen of the programming model
-            <br> 
-            <br>
-            Let's consider the simplest model possible: 
+            <ul>
+            <ol>The relationship between the view and the model must be functional</ol>
+            <ol>State Mutation must be a first class citizen of the programming model</ol>
+            </ul>
+            
+            <p>Let's consider the simplest model possible:</p> 
             <pre>var model = {counter: 0}</pre><br>
             Most software engineers would implement the application state mutation as:
 <pre>model.counter = model.counter + 1 ;</pre>
@@ -166,7 +167,7 @@ model.accept({counter: proposed_value})
         (model) => {
 
             let stateRepresentation = '&lt;p&gt; Counter: ${model.counter}&lt;/p&gt;' ;
-            
+
             view.display( stateRepresentation ) ;
     
         }) ;
