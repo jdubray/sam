@@ -150,9 +150,9 @@
             Most software engineers would implement the application state mutation as:
 <pre>model.counter = model.counter + 1 ;</pre>
             <br>
-            Modern frameworks (Angular2, Reactjs, MobX, Cycle.js...) are designed to "react" to model changes, often without any consideration for the unit-of-work underlying the application state mutation. 
+            Modern frameworks (Angular2, Reactjs, MobX, Cycle.js...) are designed to "react" to these model changes, often without any consideration for the unit-of-work underlying the application state mutation. 
             <br><br>
-            SAM challenges that model and suggests a factoring based on the Paxos protocol and TLA+:
+            SAM challenges that model and suggests a factoring of the application business logic based on the Paxos protocol and TLA+:
 <pre>
 // actions compute and propose the values 
 // the model should mutate to
@@ -178,8 +178,7 @@ model.accept({counter: proposed_value})
             <p>SAM is also challenging architecture patterns like <a href="http://samnewman.io/patterns/architectural/bff/">BFF</a> or the Vertical Slice Pattern which suggest creating view specific APIs, per platform, app, versions of an app...</p>
             <br>
             <p>Here is a 10 min introduction:</p>
-            <iframe width="420" height="315" src="https://www.youtube.com/embed/O-ULZml_8Tk" frameborder="0" allowfullscreen></iframe>
-            <br>
+            <iframe width="420" height="315" src="https://www.youtube.com/embed/kN8n9B31-eQ" frameborder="0" allowfullscreen></iframe><br>
             <br>
             <p>This new pattern was first introduced in an <a href="http://www.infoq.com/articles/no-more-mvc-frameworks">InfoQ article</a>, by <a href="http://www.ebpml.org/about">Jean-Jacques Dubray</a>. A translation of the article is available in <a href="http://www.infoq.com/cn/articles/no-more-mvc-frameworks">Chinese</a>, <a href="http://www.infoq.com/fr/articles/no-more-mvc-frameworks">French</a> and <a href="https://habrahabr.ru/post/277113/">Russian</a></p>
             <br>
@@ -336,10 +335,6 @@ View     Action       Model         State  (SAM)
             <br>
             <br>
             -->
-            <p>Here is a 30 min introduction to the pattern:</p>
-            <iframe width="420" height="315" src="https://www.youtube.com/embed/4QcjAqIy0nw" frameborder="0" allowfullscreen></iframe>
-            <br/>
-            <br/>
             <h4 id="actions">Actions</h4>
             <p>
                 Actions are pure functions which accept a dataset and return a dataset. The purpose of a function is to compute the values 
