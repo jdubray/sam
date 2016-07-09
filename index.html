@@ -205,12 +205,13 @@ model.accept({counter: proposed_value})
             <h2 id="sam">How does SAM work?</h2>
             <p>SAM is extremely simple, yet it is built on one of the most robust foundation of computer science (TLA+).<br>
             SAM recommends to factor the business logic underlying a graphical user interface along three elements: actions, model and state: 
-            <ul><li>Actions propose values to the model</li><li>The Model solely decides to accept these values</li><li>Once accepted, the State makes sure that everyone who needs to learn about the new resulting application state is notified, in particular the view which is considered as the “state representation”</li></ul><br> 
+            <ul><li>Actions are triggered by events, and propose values to the model</li><li>The Model is solely responsible for accepting these values</li><li>Once accepted, the State computes the application State from the Model property values and makes sure that everyone who needs to "learn"" about the new application state is notified, such as the view which will display the “state representation”</li>
+            <li>Then, the State function computes the next-action-predicate which will invoke any automatic action, given the current application state</li></ul><br> 
             Every user or server event is processed as a “step” which involves a propose/accept/learn flow.<br>That's it! That's all there is to SAM.
             </p>  
             <p>The pattern is best implemented with the model as a single state tree, a unidirectional data flow and the view as a pure function of the model.</p>  
             <p>The pattern forms a reactive loop, events trigger actions which present data to the model, which renders the state. Logically, after every step a new "state representation" is created (as a pure function of the model).</p>
-            <p>The SAM pattern is capable of decoupling the view from the busingess logic entirely. As we show in many samples below, the view is implemented as a series of stateless components which have no knowledge of the model or even the actions.</p>
+            <p>The SAM pattern is capable of decoupling the view from the business logic entirely. As we show in many samples below, the view is implemented as a series of stateless components which have no knowledge of the model or even the actions.</p>
             <p>When learning SAM, we recommend that you make a clear distinction between the programming model (State, Actions, Model), the wiring (how the elements of the pattern communicate) and the Architecture (where the elements of the pattern are physically running). SAM supports different wiring approaches and allows you to write code that can easily be migrated from the client to the server or vice versa (<a href="#iso">isomorphic javascript</a>). 
             <br><br>
             <figure>
@@ -271,11 +272,11 @@ theme.ready = (counter, intents) => `
 
 
 </code></pre></div>
-            <p>With SAM, front-end developers can focus building the view directly from the model, unencumbered from the underpinning APIs: in other words, how does the View look like given any combination of the Model property values? How the values got there is irrelevant. This is the paradigm shift that React introduced in Front-End architectures.
+            <p>With SAM, front-end developers can focus on building the view directly from the model, unencumbered from the underpinning APIs: in other words, answering the qquestion: how does the View look like given any combination of the Model property values? How the values got there is irrelevant. This is the paradigm shift that React introduced in Front-End architectures.
                SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive. That functional relationship is probably the hardest thing to get in React and therefore SAM, you have to try it for yourself.</p>
                <p>There is a fair amount of questions asking "why not use templates"? The reason is relatively simple: templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another template interpreter). 
                On the other hand, code generators are infinitely flexible with hardly any drawbacks. I would personally choose functions over templates any day.</p> 
-               <p>SAM allows you to choose the framework of your choice, but when using a Vanilla.js implementation, you need to make sure you mitigate the risks of cross-site-scripting.</p>
+               <p>SAM allows you to choose the framework of your choice including none, but when using a Vanilla.js implementation, you need to make sure you mitigate the risks of cross-site-scripting.</p>
             <p></p>
             <h3 id="bl">Business Logic</h4>
             <p>Not only SAM supports a component-based structure for the View, but SAM enables a complete decoupling of the application logic from the View components. If you are not convinced you can look at the TODO sample below and the View components in the "theme.js" file.</p>
@@ -326,7 +327,7 @@ X-------->|          |  |  |       |  |  Request
 View     Action       Model         State  (SAM)
 </pre>
             <br>            
-            <p>In essence the Paxos protocol roles are exactly the roles of the SAM components: Actions propose values to the Model which Accepts them which informs the State (the Learner), which creates the State Representation (View).</p>
+            <p>In essence the Paxos protocol roles are exactly the roles of the SAM components: Actions propose values to the Model, which accepts them, which the State accesses (the Learner) to create the State Representation (which is displayed by the View).</p>
             <p>I personally like SAM because it surfaces the concept of "State-Action" behavior, which is at the core of SAM, and leads naturally to creating the "State Representation" (i.e. the View).</p>
             <p>So, for all intent and purposes, please be warned that SAM's Model is the assignment of values to all possible variables of the application state, while SAM's State, which is sometimes associated to the "control state" (such as "started" and "stopped" are two control states of a car), refers to a function that computes the current (control) state of the system. In general, the "State" of a system controls which actions are allowed at any given point in time.</p>
             <br>
@@ -340,9 +341,9 @@ View     Action       Model         State  (SAM)
             -->
             <h4 id="actions">Actions</h4>
             <p>
-                Actions are pure functions which accept a dataset and return a dataset. The purpose of a function is to compute the values 
+                Actions are pure functions which accept a dataset (event) and return a dataset (proposal). The purpose of a function is to compute the values 
                 we want the model to accept. There is nothing else to it.
-                <a href="http://redux.js.org/docs/basics/Actions.html">In Redux for instance</a>, "actions" are closer to intent or event. This is a fundamental difference between Redux and SAM 
+                <a href="http://redux.js.org/docs/basics/Actions.html">In Redux for instance</a>, "actions" are a data structure, which are a lot closer to an intent or event than an action. This is a fundamental difference between Redux and SAM 
                 because in Redux the reducer creates an unnecessary and unwanted coupling between the model mutations and the logic that translates intents into model property values.
 <div class="code-window"><pre><code class="language-javascript">
     
