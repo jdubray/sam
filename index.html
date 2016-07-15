@@ -1162,28 +1162,28 @@ theme.ediTable = function(id,headers,data,editable, style, maxSize) { } ;
 <pre class="line-numbers"><code class="language-javascript">
 theme.statSummary = function(fa,label,number,link,linkLabel,color) {
         return (
-          '&lt;div class="col-lg-3 col-md-6"&gt;\n\
-              &lt;div class="panel panel-'+color+'"&gt;\n\
-                  &lt;div class="panel-heading"&gt;\n\
-                      &lt;div class="row"&gt;\n\
-                          &lt;div class="col-xs-3"&gt;\n\
-                              &lt;i class="fa fa-'+fa+' fa-5x"&gt;&lt;/i&gt;\n\
-                          &lt;/div&gt;\n\
-                          &lt;div class="col-xs-9 text-right"&gt;\n\
-                              &lt;div class="huge">'+number+'&lt;/div&gt;\n\
-                              &lt;div&gt;'+label+'&lt;/div&gt;\n\
-                          &lt;/div&gt;\n\
-                      &lt;/div&gt;\n\
-                  &lt;/div&gt;\n\
-                  &lt;a href="'+link+'"&gt;\n\
-                  &lt;div class="panel-footer"&gt;\n\
-                      &lt;span class="pull-left">'+linkLabel+'&lt;/span&gt;&gt;\n\
-                      &lt;span class="pull-right"&gt;&lt;i class="fa fa-arrow-circle-right">&lt;/i&gt;&lt;/span&gt;\n\
-                      &lt;div class="clearfix"&gt;&lt;/div&gt;\n\
-                  &lt;/div&gt;\n\
-                  &lt;/a&gt;\n\
-              &lt;/div&gt;\n\
-          &lt;/div&gt;') ;
+          ```&lt;div class="col-lg-3 col-md-6"&gt;
+              &lt;div class="panel panel-${color}"&gt;
+                  &lt;div class="panel-heading"&gt;
+                      &lt;div class="row"&gt;
+                          &lt;div class="col-xs-3"&gt;
+                              &lt;i class="fa fa-${fa} fa-5x"&gt;&lt;/i&gt;
+                          &lt;/div&gt;
+                          &lt;div class="col-xs-9 text-right"&gt;
+                              &lt;div class="huge">${number}&lt;/div&gt;
+                              &lt;div&gt;${label}&lt;/div&gt;
+                          &lt;/div&gt;
+                      &lt;/div&gt;
+                  &lt;/div&gt;
+                  &lt;a href="${link}"&gt;
+                  &lt;div class="panel-footer"&gt;
+                      &lt;span class="pull-left">${linkLabel}&lt;/span&gt;&gt;
+                      &lt;span class="pull-right"&gt;&lt;i class="fa fa-arrow-circle-right">&lt;/i&gt;&lt;/span&gt;
+                      &lt;div class="clearfix"&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                  &lt;/a&gt;
+              &lt;/div&gt;
+          &lt;/div&gt;```) ;
 } ;
 
 </code></pre></div>
