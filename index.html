@@ -149,7 +149,7 @@
             
             <p>Let's consider the simplest model possible:</p> 
             <pre>var model = {counter: 0}</pre><br>
-            Most software engineers would implement the application state mutation as:
+            Most software engineers would implement the application state mutation as an assignment:
 <pre>model.counter = model.counter + 1 ;</pre>
             <br>
             Modern frameworks (Angular2, Reactjs, MobX, Cycle.js...) are designed to "react" to these model changes, often without any consideration for the unit-of-work underlying the application state mutation. 
@@ -183,6 +183,8 @@ model.accept({counter: proposed_value})
             <iframe width="420" height="315" src="https://www.youtube.com/embed/lMgSS_b98S8" frameborder="0" allowfullscreen></iframe>
             <br>
             <br>
+            You can take a look at the Fishing Game code (index.html) <a href="https://hyperdev.com/#!/project/plain-frog">here</a> and run it <a href="https://plain-frog.hyperdev.space/">here</a>.
+            <br>
             <p>This new pattern was first introduced in an <a href="http://www.infoq.com/articles/no-more-mvc-frameworks">InfoQ article</a>, by <a href="http://www.ebpml.org/about">Jean-Jacques Dubray</a>. A translation of the article is available in <a href="http://www.infoq.com/cn/articles/no-more-mvc-frameworks">Chinese</a>, <a href="http://www.infoq.com/fr/articles/no-more-mvc-frameworks">French</a>, <a href="https://www.infoq.com/jp/articles/no-more-mvc-frameworks">Japanese</a> and <a href="https://habrahabr.ru/post/277113/">Russian</a></p>
             <br>
             <a href="https://gitter.im/jdubray/sam"><button type="button" class="btn btn-sm btn-teal">Join the discussion on Gitter...</button></a><br><br><a class="twitter-share-button" href="http://twitter.com/share">Share on Twitter</a>
@@ -205,7 +207,7 @@ model.accept({counter: proposed_value})
             <h2 id="sam">How does SAM work?</h2>
             <p>SAM is extremely simple, yet it is built on one of the most robust foundation of computer science (TLA+).<br>
             SAM recommends to factor the business logic underlying a graphical user interface along three elements: actions, model and state: 
-            <ul><li>Actions are triggered by events, and propose values to the model</li><li>The Model is solely responsible for accepting these values</li><li>Once accepted, the State computes the application State from the Model property values and makes sure that everyone who needs to "learn"" about the new application state is notified, such as the view which will display the “state representation”</li>
+            <ul><li>Actions are triggered by events, their role is to translate an event into proposed values to the model</li><li>The Model is solely responsible for accepting these values</li><li>Once accepted, the State function computes the State Representation from the Model property values and makes sure that everyone who needs to "learn"" about the new application state is notified, such as the view which will display the “state representation”</li>
             <li>Then, the State function computes the next-action-predicate which will invoke any automatic action, given the current application state</li></ul><br> 
             Every user or server event is processed as a “step” which involves a propose/accept/learn flow.<br>That's it! That's all there is to SAM.
             </p>  
