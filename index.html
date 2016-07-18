@@ -152,9 +152,9 @@
             Most software engineers would implement the application state mutation as an assignment:
 <pre>model.counter = model.counter + 1 ;</pre>
             <br>
-            Modern frameworks (Angular2, Reactjs, MobX, Cycle.js...) are designed to "react" to these model changes, often without any consideration for the unit-of-work underlying the application state mutation. 
+            and modern frameworks (Angular2, Reactjs, MobX, Cycle.js...) are designed to "react" to these model changes, often without any consideration for the unit-of-work underlying the application state mutation. 
             <br><br>
-            SAM challenges that model and suggests a factoring of the application business logic based on the Paxos protocol and TLA+:
+            SAM challenges that model and suggests clearly isolating the application state mutation on the foundation of the Paxos protocol and TLA+:
 <pre>
 // actions compute and propose the values 
 // the model should mutate to
