@@ -116,9 +116,7 @@
               <ul>
                 <li><a href="#react">React</a></li>
                 <li><a href="#ng">Angular</a></li>
-                <li><a href="#cycle">Cycle.js</a></li>
-                <li><a href="#mithril">Mithril</a></li>
-                <li><a href="#elm">Elm</a></li>
+                <li><a href="#vue">Vue</a></li>
                 <li><a href="#meiosis">Meiosis</a></li>
               </ul>
             </li>
@@ -1229,8 +1227,8 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
                 <a href="https://github.com/jdubray/sam-samples/tree/master/angular2-rocket-2.0.0" id="angular2">Angular2 with Dynamic templates and ComponentFactory</a><br>
                 <a href="http://codepen.io/foxdonut/pen/BzQzBx?editors=1010" id="redux">Vanilla.js+Redux</a> (<a href="http://www.linkedin.com/in/fredericdaoud">Fred Daoud</a>)<br>
                 <br>
-                <h3 id="rectangle">Draw Rectangle</h3>
-                <a href="https://hyperdev.com/#!/project/plain-frog" id="redux">Vanilla.js</a><br>
+                <h3 id="rectangle">Fishing Game</h3>
+                <a href="https://glitch.com/edit/#!/project/plain-frog" id="redux">Vanilla.js</a><br>
                 <br>
                 <h3 id="todo">ToDo</h3>
                 <a href="https://bitbucket.org/snippets/jdubray/zr9r6/item-list" id="listsample">Vanilla JavaScript and HTML</a><br>
@@ -1335,13 +1333,33 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
           <p>
               
           </p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th><b>Angular2</b></th>
+                <th><b>SAM</b></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td width="50%">Two-way Data Binding</td>
+                <td width="50%">Functional HTML - V = f(M)</td>
+              </tr>
+              <tr>
+                <td width="50%">Components as Classes (OOP)</td>
+                <td width="50%">Functional building blocks (View, Action, State, NAP), in SAM only the Model is an Object</td>
+              </tr>
+              <tr>
+                <td width="50%">Uncontrolled View updates with Change Detection</td>
+                <td width="50%">SAM programming Step and Rendering are fully decoupled</td>
+              </tr>
+            </tbody>
+          </table>
           <br>
-          <h4 id="cycle">Cycle.js</h4>
-          <p>
-              
-          </p>
+          <p>With all its imperfections, boilerplate and template language, Angular makes it easy to implement the SAM pattern, which in turn, I believe, adds a lot of value to Angular with a Single State Tree and the ability to control mutations outside the Angular components. SAM allows you to code your business logic coupletely decoupled from Angular itself.</p>
+          <p>For complex Angular components, I found it easier to create a local SAM implementation where all the state mutations are groupled in a single method and map event handlers to actions (which compute the proposal to mutate the application state)</p>
           <br>
-          <h4 id="vuejs">Vue.js</h4>
+          <h4 id="vue">Vue.js</h4>
           <p>
               <a href="https://vuejs.org/">Vue.js</a> is an <a href="https://medium.com/the-vue-point/vue-in-2016-8df71d98bfb3#.z4yfx9p6e">increasingly popular</a> framework for building modern Web applications. Just like React, the basic framework focuses (mostly) on the View and you need to select from another <a href="https://github.com/vuejs/vuex">nebula of libraries</a> when you need to build more robust applications. In this brief analysis, I will focus on vue.js only, as well as the <a href="https://github.com/vuejs/vuex">vuex.js</a> library which is a Redux-like state management library. Vue is template based and relies on two-way databinding which is a major step back in Front-End architectures. 
           </p>
@@ -1402,6 +1420,8 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
           <p>
               Jean-Jacques Dubray, <em>InfoQ</em>, Feb. 2016 "<a href="https://www.infoq.com/articles/no-more-mvc-frameworks">Why I no longer use MVC Frameworks?</a>"<br>
               Gunar Gessner, Jean-Jacques Dubray, <em>InfoQ</em>, Oct. 2016 "<a href="https://www.infoq.com/articles/sam-lessons-learned-front-end-reactive-architectures">Lessons learned in implementing the SAM pattern</a>"<br>
+              Jean-Jacques Dubray, Marcus Feitoza, Sladan Ristic "<a href="Three Approximations You Should Never Use When Coding">Three Approximations You Should Never Use When Coding</a>"
+              Jean-Jacques Dubray "<a href="https://medium.com/@metapgmr/hex-a-no-framework-approach-to-building-modern-web-apps-e43f74190b9c">HEX: A no framework approach to building modern Web Applications</a>"
               Alexander Schepanovski, March 2015 "<a href="http://hackflow.com/blog/2015/03/08/boiling-react-down-to-few-lines-in-jquery/">Boiling React Down to a Few Lines in jQuery</a>"<br>
               Simon Friis Vindum, "<a href="https://github.com/paldepind/functional-frontend-architecture">Functional Front-End Architectures</a>"<br>
               Tim Branyen, "<a href="https://github.com/tbranyen/diffhtml">DiffHTML</a>"<br>
