@@ -294,7 +294,8 @@ theme.ready = (counter, intents) => `
                <p>There is a fair amount of questions asking "why not use templates"? The reason is relatively simple: templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another template interpreter). 
                On the other hand, code generators are infinitely flexible with hardly any drawbacks. I would personally choose functions over templates any day.</p> 
                <p>SAM allows you to choose the framework of your choice including none, but when using a Vanilla.js implementation, you need to make sure you mitigate <a href="https://www.google.com/about/appsecurity/learning/xss/">the risks of cross-site-scripting</a>.</p>
-            <p></p>
+            <p>A couple of new libraries have appear recently (<a href="https://viperhtml.js.org/hyper.html">hyperHTML</a>, <a href="https://github.com/PolymerLabs/lit-html">lit-html</a>) that offer no compromise in terms of a "Functional HTML" approach. They, of course, are particularly good fit for the SAM Pattern, when you are uncomfortable using HTML Template Literals directly.</p>
+            <br>
             <h3 id="bl">Business Logic</h4>
             <p>Not only SAM supports a component-based structure for the View, but SAM enables a complete decoupling of the application logic from the View components. If you are not convinced you can look at this vanilla.js <a href="https://github.com/jdubray/sam-samples/blob/master/todomvc-app/js/app.js">TODO sample</a> and the "theme" section.</p>
             <blockquote>A good Front-End Architecture should enable you to pin your modularized functions to the UI components in the most decoupled way possible. That way the technology backing the components can be swapped out and all your business logic is not in a hostage situation (at the mercy of the next great late framework) - Thomas J. Buhr </blockquote>
@@ -1264,6 +1265,7 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
                 <a href="https://github.com/jdubray/sam-samples/tree/master/react-child-instance">A Parent/Child</a> sample using React 15.0.2 with JSX/Babel<br>
                 <a href="https://github.com/jdubray/sam-samples/tree/master/vanilla-child-instance">Another Parent/Child</a> sample in vanilla.js<br>
                 <a href="https://github.com/jdubray/sam-samples/blob/master/react-spinner/index.html">A CSS Spinner</a> using React/JSX without "looping" through the model
+                <a href="https://github.com/jdubray/sam-samples/tree/master/lit-html">SVG Clock</a> using the very promising <a href="https://github.com/PolymerLabs/lit-html">lit-html</a> library (Polymer Labs)
                 <br><br>
           </p>
           <p>This is what Jonathan Siu, Startup Consultant, had to say about SAM:</p><br>
@@ -1406,12 +1408,6 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
               </tr>
             </tbody>
           </table>
-          <br>
-          <h4 id="elm">Elm</h4>
-          <p>
-              
-
-          </p>
           <br>
           <h4 id="meiosis">Meiosis</h4>
           <p><a href="https://foxdonut.gitbooks.io/meiosis-guide/content/sam.html">Meiosis</a> is a library build by Fred Daoud that is well aligned with the SAM pattern. The library's core focus is to help organize the data flow of web applications. The general idea behind Meiosis is to start with a model and write a function that creates the view. When you want a looser coupling between the view and the model, you can optionally configure an "actions object" which translates view events into model proposals. Once the proposal is accepted by the model, Meiosis calls the view function with the updated model. You can also define a function to determine if another action should be automatically triggered, given the new application state. Meiosis is designed to work with plain JavaScript functions which, it wires together, without tying your code to the library. Last, but not least, you can switch from one Web framework to another and by changing the view code. The remainder of the code (the model, receiving proposals, actions, and so on) remains the same.</p>    
