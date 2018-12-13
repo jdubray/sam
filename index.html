@@ -140,21 +140,21 @@
           
           <header>
             <h1>The SAM Pattern</h1>
-            <p>SAM (State-Action-Model) is a new reactive/functional pattern that simplifies Front-End architectures by strictly decoupling the business logic from the view.
+            <p>SAM (State-Action-Model) is a new software engineering pattern that helps manage and reason about the application state. For instance, it can be used to simplify Front-End architectures by strictly decoupling the business logic from the view.
             SAM is based on two founding principles:<br>
             <ol>
             <li>The relationship between the view and the model must be functional</li>
             <li>State Mutation must be a first class citizen of the programming model</li>
             </ol>
             
-            <p>Let's consider the simplest application and model possible, an application that counts a particular user event such as a mouse click</p> 
+            <p>Let's consider the simplest application possible, an application that counts events</p> 
             <pre>var model = {counter: 0}</pre><br>
             Most software engineers would implement the application state mutation as an assignment:
 <pre>model.counter = model.counter + 1 ;</pre>
             <br>
             and modern frameworks (Angular2, Reactjs, MobX, Cycle.js...) are designed to "react" to these model changes, often without any consideration for the unit-of-work underlying the application state mutation. 
             <br><br>
-            SAM challenges that model and suggests clearly isolating the application state mutation on the foundation of the Paxos protocol and TLA+:
+            SAM challenges that model and suggests isolating the application state mutation on the foundation of the Paxos protocol and TLA+:
 <pre>
 // actions compute and propose the values 
 // the model should mutate to
@@ -177,9 +177,7 @@ model.accept({counter: proposed_value})
         }) ;
 </pre><br>
 
-            <p>SAM is unapologetically driven by simplicity and challenges the complexity of frameworks like Google's Angular or Facebook's React+JSX+Flux/Redux+Saga+Thunk+GraphQL+Relay. One of SAM's key goals is to enable everyone to build beautiful and engaging HTML5/CSS3/JavaScript Web Apps while retaining <a href="https://medium.com/@dan_abramov/youre-missing-the-point-of-react-a20e34a51e1a#.aoccyh29h">what makes React.js so unique</a>:</p>
-            <ul><li>Composition</li><li>Unidirectional data flow</li><li>Freedom from DSLs</li><li>Explicit mutation</li><li>Static mental model </li></ul>
-            <p>SAM is also challenging architecture patterns like <a href="http://samnewman.io/patterns/architectural/bff/">BFF</a> previously known as the Vertical Slice Pattern which suggest creating view specific APIs, per platform, app, versions of an app...</p>
+            <p>SAM is unapologetically driven by simplicity and does not require any library or framework.</p>
             <br>
             <p>This is what <a href="https://github.com/dagatsoin">Daniel Neveux</a>, Entrepreneur and Full Stack Developer, said:</p><br>
             <blockquote>SAM is simple, I have never seen a concept such minimalist and so powerful [in particular] in its decoupling potential</blockquote>
@@ -197,7 +195,7 @@ model.accept({counter: proposed_value})
             <p>This new pattern was first introduced in an <a href="http://www.infoq.com/articles/no-more-mvc-frameworks">InfoQ article</a>, by <a href="http://www.ebpml.org/about">Jean-Jacques Dubray</a>. A translation of the article is available in <a href="http://www.infoq.com/cn/articles/no-more-mvc-frameworks">Chinese</a>, <a href="http://www.infoq.com/fr/articles/no-more-mvc-frameworks">French</a>, <a href="https://www.infoq.com/jp/articles/no-more-mvc-frameworks">Japanese</a> and <a href="https://habrahabr.ru/post/277113/">Russian</a></p>
             <br>
             <!-- a href="https://gitter.im/jdubray/sam"><button type="button" class="btn btn-sm btn-teal">Join the discussion on Gitter...</button></a -->
-            You have a question? &nbsp;&nbsp;<button class="btn btn-sm btn-teal js-gitter-toggle-chat-button">Join the discussion on Gitter...</button>
+            You have some questions? &nbsp;&nbsp;<button class="btn btn-sm btn-teal js-gitter-toggle-chat-button">Join the discussion on Gitter...</button>
             <!-- button class="js-gitter-toggle-chat-button" data-gitter-toggle-chat-state="true">Open Community Forum</button>
             <button class="js-gitter-toggle-chat-button" data-gitter-toggle-chat-state="false">Close</button -->
             <br><br>If you like it, please consider sharing the word: &nbsp;&nbsp;<a class="twitter-share-button" href="http://twitter.com/share">Share on Twitter</a>
@@ -222,13 +220,13 @@ model.accept({counter: proposed_value})
             SAM recommends factoring the business logic underlying a graphical user interface along three building blocks: actions, model and state: 
             <ul><li>Actions are triggered by events, their role is to translate an event into proposed values to the model</li>
             <li>The Model is solely responsible for the decision of accepting (or rejecting, or partially rejecting) these values</li>
-            <li>Once accepted, the State function computes the State Representation from the Model property values and makes sure that everyone who needs to "learn"" about the new application state is notified, such as the view which will display the “state representation”</li>
+            <li>Once accepted, the State function computes the State Representation from the Model property values and makes sure that everyone who needs to "learn" about the new application state is notified, such as the view which will display the “state representation”</li>
             <li>Finally, the State function computes the next-action-predicate which will invoke any automatic action, given the current application state</li></ul><br> 
             Every user or server event is processed as a “step” which involves this propose/accept/learn flow.<br>That's it! That's all there is to SAM.
             </p>  
-            <p>The pattern is best implemented with the model as a single state tree, a unidirectional data flow and the view as a pure function of the model. Two-way data binding is strictly prohibited as it would entail uncontrolled model mutations.</p>  
-            <p>The pattern forms a reactive loop, events trigger actions which present data to the model, which renders the state. Logically, after every step a new "state representation" is created (as a pure function of the model).</p>
-            <p>The SAM pattern facilitates the full decoupling of the view from the business logic. As we show in many samples below, the view is implemented as a series of stateless components which have no knowledge of the model or even the actions.</p>
+            <p>The pattern is best implemented with the model as a single state tree and a unidirectional data flow. In the case of Front-End applications, SAM is best implemented when the view is a pure function of the State Representation. Two-way data binding is strictly prohibited as it would entail uncontrolled model mutations.</p>  
+            <p>The pattern forms a reactive loop: events trigger actions which present data to the model, which computes the state representation. Logically, after every step a new "state representation" is created (as a pure function of the model). Please note that the model is minimalist and solely focused on managing mutations while actions computes proposals and the State function computes the new State Representation from the model property values.</p>
+            <p>In particular, the SAM pattern facilitates the full decoupling of the view from the business logic. As we show in many samples below, the view is implemented as a series of stateless components which have no knowledge of the model or even the actions.</p>
             <p>When learning SAM, we recommend that you make a clear distinction between the programming model (State, Actions, Model), the wiring (how the elements of the pattern communicate) and the Architecture (where the elements of the pattern are physically running). SAM supports different wiring approaches and allows you to write code that can easily be migrated from the client to the server or vice versa (<a href="#iso">isomorphic javascript</a>). 
             <br><br>
             <figure>
@@ -239,7 +237,7 @@ model.accept({counter: proposed_value})
                 
             
             <h3 id="vf">The View as a Function of the Model</h4>
-            <p>When learning SAM, the best starting point is to understand the functional relationship between the view and the model. If you are familiar with React.js you probably noticed that one of the main goals of React's component model is to help you create the components' <code>render</code> function. 
+            <p>When learning SAM in the context of Front-End applications, the best starting point is to understand the functional relationship between the view and the model. If you are familiar with React.js you probably noticed that one of the main goals of React's component model is to help you create the components' <code>render</code> function. 
             SAM suggests using the same approach and decomposing the view as a series of pure functions. </p>
             <pre>V = f( M )</pre>
             <p>This concept is extremely simple to implement. I generally implement the front-end components as part of theme singleton:</p>
@@ -289,8 +287,8 @@ theme.ready = (counter, intents) => `
 
 
 </code></pre></div>
-            <p>With SAM, front-end developers can focus on building the view directly from the model, unencumbered from the underpinning APIs: in other words, answering the question: how does the View look like given any combination of the Model property values? How the values got there is irrelevant. This is the paradigm shift that React introduced in Front-End architectures.
-               SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive. That functional relationship is probably the hardest thing to get in React and therefore SAM, you have to try it for yourself.</p>
+            <p>With SAM, front-end developers can focus on building the view directly from the State Representation, unencumbered from the underpinning APIs. How the we got to the current State Representation is irrelevant. This is the paradigm shift that React introduced in Front-End architectures.
+               SAM does not always eliminate the need for interactions (request/responses), but it tends to keep a balance between reactive and interactive.</p>
                <p>There is a fair amount of questions asking "why not use templates"? The reason is relatively simple: templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another template interpreter). 
                On the other hand, code generators are infinitely flexible with hardly any drawbacks. I would personally choose functions over templates any day.</p> 
                <p>SAM allows you to choose the framework of your choice including none, but when using a Vanilla.js implementation, you need to make sure you mitigate <a href="https://www.google.com/about/appsecurity/learning/xss/">the risks of cross-site-scripting</a>.</p>
@@ -300,7 +298,7 @@ theme.ready = (counter, intents) => `
             <p>Not only SAM supports a component-based structure for the View, but SAM enables a complete decoupling of the application logic from the View components. If you are not convinced you can look at this vanilla.js <a href="https://github.com/jdubray/sam-samples/blob/master/todomvc-app/js/app.js">TODO sample</a> and the "theme" section.</p>
             <blockquote>A good Front-End Architecture should enable you to pin your modularized functions to the UI components in the most decoupled way possible. That way the technology backing the components can be swapped out and all your business logic is not in a hostage situation (at the mercy of the next great late framework) - Thomas J. Buhr </blockquote>
             <p>
-            SAM's factoring of the business logic is based on <a href="http://research.microsoft.com/en-us/um/people/lamport/tla/tla.html">TLA+</a>:
+            SAM's factoring of the business logic is inspired from <a href="http://research.microsoft.com/en-us/um/people/lamport/tla/tla.html">TLA+</a>:
             <blockquote>TLA+ is based on the idea that the best way to describe things formally is with simple mathematics, and that a specification language should contain as little as possible beyond what is needed to write simple mathematics precisely. TLA+ is especially well suited for writing high-level specifications of concurrent and distributed systems. - Dr. Leslie Lamport</blockquote>
             If you are interested in learning about TLA+, I found <a href="http://www.loria.fr/~merz/talks/argentina2005/slides.pdf">Stephan Merz's course</a> the most approachable introduction to TLA+.
             </p>
@@ -319,7 +317,7 @@ theme.ready = (counter, intents) => `
             <p>TLA+ also includes concepts such as safety (something bad should never happen) and liveness (something good eventually happens).</p>
             <p>In SAM, the business logic is decomposed in three elements: Actions, the Model and the State.</p>
             <br>
-            <p><span class="label label-warning">Warning</span> I have been told by readers that it is important to emphasize that SAM does not use the word "State" in the traditional sense of computer science (where a state is an assignment of values to all possible variables). The State-Action elements, in SAM, specify the behavior of the system:</p> 
+            <p><span class="label label-warning">Warning</span> I have been told by readers that it is important to emphasize that SAM does not use the word "State" in the traditional sense of computer science (where a state is an assignment of values to all possible variables). SAM suggests that the Model structure (and property values) are different from the State Representation, which there could be many of (Web, Mobile, Voice...). The State Representation also includes the <a href="https://books.google.com/books?id=6lHCBAAAQBAJ&pg=PA67&lpg=PA67&dq=%22control+state%22+software&source=bl&ots=wX1DjBnziG&sig=LM91m-Tl_7g2K34DmK3B_aenGJY&hl=en&sa=X&ved=2ahUKEwjQhLjSuZ3fAhUIs1QKHWBZDh0Q6AEwB3oECAQQAQ#v=onepage&q=%22control%20state%22%20software&f=false">Control State</a> of the system. The State-Action elements, in SAM, specify the behavior of the system (no the Model):</p> 
             <blockquote>A State-Action behavior is a sequence:<br>
 <pre>
            α1    α2
@@ -331,6 +329,7 @@ theme.ready = (counter, intents) => `
                         </blockquote>
             <br>
             <p>Please refer to Section 2 of <a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/state-machine.pdf">this paper</a> from Dr. Lamport for a discussion on State-Action behavior.</p>
+            <br>
             <p>If you don't like the State-Action-Model terminology, I could have also used the <a href="https://en.wikipedia.org/wiki/Paxos_(computer_science)">Paxos protocol</a> terminology (PAL, Proposer, Acceptor and Learner):</p>
 <pre>
 Client   Proposer      Acceptor     Learner
@@ -385,21 +384,19 @@ View     Action       Model         State  (SAM)
                 the postal address which is presented to the model. 
 <div class="code-window"><pre><code class="language-javascript">
     
-    function changeOfAddress(address,present) {
-        
-        address = address || {} ;
+    async function changeOfAddress(address = {}, present) {
         address.country = address.country || 'Australia' ; 
-        getPostalAddress( address, function(addr) {
-            // assuming the dataset returned by the 3rd party
-            // service can be directly presented to the model
-            present(addr) ;
-        }) ;
+        const postalAddress = await getPostalAddress(address); 
+        // assuming the dataset returned by the 3rd party
+        // service can be directly presented to the model
+        present(postalAddress) ;
+    }) ;
         
     }
     
 </code></pre></div>
             </p>
-            <p>Action logic can typically be reused across models, you can even think some companies will start offering SAM actions following a SaaS model. A "change of address" action, which returns a postal address given user data is highly reusable, across the enterprise. 
+            <p>Action logic can typically be reused across models, you can even think some companies will start offering SAM actions following a SaaS model. A "change of address" action, which returns a postal address given user data is highly reusable, across many businesses. 
             </p>
             <br>
             <h4 id="model">Model</h4>
@@ -410,7 +407,7 @@ View     Action       Model         State  (SAM)
             if the password is valid in the context of the request, but the model might enforce additional integrity rules, such that you 
             cannot use a password that matches any of your last three passwords.
             </p>
-            <p>The model is also solely responsible for the persistence of the application state. As such, the Model's architecture may follow the <a href="https://github.com/eventstore/eventstore/wiki/Event-Sourcing-Basics#event-sourcing">Event/Command Sourcing Pattern</a> with respect to the data the it accepts</p>
+            <p>The model is also solely responsible for the persistence of the application state. As such, the Model's architecture may follow the <a href="https://github.com/eventstore/eventstore/wiki/Event-Sourcing-Basics#event-sourcing">Event/Command Sourcing Pattern</a> with respect to the data the it accepts:</p>
             
 <div class="code-window"><pre><code class="language-javascript">
     
@@ -433,12 +430,13 @@ View     Action       Model         State  (SAM)
             <h4 id="state">State</h4>
             <p>
             This concept is unique to SAM. Its purpose is to futher decouple the Model from the View (i.e. the State Representation). The State has two roles: 
-            <ul><li>Decide how to translate the model property values into a State Representation</li>
-            <li>Process the next-action predicate</li>
+            <ul><li>Translate the model property values into a State Representation</li>
+            <li>Compute the control state and trigger the next-action predicate</li>
             </ul>
-            Unintuitively, the State does not hold any “state”, it is a pure function which computes the view and the next-action predicate, both from the model property values.
-            The State may compute the current "control state" of the system to assist the computation, but <b>SAM does not require the State implementation to be based the semantics of a state machine</b>. 
-            In the Rocket Launcher example, we've have implemented the full semantics of a state machine where each control state is computed with pure functions such as:
+            <br>
+            Unintuitively, the State is a pure function that does not hold any “state”.
+            The State may compute the current "control state" of the system, but <b>SAM does not require the State implementation to be based the semantics of finite state machines</b>. It offers a structure that is compatible with FSMs but for the most part avoids the unecessaries intricaties of FSMs.
+            In the Rocket Launcher example, we've have implemented the full semantics of a finite state machine where each control state is computed with pure functions such as:
 <div class="code-window"><pre><code class="language-javascript">
 // Assuming the following model structure
 var model = {
@@ -1238,7 +1236,8 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
                 <a href="https://bitbucket.org/snippets/jdubray/zr9r6/item-list" id="listsample">Vanilla JavaScript and HTML</a><br>
                 <a href="http://codepen.io/msolovyov/pen/qbvYpv?editors=1010">Vue.js</a> (<a href="">Michael Solovyov</a>)<br>
                 <a href="https://github.com/jdubray/sam-samples/tree/master/todomvc-app" id="todosample">TODOMVC Challange (HTML+Vanilla JS, both ES5 and ES6)</a>
-                <a href="https://github.com/jdubray/sam-samples/tree/master/angular2-admin-master-2.0.0" id="ng2-todosample">Angular2 Admin Template with ToDo component</a>
+                <a href="https://github.com/jdubray/sam-samples/tree/master/angular2-admin-master-2.0.0" id="ng2-todosample">Angular2 Admin Template with ToDo component with RxJS</a>
+                <a href="https://github.com/Nivani/todo-sam">This is a TodoMVC project</a> that shows how SAM Pattern can be implemented in a typical Angular application with ngrx (@Nivani)
                 <br>
                 <h3 id="blog">Blog</h3>
                 <a href="https://github.com/jdubray/sam-samples/tree/master/crud-blog">Node.js / Isomorphic JavaScript - BootStrap</a><br>
@@ -1267,6 +1266,7 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
                 <a href="https://github.com/jdubray/sam-samples/tree/master/vanilla-child-instance">Another Parent/Child</a> sample in vanilla.js<br>
                 <a href="https://github.com/jdubray/sam-samples/blob/master/react-spinner/index.html">A CSS Spinner</a> using React/JSX without "looping" through the model<br>
                 <a href="https://github.com/jdubray/sam-samples/tree/master/lit-html">SVG Clock</a> using the very promising <a href="https://github.com/PolymerLabs/lit-html">lit-html</a> library (Polymer Labs)<br>
+                <a href="https://github.com/dshalkhakov/sam-csharp/tree/master/sam-csharp">Counter in C#</a> (Dmitry Shalkhakov)
                 <br><br>
           </p>
           <p>This is what Jonathan Siu, Startup Consultant, had to say about SAM:</p><br>
