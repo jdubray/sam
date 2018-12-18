@@ -344,21 +344,21 @@ View     Action       Model         State  (SAM)
 <div class="code-window"><pre><code class="language-javascript">
     
     // Reactive loop wiring
-    function action(data,present) {
+    function action(event, present) {
         // compute the values we want the model to mutate to
-        var data_ = the_actual_pure_function_implementing_the_action(data) ;
+        const proposal = the_actual_pure_function_implementing_the_action(event) ;
         
         // present these values to the model
-        present(data_) ;
+        present(proposal) ;
         
         // since we are in a reactive loop, the action returns nothing
     }
     
 </code></pre></div>
-                Actions are responsible for implementing context specific logic. If we take the example of a "change of address" action, we might  
+                Actions typically implement context specific logic. If we take the example of a "change of address" action, we might  
                 implement some context specific rules, such as when there is no country specified in the input dataset, the default country 
                 is Australia, while the model is responsible for the integrity of a customer address which requires a country value. 
-                In the context of SAM, actions play another important role with respect to invoking 3rd party APIs. For instance, we can define an action which 
+                Actions play another important role with respect to invoking 3rd party APIs. For instance, we can define an action which 
                 will invoke a 3rd party validation service, which given an address, returns the postal address (or an error). It is then 
                 the postal address which is presented to the model. 
 <div class="code-window"><pre><code class="language-javascript">
@@ -375,12 +375,12 @@ View     Action       Model         State  (SAM)
     
 </code></pre></div>
             </p>
-            <p>Action logic can typically be reused across models, you can even think some companies will start offering SAM actions following a SaaS model. A "change of address" action, which returns a postal address given user data is highly reusable, across many businesses. 
+            <p>Actions are typically highly reusable across models, and we could even imagine some companies starting offering SAM actions following a SaaS model. A "change of address" action, which returns a postal address given user data is highly reusable, across many businesses. 
             </p>
             <br>
             <h4 id="model">Model</h4>
             <p>
-            The model contains all the application state and (logically) exposes a single method: present(data). The model is responsible for accepting (or rejecting) the effects of an action. 
+            The model is a singleton that contains all the application state and (logically) exposes a single method: present(proposal). The model is responsible for accepting (or rejecting) the effects of an action. 
             The model is where integrity rules get enforced. In other words, actions are generally triggered with some context specific data, they 
             do not have access to the application state, for instance, when you implement a "change password" action, the action will check
             if the password is valid in the context of the request, but the model might enforce additional integrity rules, such that you 
@@ -390,15 +390,15 @@ View     Action       Model         State  (SAM)
             
 <div class="code-window"><pre><code class="language-javascript">
     
-    model.present = function(data, render) {
+    model.present = function(proposal, state) {
         
-        if (data.address !== undefined) {
-            model.shippingAddress = data.address ;
-            model.billingAddress = model.billingAddress || data.address ;
+        if (proposal.address !== undefined) {
+            model.shippingAddress = proposal.address ;
+            model.billingAddress = model.billingAddress || proposal.address ;
         }
         
-        // trigger the state representation rendering
-        render(model) ;
+        // trigger the state representation computation
+        state(model) ;
         
         // since we are in a reactive loop, the present method returns nothing
     }
@@ -408,79 +408,77 @@ View     Action       Model         State  (SAM)
             <br>
             <h4 id="state">State</h4>
             <p>
-            This concept is unique to SAM. Its purpose is to futher decouple the Model from the View (i.e. the State Representation). The State has two roles: 
+            This concept is unique to SAM. Its purpose is to futher decouple the Model from the View. The State function has two roles: 
             <ul><li>Translate the model property values into a State Representation</li>
             <li>Compute the control state and trigger the next-action predicate</li>
             </ul>
             <br>
-            Unintuitively, the State is a pure function that does not hold any “state”.
-            The State may compute the current "control state" of the system, but <b>SAM does not require the State implementation to be based the semantics of finite state machines</b>. It offers a structure that is compatible with FSMs but for the most part avoids the unecessaries intricaties of FSMs.
-            In the Rocket Launcher example, we've have implemented the full semantics of a finite state machine where each control state is computed with pure functions such as:
+            Unintuitively, the State is a pure function that does not hold any (application) “state”.
+            The State function also computes the current "control state" of the system, but <b>SAM does not require the State implementation to be based the semantics of finite state machines</b>. It offers a structure that is compatible with FSMs but for the most part avoids the unecessaries intricaties of FSMs.
+            In the Rocket Launcher example, to demonstrate the compatibility, we've have implemented the full semantics of a finite state machine where each control state is computed with pure functions such as:
 <div class="code-window"><pre><code class="language-javascript">
 // Assuming the following model structure
 var model = {
         counter: COUNTER_MAX, 
         started: false,      
         launched: false, 
-        aborted: false} ;
+        aborted: false}
     
     
 // Derive the current control states of the system
-state.ready = function(model) {
-    return ((model.counter === COUNTER_MAX) && !model.started && !model.launched && !model.aborted) ;
+const ready = model => (model.counter === COUNTER_MAX) && !model.started && !model.launched && !model.aborted
+
+const counting =model => (model.counter <= COUNTER_MAX) && (model.counter >= 0) && model.started && !model.launched && !model.aborted)
+
+const state = (model, render) => {
+    const stateRepresentation = _state(model)
+    if (!nextActionPredicate(stateRepresentation)) {
+      render(stateRepresentation, model.present) 
+    }
 }
 
-state.counting = function(model) {
-    var status = ((model.counter <= COUNTER_MAX) && (model.counter >= 0) && model.started && !model.launched && !model.aborted) ;
-    return status ;
-}
-
-state.render = function(model) {
-    state.representation(model)
-    state.nextAction(model) ;
-}
-
-state.representation = function(model, display) {
-    var representation = 'oops... something went wrong, the system is in an invalid state' ;
-
-    if (state.ready(model)) {
-        representation = state.view.ready(model) ;
+const _state = model => {
+    // Compute the control state
+    const stateRepresentation = model
+    let controlState = 'oops... something went wrong, the system is in an invalid state' ;
+    
+    if (ready(model)) {
+      controlState = 'ready' ;
     } 
 
-    if (state.counting(model)) {
-        representation = state.view.counting(model) ;
+    if (counting(model)) {
+      controlState = 'counting' ;
     }
 
-    if (state.launched(model)) {
-        representation = state.view.launched(model) ;
+    if (launched(model)) {
+      controlState = launched(model) ;
     }
 
-    if (state.aborted(model)) {
-        representation = state.view.aborted(model) ;
+    if (aborted(model)) {
+      controlState = aborted(model) ;
     }
-
-    // mount the corresponding representation in the GUI
-    display(representation) ;
     
-    // since we are in a reactive loop, the present method returns nothing
+    // Other computations that are part of the state representation go here
+
+    return { controlState, ...stateRepresentation }
 }
     
 </code></pre></div>            
             </p>
             <p>Depending on the number of control states of your application and the size of your model, these functions can become rather tedious to write. Again, there is no requirement to adopt such an approach, it may help in some cases and be a burden in another where a series of if-then-else on some key properties of the model is good enough.</p>
-            <p>Once the state representation is rendered, the State is responsible for invoking the next-action predicate (nap), which is a pure function of the model. The purpose of the nap() function is to determine if, given the current control state of the model, there are some automatic actions that need to be invoked. For instance in the <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample">Rocket Launcher</a> example, 
+            <p>Once the state representation is rendered, the State function is responsible for invoking the next-action predicate (nap), which is a function of the model. The purpose of the nap() function is to determine if, given the current control state of the model, there are some automatic actions that need to be invoked. For instance in the <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample">Rocket Launcher</a> example, 
             the "decrement()" action is invoked by the next-action predicate while the system is in the counting state. When the counter reaches zero, it invokes the "launch()" action.
             </p>
 
 <div class="code-window"><pre><code class="language-javascript">
-state.nextAction = function (model) {
-    if (state.counting(model)) {
-        if (model.counter>0) {
-            actions.decrement({counter: model.counter},model.present) ;
+const nextAction = (stateRepresentation, present) => {
+    if (stateRepresentation.controlState === 'counting') {
+        if (stateRepresentation.counter>0) {
+            actions.decrement({ counter: stateRepresentation.counter }, present) ;
         }
 
-        if (model.counter === 0) {
-            actions.launch({},model.present) ;
+        if (stateRepresentation.counter === 0) {
+            actions.launch({}, present) ;
         }
     }
 }
@@ -489,42 +487,12 @@ state.nextAction = function (model) {
             <br>
             <p>When you feel that a full state machine is required for your app, you may use a library such as the <a href="https://bitbucket.org/jdubray/star-javascript">STAR library</a>.</p>
             <br>
-            <h4 id="sr">State Representation</h4>
+            <h4 id="sr">Rendering (or Consumming) the State Representation</h4>
             <p>
-            The State Representation function(s) are technology agnostic. SAM only requires that these functions be pure functions of the model (i.e. stateless from the model's perspective). Here is an example <a href="https://github.com/trueadm/inferno">using Inferno</a>:   
-
-<div class="code-window"><pre><code class="language-javascript">
-  // State representation of the counting state
-  
-  ...
-
-  theme.counter = function(counter) {
-    
-    return {
-      tag: 'div',
-      children: [
-        {
-          tag: 'p',
-          children: `counter: ${counter}`
-        }
-      ]
-    }
-  }
-
-  InfernoDOM.render(theme.counter(10), document.body);
-
-}
-</code></pre></div>   
-            <br>
-            Stateless React.js components would work great. The same type of function could we writen in Objective-C for the viewDidLoad method.<br><br> 
-            Alex Schepanovski explains how to achieve <a href="http://hackflow.com/blog/2015/03/08/boiling-react-down-to-few-lines-in-jquery/">React.js functionality with just a few lines of JQuery</a>. 
-            </p>
+            In Front-End applications, the State Representation is typically rendered as part of the reactive loop, however, in the most general sense, the state representation is published to consumers (i.e. Learners in Paxos). Pure functions of the state representation work well.  
+           </p>
             <p>
-            On of the key problems that frameworks try to tackle is the wiring between the HTML events and event handlers. As you can
-            see in the code above, the "abort" action has been hard coded in the counting state representation. This is not a great 
-            coupling and in general it should be avoided. SAM provides an elegant solution to decouple the view components from your application via the State function. 
-            </p>
-            <p>
+            One of the key problems that front-end frameworks try to tackle is the wiring between the HTML events and event handlers. SAM provides an elegant solution to decouple the view components from your application via the State function.
             You can design your view components to accept a list of "intents" which map the application's action to the component's handlers. We have implemented that approch in <a href="https://github.com/jdubray/sam-samples/blob/master/todomvc-app/js/app.js">the TODOSAM sample</a>. All the theme's components accept an intent map:
 <div class="code-window"><pre><code class="language-javascript">
 theme.list = (todos, displayActive, displayCompleted, intents) => {
