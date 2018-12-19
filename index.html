@@ -80,7 +80,6 @@
                 <li><a href="#model">Model</a></li>
                 <li><a href="#state">State</a></li>
                 <li><a href="#sr">State Representation</a></li>
-                <li><a href="#vm">View Model</a></li>
                 <li><a href="#wiring">Wiring</a></li>
                 <li><a href="#timetravel">Time Travel</a></li>
               </ul>
@@ -451,11 +450,11 @@ const _state = model => {
     }
 
     if (launched(model)) {
-      controlState = launched(model) ;
+      controlState = 'launched' ;
     }
 
     if (aborted(model)) {
-      controlState = aborted(model) ;
+      controlState = 'aborted' ;
     }
     
     // Other computations that are part of the state representation go here
@@ -465,7 +464,7 @@ const _state = model => {
     
 </code></pre></div>            
             </p>
-            <p>Depending on the number of control states of your application and the size of your model, these functions can become rather tedious to write. Again, there is no requirement to adopt such an approach, it may help in some cases and be a burden in another where a series of if-then-else on some key properties of the model is good enough.</p>
+            <p>Depending on the number of control states of your application and the size of your model, these functions can become rather tedious to write. Again, there is no requirement to adopt such an approach, it may help in some cases and be a burden in others where a series of if-then-else on some key properties of the model would be good enough.</p>
             <p>Once the state representation is rendered, the State function is responsible for invoking the next-action predicate (nap), which is a function of the model. The purpose of the nap() function is to determine if, given the current control state of the model, there are some automatic actions that need to be invoked. For instance in the <a href="https://bitbucket.org/snippets/jdubray/9dgKp/sam-sample">Rocket Launcher</a> example, 
             the "decrement()" action is invoked by the next-action predicate while the system is in the counting state. When the counter reaches zero, it invokes the "launch()" action.
             </p>
@@ -474,13 +473,17 @@ const _state = model => {
 const nextAction = (stateRepresentation, present) => {
     if (stateRepresentation.controlState === 'counting') {
         if (stateRepresentation.counter>0) {
-            actions.decrement({ counter: stateRepresentation.counter }, present) ;
+            actions.decrement({ counter: stateRepresentation.counter }, present)
+            return true
         }
 
         if (stateRepresentation.counter === 0) {
-            actions.launch({}, present) ;
+            actions.launch({}, present) 
+            return true
         }
     }
+
+    return false
 }
 </code></pre></div>   
 
@@ -489,11 +492,11 @@ const nextAction = (stateRepresentation, present) => {
             <br>
             <h4 id="sr">Rendering (or Consumming) the State Representation</h4>
             <p>
-            In Front-End applications, the State Representation is typically rendered as part of the reactive loop, however, in the most general sense, the state representation is published to consumers (i.e. Learners in Paxos). Pure functions of the state representation work well.  
+            In Front-End applications, the State Representation is typically rendered as part of the reactive loop, however, in the most general sense, the state representation is published to consumers (i.e. Learners in Paxos). Formulating the View as a series of pure functions of the state representation work well.  
            </p>
             <p>
-            One of the key problems that front-end frameworks try to tackle is the wiring between the HTML events and event handlers. SAM provides an elegant solution to decouple the view components from your application via the State function.
-            You can design your view components to accept a list of "intents" which map the application's action to the component's handlers. We have implemented that approch in <a href="https://github.com/jdubray/sam-samples/blob/master/todomvc-app/js/app.js">the TODOSAM sample</a>. All the theme's components accept an intent map:
+            One of the key problems that front-end frameworks try to tackle is the wiring between the HTML events and event handlers. 
+            View components can be decoupled from actions via a list of "intents" which map the application's action to the view component's handlers. We have implemented that approch in <a href="https://github.com/jdubray/sam-samples/blob/master/todomvc-app/js/app.js">the TODOSAM sample</a>. All the theme's components accept an intent map:
 <div class="code-window"><pre><code class="language-javascript">
 theme.list = (todos, displayActive, displayCompleted, intents) => {
 
@@ -522,53 +525,39 @@ actions.intents = {
             The concept could also be extended to map the event format to be directly consumable by the action, but this coupling is less important than the coupling of the actions with the view. 
             </p>
             <br>
-            <h4 id="vm">View-Model</h4>
-            <p>
-            When the View is expressed as a pure function of the Model (as opposed to a template or a query), the Model does not have to conform artificially to the interface of the view. 
-            With SAM, the View is generally decomposed into components, each of them expressed as pure functions exposing a component specific/centric interface.<br><br>
-                                                            
-            For instance, when a view displays a value v and a graphical indicator as to whether this value is great, good or bad, there is no reason to have the indicator’s value in your model: the component's function should simply compute the value of the indicator from the value v provided by the model.<br><br>
-                                                            
-            Now, it’s not a great idea to directly embed these computations in the the view, but it is not difficult to use a view-model function, such as:
-                                                            
-            <pre>V = f( vm(M) )</pre>
-                                                            
-            </p>
-            <p>The view-model function can be associated to the structure of the model of the view in the <a href="https://msdn.microsoft.com/en-us/library/hh848246.aspx">MVVM pattern</a>, but in SAM there is no "view state" or "view specific actions". There is a global state and actions which are visible across the entire application.</p>
-            <br>
             <h4 id="wiring">Wiring</h4>
             <p>
             The SAM pattern can be described as a Mathematical expression (formula):
-            <pre>V = State( vm(Model.present(Action(data))), nap(Model) )</pre>
-            Where State(), vm(), Action() and nap() are pure functions with respect to the model.<br>
+            <pre>V = State( Model.present( Action( event ) ) ).then( nap )</pre>
             However, that expression is only a logical expression that describes the sequence in which the elements of the pattern are invoked. The expression itself is not representative of the Reactive Flow or the different wiring options. 
             </p>
             <p>SAM can be implemented in the browser (<a href="http://andrewhfarmer.com/react-ajax-best-practices">like React and Redux</a>), but one of SAM's advantages is that the elements of the pattern can be distributed and composed in virtually any topology. 
             So there is not a single way to wire the pattern.</p>
-            <p>You should also keep in mind that SAM is a reactive pattern so there is never a response that is expected: The view triggers an action, which presents is dataset to the model, which asks the state to create a state representation (i.e. View). The new state representation is just that, 
-            a new view of the current state of the model. It is **not** a response to the original view.</p>
+            <p>You should also keep in mind that SAM is a reactive pattern so there is never a response that is expected: The view triggers an action, which presents its proposal to the model, which asks the state to create a state representation, which is rendered by the view and displayed in the browser. 
+              SAM could also be used with an interactive wiring where a request is wired to an action and the state representation becomes the response to the request.</p>
             <p>Let's start with a sample where running SAM exclusively in a single process (e.g. the browser, perhaps assuming the model will communicate with a persistent store).</p>
-            <p>The model can be defined as a singleton, the actions as pure functions of a dataset, the state (stateRepresentation() and nap()) as a pure function of the model. Here is an example of wiring achieved with functional wrappers.</p>
+            <p>The model can be defined as a singleton, the actions as pure functions of an event payload, the state (stateRepresentation() and nap()) as a pure function of the model:</p>
 <div class="code-window"><pre><code class="language-javascript">
 
 // Model is a singleton /////////////////////////////////////////////
-var model = {} ;
+const model = {} ;
 
 model.present = function(data) {
     // Logic that accepts or rejects the proposed values
     // ...
     
     // -> Reactive Loop
-    state(model) ;
+    state(model) 
     
     // persist the new state
     // this is generally guarded and optimized
-    model.persist() ;
-} ;
+    model.persist() 
+} 
 
 model.persist = function() {
-
-} ;
+    // some persistence code
+    ...
+} 
 
 // Actions are pure functions /////////////////////////////////////////////  
 function action1(data) {
@@ -576,10 +565,10 @@ function action1(data) {
     // ...
     
     // -> Reactive Loop
-    present(data) ;
+    present(data) 
     
     // to avoid a page reload
-    return false ;
+    return false 
 } 
 
 function action2(data) {
@@ -596,33 +585,42 @@ function action2(data) {
 // State is a pure function /////////////////////////////////////////////
 function state(model) {
 
-    // the state behavior is hard wired
-    stateRepresentation(model) ;
-    nap(model) ;
+    // Compute State Representation
+    const sr = stateRepresentation(model) 
+    // Invoke next-action-predicate
+    if (!nap(sr)) {
+      // Render the view when no next action is invoked
+      view.render(sr)
+    }
 } 
 
-function nap(model) {
+function nap(stateRepresentation) {
 
-    if (condition(model)) {
-        var data = f(model) ;
-        action2(data,model.present) ;
+    if (condition(stateRepresentation)) {
+        const event = e(stateRepresentation) 
+        action2(event) 
+        return true
     }
+
+    return false
 }
 
 
-// View is a pure function /////////////////////////////////////////////
-function someView(model) {
+// View is a pure function of the state representation /////////////////////////////////////////////
+const view = {
+    render({a, b, c}) {
 
-    // render the view
-    var output = '' ;
-    // ...
-    
-    // wire the possible actions in the view
-    output = output + 'onSubmit="JavaScript:return action1({data:data});'
-    
-    // ...
-    // -> Reactive Loop
-    display(output) ;
+        // render the view
+        let output = '<p>${a} and ${b}</p>' 
+        // ...
+        
+        // wire the possible actions in the view
+        output = output + `<button onclick="JavaScript:return action1({data:data});">${c}</button>`
+        
+        // ...
+        // -> Complete Reactive Loop 
+        display(output) 
+    }
 }
 
 
@@ -632,25 +630,18 @@ function someView(model) {
 // Actions are known to the stateRepresentation() and nap()
 //
 // Actions -> Model
-function present(data) {
+function present(proposal) {
 
-    model.present(data) ;
-
-} 
-
-// State -> View
-function stateRepresentation(model) {
-
-    someView(model) ;
+    model.present(proposal) ;
 
 } 
 
 
 // View -> Display
-function display(view) {
+function display(nextState) {
 
-    var stateRepresentation = document.getElementById("view");
-    stateRepresentation.innerHTML = view;
+    let view = document.getElementById("view")
+    view.innerHTML = nextState
 
 }
 
@@ -1216,10 +1207,6 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
                 <a href="https://github.com/dshalkhakov/sam-csharp/tree/master/sam-csharp">Counter in C#</a> (Dmitry Shalkhakov)
                 <br><br>
           </p>
-          <p>This is what Jonathan Siu, Startup Consultant, had to say about SAM:</p><br>
-          <figure>
-            <a = href="assets/figures/fig0.jpg"><img class="img-shadow img-responsive center-block" src="assets/figures/fig0.jpg" alt=""/></a>
-          </figure>
           </section>
           
           <section>
