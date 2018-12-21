@@ -1050,7 +1050,9 @@ function init() {
 
           <section>
           <h2 id="getstarted">How can I get started?</h2>
-          <p>We suggest that you download an HTML5 template of your choice and start building an application with it. To make this tutorial more realistic, we are going to build a simple Web Site with Blog and a Contact form.</p>
+          <p>First, I would recommend getting familiar with the approach I call "functional HTML" perhaps starting with [this article](https://medium.com/@metapgmr/hex-a-no-framework-approach-to-building-modern-web-apps-e43f74190b9c) and its samples (which are not SAM based).</p>
+          <p>Then I would build a simple SAM loop [with plain vanilla Javascript](https://github.com/jdubray/sam-samples/blob/master/todomvc-app/js/app.js) and finally explore <a href="https://github.com/jdubray/startbootstrap-clean-blog">the boilerplate SAM sample, though these days I would recommend starting with the [lit-html version](https://github.com/jdubray/startbootstrap-clean-blog-lit-html)</a></p>
+          <p>If you are up to building something more substantial, you could download an HTML5 template of your choice and start building an application with it. To make this tutorial more realistic, we are going to build a simple Web Site with Blog and a Contact form.</p>
           <p>The <a href="http://startbootstrap.com/template-overviews/sb-admin/">SB Admin template</a> seems like a great starting point. The list of components are easy to identify, from the index.html file:</p>
           <ul>
               <li>----- Structure ------</li>
@@ -1067,7 +1069,7 @@ function init() {
           </ul>
           <br>
           <figure>
-            <a = href="http://startbootstrap.com/template-overviews/sb-admin/"><img class="img-shadow img-responsive center-block" src="http://sbootstrap.startbootstrapc.netdna-cdn.com/assets/img/templates/sb-admin.jpg" alt=""/></a>
+            <a = href="http://startbootstrap.com/template-overviews/sb-admin/"><img class="img-shadow img-responsive center-block" src="https://startbootstrap.com/assets/img/templates/sb-admin.jpg" alt=""/></a>
           </figure>
           <br>
           <p>Many developers dislike the code that will follow (let's call it vanilla.js).
@@ -1121,7 +1123,7 @@ theme.ediTable = function(id,headers,data,editable, style, maxSize) { } ;
 <pre class="line-numbers"><code class="language-javascript">
 theme.statSummary = function(fa,label,number,link,linkLabel,color) {
         return (
-          ```&lt;div class="col-lg-3 col-md-6"&gt;
+          `&lt;div class="col-lg-3 col-md-6"&gt;
               &lt;div class="panel panel-${color}"&gt;
                   &lt;div class="panel-heading"&gt;
                       &lt;div class="row"&gt;
@@ -1142,7 +1144,7 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
                   &lt;/div&gt;
                   &lt;/a&gt;
               &lt;/div&gt;
-          &lt;/div&gt;```) ;
+          &lt;/div&gt;`) ;
 } ;
 
 </code></pre></div>
