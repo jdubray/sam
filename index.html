@@ -140,14 +140,14 @@
           <header>
             <h1>The SAM Pattern</h1>
             <p>SAM (State-Action-Model) is a software engineering pattern that helps manage and reason about the application state.
-            SAM's founding principle is that State Mutation must be a first class citizen of the programming model</p>
+            SAM's founding principle is that State Mutation must be a first class citizen of the programming model.</p>
             
             <p>Let's consider the simplest application possible, an application that counts events</p> 
             <pre>var model = {counter: 0}</pre><br>
             Most software engineers would implement the application state mutation as an assignment:
 <pre>model.counter = model.counter + 1 ;</pre>
             <br>
-            SAM challenges that model and suggests isolating application state mutations on the foundation of the Paxos protocol and TLA+:
+            SAM challenges that approach and suggests isolating application state mutations on the foundation of the Paxos protocol and TLA+:
 <div class="code-window"><pre><code class="language-javascript">
 // actions compute proposals
 const proposal = {incrementBy: 1}
@@ -202,11 +202,11 @@ model.accept(proposal)
             <ul><li>Actions are triggered by events, their role is to translate events into proposals to mutate the model</li>
             <li>The Model is solely responsible for the decision of accepting (or rejecting, or partially rejecting) these values</li>
             <li>Once accepted, the State function computes the State Representation from the Model property values and makes sure that everyone who needs to "learn" about the new application state is notified, such as the view which will display the “state representation”</li>
-            <li>Finally, the State function computes the next-action-predicate which will invoke any automatic action, given the current application state</li></ul><br> 
-            Every event is processed as “step” which involves this propose/accept/learn flow.<br>That's it! That's all there is to SAM.
+            <li>Finally, the State function computes the next-action-predicate which will invoke any automatic action, given the current application state</li></ul>
+            Every event is processed as “step” which involves this reactive propose/accept/learn flow.<br>That's it! That's all there is to SAM.
             </p>  
             <p>The pattern is best implemented with the model as a single state tree and a unidirectional data flow. In the case of Front-End applications, SAM is best implemented when the view is a pure function of the State Representation. Two-way data binding is strictly prohibited as it would entail uncontrolled model mutations.</p>  
-            <p>The pattern forms a reactive loop: events trigger actions which present data to the model, which computes the state representation. Logically, after every step a new "state representation" is created (as a pure function of the model).</p>
+            <p>The pattern forms a reactive loop: events trigger actions which present data to the model, which computes the state representation. The reactive flow forms a natural step and after every step a new "state representation" is created (as a pure function of the model).</p>
             <p>As we show in many samples below, the view can be implemented as a series of stateless components which have no knowledge of the model or even the actions.</p>
             <p>When learning SAM, we recommend that you make a clear distinction between the programming model (State, Actions, Model), the wiring (how the elements of the pattern communicate) and the Architecture (where the elements of the pattern are physically running). SAM supports different wiring approaches and allows you to write code that can easily be migrated from the client to the server or vice versa (<a href="#iso">isomorphic javascript</a>). 
             <br><br>
@@ -214,9 +214,7 @@ model.accept(proposal)
               <a = href="assets/figures/fig6.jpg"><img class="img-shadow img-responsive center-block" src="assets/figures/fig6.jpg" alt="the SAM pattern"/></a>
               <figcaption>The State-Action-Model (SAM) Pattern</figcaption>
             </figure>
-                
-                
-            
+        
             <h3 id="vf">The View as a Function of the Model</h4>
             <p>When learning SAM in the context of Front-End applications, the best starting point is to understand the functional relationship between the view and the model. 
             SAM suggests decomposing the view as a series of pure functions that are fed with the properties of the State Representation. </p>
@@ -271,8 +269,7 @@ theme.ready = (counter, intents) =&gt; `
                <p>We get a fair amount of questions asking "why not use templates"? The reason is simple: templates are interpreters while functions are mini-code generators. Interpreters are limited in what they enable you to express (not to mention you often have to learn a specific syntax that does not translate at all to another template interpreter). 
                On the other hand, code generators are infinitely flexible with hardly any drawback. I would personally choose functions over templates any day.</p> 
                <p>SAM allows you to choose the framework of your choice <a href="https://medium.com/@metapgmr/hex-a-no-framework-approach-to-building-modern-web-apps-e43f74190b9c">including none</a>, but when using a Vanilla.js implementation, you need to make sure you mitigate <a href="https://www.google.com/about/appsecurity/learning/xss/">the risks of cross-site-scripting</a>.</p>
-            <p>A couple of promising libraries have appeared recently (<a href="https://viperhtml.js.org/hyper.html">hyperHTML</a>, <a href="https://github.com/PolymerLabs/lit-html">lit-html</a> and <a href="http://yallajs.io/">yalla.js</a>) that offer support a "Functional HTML" approach seamlessly. They, of course, are particularly good fit for the SAM Pattern.</p>
-            <br>
+            <p>A couple of promising libraries have appeared recently (<a href="https://viperhtml.js.org/hyper.html">hyperHTML</a>, <a href="https://github.com/PolymerLabs/lit-html">lit-html</a> and <a href="http://yallajs.io/">yalla.js</a>) that offer support a "Functional HTML" approach. They, of course, are particularly good fit for the SAM Pattern.</p>
             <h3 id="bl">Business Logic</h4>
             <p>Not only SAM supports a functional structure for the View, but SAM enables a complete decoupling of the application logic from the View components. If you are not convinced you can look at this vanilla.js <a href="https://github.com/jdubray/sam-samples/blob/master/todomvc-app/js/app.js">TODO sample</a> and the "theme" section.</p>
             <p>
@@ -295,7 +292,10 @@ theme.ready = (counter, intents) =&gt; `
             <p>TLA+ also includes concepts such as safety (something bad should never happen) and liveness (something good eventually happens).</p>
             <p>In SAM, the business logic is decomposed in three elements: Actions, the Model and the State.</p>
             <br>
-            <p><span class="label label-warning">Warning</span> I have been told by readers that it is important to emphasize that SAM does not use the word "State" in the traditional sense of computer science (where a state is an assignment of values to all possible variables). SAM suggests that the Model structure (and property values) are different from the State Representation, which there could be many of (Web, Mobile, Voice...). The State Representation also includes the <a href="https://books.google.com/books?id=6lHCBAAAQBAJ&pg=PA67&lpg=PA67&dq=%22control+state%22+software&source=bl&ots=wX1DjBnziG&sig=LM91m-Tl_7g2K34DmK3B_aenGJY&hl=en&sa=X&ved=2ahUKEwjQhLjSuZ3fAhUIs1QKHWBZDh0Q6AEwB3oECAQQAQ#v=onepage&q=%22control%20state%22%20software&f=false">Control State</a> of the system. The State-Action elements, in SAM, specify the behavior of the system (not the Model):</p> 
+            <p><span class="label label-warning">Warning</span> I have been told by readers that it is important to emphasize that SAM does not use the word "State" in the traditional sense of computer science (where a state is an assignment of values to all possible variables). 
+              SAM suggests that the Model structure (and property values) are different from the State Representation, which there could be many of (Web, Mobile, Voice...). 
+              The State Representation also includes the <a href="https://books.google.com/books?id=6lHCBAAAQBAJ&pg=PA67&lpg=PA67&dq=%22control+state%22+software&source=bl&ots=wX1DjBnziG&sig=LM91m-Tl_7g2K34DmK3B_aenGJY&hl=en&sa=X&ved=2ahUKEwjQhLjSuZ3fAhUIs1QKHWBZDh0Q6AEwB3oECAQQAQ#v=onepage&q=%22control%20state%22%20software&f=false">Control State</a> of the system. 
+              The State-Action elements, in SAM, specify the behavior of the system (not the Model):</p> 
             <blockquote>A State-Action behavior is a sequence:<br>
 <pre>
            α1    α2
@@ -324,7 +324,8 @@ View     Action       Model         State  (SAM)
             <br>            
             <p>In essence the Paxos protocol roles are exactly the roles of the SAM components: Actions propose values to the Model, which accepts them, which the State accesses (the Learner) to create the State Representation (which is displayed by the View).</p>
             <p>I personally like SAM because it surfaces the concept of "State-Action" behavior, which is at the core of SAM, and leads naturally to creating the "State Representation" (i.e. the View).</p>
-            <p>So, for all intent and purposes, please be warned that SAM's Model is the assignment of values to all possible variables of the application state, while SAM's State, which is sometimes associated to the "control state" (such as "started" and "stopped" are two control states of a car), refers to a function that computes the current (control) state of the system. In general, the "State" of a system controls which actions are allowed at any given point in time.</p>
+            <p>So, for all intent and purposes, please be warned that SAM's Model is the assignment of values to all possible variables of the application state, while SAM's State (representation), which is sometimes contains the "control state" (such as "started" and "stopped" are two control states of a car), refers to a function that computes the current state representation and control state of the system. In general, the "State" of a system controls which actions are allowed at any given point in time. 
+              The decoupling State/Model supports a multiplicity of state functions (such as a car with a beginner or experienced modes).</p>
             <br>
             <br>
             <!--
