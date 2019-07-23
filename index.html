@@ -153,13 +153,14 @@
 // actions compute proposals
 const proposal = {incrementBy: 1}
 
-// the model accepts or rejects the proposals
+// the model accepts, partially accepts or rejects the proposals
 model.accept(proposal)
-    // the state function computes the new state representation
-    .then(state)
+    // compute the new state representation
+    .then(state => representation(state))
+    // share the state representation
+    .then(render)
 </code></pre></div><br>
-
-            <p>SAM is unapologetically driven by simplicity and does not require any library or framework.</p>
+            <p>SAM is unapologetically driven by simplicity and does not require any library or framework. However if you prefer using a library, the <a href="https://www.npmjs.com/package/sam-pattern">sam-pattern library</a> makes it easy to use the pattern and and several temporal programming constructs.</p>
             <br>
             <p>This is what some developers are saying:</p> 
             <p><a href="https://github.com/dagatsoin">Daniel Neveux</a>, Entrepreneur and Full Stack Developer, said:</p><br>
@@ -187,7 +188,15 @@ model.accept(proposal)
             You want to see some code? Take a look at the Fishing Game (index.html) <a href="https://glitch.com/edit/#!/plain-frog?path=views/index.html:1:0">here</a> which you can run <a href="https://plain-frog.glitch.me/">here</a>.
             <br>
             <br>
-            <p>This new pattern was first introduced in an <a href="http://www.infoq.com/articles/no-more-mvc-frameworks">InfoQ article</a>, by <a href="http://www.ebpml.org/about">Jean-Jacques Dubray</a>. A translation of the article is available in <a href="http://www.infoq.com/cn/articles/no-more-mvc-frameworks">Chinese</a>, <a href="http://www.infoq.com/fr/articles/no-more-mvc-frameworks">French</a>, <a href="https://www.infoq.com/jp/articles/no-more-mvc-frameworks">Japanese</a> and <a href="https://habrahabr.ru/post/277113/">Russian</a></p>
+            <p>Here is a list of up-to-date TODOMVC code samples:</p>
+            <ul>
+              <li><a href="https://github.com/jdubray/sam-samples/tree/master/todomvc-app">vanilla.js</a></li>
+              <li><a href="https://github.com/jdubray/sam-samples/tree/master/todomvc-app-lit-html"></a>lit-html</a></li>
+              <li><a href="https://github.com/jdubray/sam-samples/tree/master/todomvc-app-react"></a>react</a></li>
+              <li><a href="https://github.com/jdubray/sam-samples/tree/master/todomvc-app-vue"></a>vue</a></li>
+              <li><a href="https://github.com/jdubray/sam-samples/tree/master/todomvc-app-angular"></a>angular</a></li>
+            </ul>
+            <p>This pattern was first introduced in an <a href="http://www.infoq.com/articles/no-more-mvc-frameworks">InfoQ article</a>, by <a href="http://www.ebpml.org/about">Jean-Jacques Dubray</a>. A translation of the article is available in <a href="http://www.infoq.com/cn/articles/no-more-mvc-frameworks">Chinese</a>, <a href="http://www.infoq.com/fr/articles/no-more-mvc-frameworks">French</a>, <a href="https://www.infoq.com/jp/articles/no-more-mvc-frameworks">Japanese</a> and <a href="https://habrahabr.ru/post/277113/">Russian</a></p>
             <br>
             <!-- a href="https://gitter.im/jdubray/sam"><button type="button" class="btn btn-sm btn-teal">Join the discussion on Gitter...</button></a -->
             You have some questions? &nbsp;&nbsp;<button class="btn btn-sm btn-teal js-gitter-toggle-chat-button">Join the discussion on Gitter...</button>
