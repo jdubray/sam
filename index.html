@@ -1232,9 +1232,10 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
                 <a href="https://github.com/jdubray/sam-samples/tree/master/vanilla-child-instance">Another Parent/Child</a> sample in vanilla.js<br>
                 <a href="https://github.com/jdubray/sam-samples/blob/master/react-spinner/index.html">A CSS Spinner</a> using React/JSX without "looping" through the model<br>
                 <a href="https://github.com/jdubray/sam-samples/tree/master/lit-html">SVG Clock</a> using the very promising <a href="https://github.com/PolymerLabs/lit-html">lit-html</a> library (Polymer Labs)<br>
-                <a href="https://github.com/dshalkhakov/sam-csharp/tree/master/sam-csharp">Counter in C#</a> (Dmitry Shalkhakov)
-                <a href="https://github.com/sirtimbly/frets#readme">FRETS - An Ultralight Composable Frontend TypeScript Web Framework</a> (Tim Bendt)
-                <a href="https://github.com/invisible-tech/samx">SAMx is a SAM pattern implementation for MobX and React.</a> It was also forked <a href="https://github.com/expertlead/samx">here</a>
+                <a href="https://github.com/dshalkhakov/sam-csharp/tree/master/sam-csharp">Counter in C#</a> (Dmitry Shalkhakov)<br>
+                <a href="https://github.com/sirtimbly/frets#readme">FRETS - An Ultralight Composable Frontend TypeScript Web Framework</a> (Tim Bendt)<br>
+                <a href="https://github.com/invisible-tech/samx">SAMx is a SAM pattern implementation for MobX and React.</a> It was also forked <a href="https://github.com/expertlead/samx">here</a><br>
+                <a href="https://codepen.io/dfkaye/pen/QWjdEZe">Calculator</a> by David Kaye<br>
                 <br><br>
           </p>
           </section>
@@ -1297,6 +1298,11 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
           </ul><br>
           <p>That being said, the deal breaker, for me, is the fact that Reducers cannot run on the server because of React's architecture. 
           The store would need to be updated with the output of the root reducer, i.e. the entire state, which would create a high bandwidth, chatty interaction with the client.</p>
+          <br>
+          <p>Roma Vaivod shared a great analysis on the differences between Redux and SAM</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/oi5ivr8BrhY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <br>
+          <br>
           <br>
           <h4 id="ng">Angular2</h4>
           <p>
@@ -1377,6 +1383,10 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
           <h4 id="meiosis">Meiosis</h4>
           <p><a href="https://foxdonut.gitbooks.io/meiosis-guide/content/sam.html">Meiosis</a> is a library build by Fred Daoud that is well aligned with the SAM pattern. The library's core focus is to help organize the data flow of web applications. The general idea behind Meiosis is to start with a model and write a function that creates the view. When you want a looser coupling between the view and the model, you can optionally configure an "actions object" which translates view events into model proposals. Once the proposal is accepted by the model, Meiosis calls the view function with the updated model. You can also define a function to determine if another action should be automatically triggered, given the new application state. Meiosis is designed to work with plain JavaScript functions which, it wires together, without tying your code to the library. Last, but not least, you can switch from one Web framework to another and by changing the view code. The remainder of the code (the model, receiving proposals, actions, and so on) remains the same.</p>    
           <p>Here is a code <a href="https://github.com/foxdonut/meiosis-examples/tree/master/examples/sandbox/sam">sample</a> implementing the SAM pattern and using lit-html</p>
+          <h4 id="ravioli">Ravioli.js</h4>
+          <p><a href="https://dev.to/dagatsoin/ravioli-framework-introduction-27pm">Ravioli</a> is a JS/TS framework written by Daniel Neveux to develop full stack apps. </p> 
+          <blockquote>Ravioli is like spaghetti bolognese, but minified and well organized. Also, it does not spread when you are hurry.</blockquote>   
+          
           </section>
           
           <section>
