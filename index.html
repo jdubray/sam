@@ -140,30 +140,51 @@
           
           <header>
             <h1>The SAM Pattern</h1>
-            <p>SAM (State-Action-Model) is a software engineering pattern that helps manage and reason about the application state.
-            SAM's founding principle is that State Mutation must be a first class citizen of the programming model.</p>
+            <p>SAM (State-Action-Model) is a software engineering pattern that helps manage the application state and reason about temporal aspects with precision and clarity. 
+            Modern Software Engineering practices are essentially based on Functions (Actions) and Types which encourage a sprawl of unstructured assignments and event handlers.
+            SAM's founding principle is that State Mutations must be first class citizens of the programming model. Once that principle is accepted, proper temporal semantics can be articulated.</p>
             
             <p>Let's consider the simplest application possible, an application that counts events</p> 
             <pre>var model = {counter: 0}</pre><br>
-            Most software engineers would implement the application state mutation as an assignment:
+            Most software engineers would implement the application state mutation in <a href="https://codepen.io/mliq/pen/QjdrgX">an event handler as a simple assignment</a>:
 <pre>model.counter = model.counter + 1 ;</pre>
             <br>
-            SAM challenges that approach and suggests isolating application state mutations on the foundation of the Paxos protocol and TLA+:
+            SAM challenges these practices and suggests isolating application state mutations:
 <div class="code-window"><pre><code class="language-javascript">
-// actions compute proposals
+
+&nbsp;&nbsp;&nbsp;________________________... event ...__________________________
+&nbsp;&nbsp;|                                                               |
+&nbsp;&nbsp;|                                                             Render
+&nbsp;&nbsp;|          ___________Model___________                          |
+&nbsp;&nbsp;v         |       (synchronized)      |                         |
+&nbsp;&nbsp;Action -> | Acceptor(s) -> Reactor(s) | -> Next-Action and|or State 
+&nbsp;&nbsp;^         |___________________________|        |          Representation
+&nbsp;&nbsp;|                                              |        
+&nbsp;&nbsp;|______________________________________________|  
+
+// 1. actions compute proposals
 const proposal = {incrementBy: 1}
 
-// the model accepts, partially accepts or rejects the proposals
+// 2. the model accepts, partially accepts or rejects the proposals
 model.accept(proposal)
-    // compute the new state representation
-    .then(state => representation(state))
-    // share the state representation
-    .then(render)
+  // It is recommended to factor the model as a series of acceptors and reactors
+  // 2.a. Acceptors validate proposals and mutate the state accordingly
+  // 2.b. Reactors react to state mutations and are not involved in processing proposals
+
+// 3. evaluates whether a next-action is needed
+    .then(nextAction)
+
+// 4. compute the new state representation
+    .then(representation)
+
 </code></pre></div><br>
-            <p>SAM is unapologetically driven by simplicity and does not require any library or framework. However if you prefer using a library, the <a href="https://www.npmjs.com/package/sam-pattern">sam-pattern library</a> makes it easy to use the pattern and and several temporal programming constructs.</p>
+
+            <p>The "View" or clients as explicitely excluded from the pattern, so the way events or requests are translated into actions are not part of the pattern. 
+              Similarly, the mechanisms by which the state is rendered or a response is returned to the client are also excluded. </p>
+            <p>SAM is unapologetically driven by simplicity and does not require any library or framework. However if you prefer using a library, the <a href="https://www.npmjs.com/package/sam-pattern">sam-pattern library</a> makes it easy to use the pattern along with several temporal programming constructs.</p>
             <br>
             <p>This is what some developers are saying:</p> 
-            <p><a href="https://github.com/dagatsoin">Daniel Neveux</a>, Entrepreneur and Full Stack Developer, said:</p><br>
+            <p><a href="https://github.com/dagatsoin">Daniel Neveux</a>, Entrepreneur, Full Stack Developer, and author of the <a href="https://www.npmjs.com/package/@warfog/ravioli">Ravioli Framework</a> said:</p><br>
             <blockquote>SAM is simple, I have never seen a concept such minimalist and so powerful [in particular] in its decoupling potential</blockquote>
             <br>
             <p><a href="https://medium.com/invisible-reports/this-is-how-we-decided-to-do-frontend-in-invisible-73127cb41c04">Hamza Houaghad</a>:</p>
@@ -1383,6 +1404,7 @@ theme.statSummary = function(fa,label,number,link,linkLabel,color) {
           <h4 id="meiosis">Meiosis</h4>
           <p><a href="https://foxdonut.gitbooks.io/meiosis-guide/content/sam.html">Meiosis</a> is a library build by Fred Daoud that is well aligned with the SAM pattern. The library's core focus is to help organize the data flow of web applications. The general idea behind Meiosis is to start with a model and write a function that creates the view. When you want a looser coupling between the view and the model, you can optionally configure an "actions object" which translates view events into model proposals. Once the proposal is accepted by the model, Meiosis calls the view function with the updated model. You can also define a function to determine if another action should be automatically triggered, given the new application state. Meiosis is designed to work with plain JavaScript functions which, it wires together, without tying your code to the library. Last, but not least, you can switch from one Web framework to another and by changing the view code. The remainder of the code (the model, receiving proposals, actions, and so on) remains the same.</p>    
           <p>Here is a code <a href="https://github.com/foxdonut/meiosis-examples/tree/master/examples/sandbox/sam">sample</a> implementing the SAM pattern and using lit-html</p>
+          <br>
           <h4 id="ravioli">Ravioli.js</h4>
           <p><a href="https://dev.to/dagatsoin/ravioli-framework-introduction-27pm">Ravioli</a> is a JS/TS framework written by Daniel Neveux to develop full stack apps. </p> 
           <blockquote>Ravioli is like spaghetti bolognese, but minified and well organized. Also, it does not spread when you are hurry.</blockquote>   
